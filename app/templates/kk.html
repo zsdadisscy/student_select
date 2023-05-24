@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title> 开设课程 </title>
+  <link href="{% static 'bootstrap-3.3.7-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+  <style type="text/css">
+    .form-control-inline {
+      width:200px;
+      height:30px;
+      display:inline;
+    }
+  </style>
+</head>
+<body>
+  <div class="row">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header" style="min-height: 70px;">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="" style="padding: 25px 50px">上海大学网络选课系统</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/index" style="padding: 25px 15px"> 首页 </a></li>
+            <li class="active"><a href="" style="padding: 25px 15px"> 开设课程 <span class="sr-only">(current)</span></a></li>
+          </ul>
+          <p class="navbar-text navbar-right" style="padding: 10px 150px">
+            <font color="red">2019-2020学年冬季学期</font> |
+            <font color="black"> 欢迎 {{request.user.username}}  @S1</font> |
+            <a href="/logout_view" class="navbar-link" style="color: #2866BD">安全退出</a>
+          </p>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar" style="background:#69B2E6; min-height:800px; padding:1px 5px 0px 2px;">
+        <br>
+        <ul class="nav nav-sidebar" style="background: #AFD2FC;">
+          <p style="padding: 3px 0px 0px 0px;"><font size="4" style="color: #385090; padding:30px;"> 教师信息 </font></p>
+        </ul>
+        <ul class="nav nav-sidebar" style="background: #FFFFFF">
+          <font size="4">
+            <p style="padding: 5px 5px; line-height:28px;">
+              工号：{{gh}}
+              <br>
+              姓名：{{xm}}
+              <br>
+              职称：{{xl}}
+              <br>
+              <font color="red"><b> 完成后请点击 <a href="/logout_view" style="color:red">[安全退出]</a></b></font>
+            </p>
+          </font>
+        </ul>
+        <br>
+
+        <ul class="nav nav-sidebar" style="background: #AFD2FC">
+          <p style="padding: 3px 0px 0px 0px;"><font size="4" style="color: #385090; padding:30px;"> 常用功能 </font></p>
+        </ul>
+        <ul class="nav nav-sidebar" style="background: #FFFFFF">
+          <li><a href="/index/kk/"><font size="4" style="color: #385090; padding:30px;"> 开设课程 </font></a></li>
+          <li><a href="/index/qxkk/"><font size="4" style="color: #385090; padding:30px;"> 取消开课 </font></a></li>
+          <li><a href="/index/fbcj/"><font size="4" style="color: #385090; padding:30px;"> 发布成绩 </font></a></li>
+        </ul>
+        <br>
+
+      </div>
+
+      <div class="col-sm-3 col-md-6" style="padding: 10px 30px;">
+        <b><font size="4"> 新开课程： </font></b>
+        <br><br>
+        <form method="POST" action="/index/kk/">
+          {% csrf_token %}
+          <div class="form-group">
+            课程号：
+            <input type="text" name="kh" class="form-control form-control-inline" style="width:100px;" value={{kh}}>
+            课程名称：
+            <input type="text" name="km" class="form-control form-control-inline" value={{km}}>
+            上课时间：
+            <input type="text" name="sksj" class="form-control form-control-inline" value={{sksj}}>
+          </div>
+          <font color="red"><b>{{result}}</b></font>
+          <br>
+          <input type="submit" value="提交">
+          <br>
+        </form>
+        <br><br>
+      </div>
+
+      <div class="col-sm-3 col-md-6" style="padding: 10px 30px;">
+        <b><font size="4"> 已开课程： </font></b>
+        <table class="table">
+          <thead>
+            <tr>
+                <th> 课程号 </th>
+                <th> 课程名称 </th>
+                <th> 上课时间 </th>
+                <!--<th> 选课 </th>-->
+            </tr>
+          </thead>
+          <tbody>
+            {% for kc in classtable %}
+            <tr>
+                <td> {{kc.kh}} </td>
+                <td> {{kc.km}} </td>
+                <td> {{kc.sksj}} </td>
+                <!--<td><button type="submit"> 选课 </button></td>-->
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="{% static 'js/jquery-3.4.1.js' %}"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.js' %}"></script>
+</body>
+</html>
