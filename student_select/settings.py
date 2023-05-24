@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import django
+from django.utils.encoding import force_str
+
+django.utils.encoding.force_text = force_str
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,6 +34,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'simpleui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -75,9 +80,17 @@ WSGI_APPLICATION = 'student_select.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'student',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -123,3 +136,52 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SIMPLEUI_LOGO = 'https://www.qfnu.edu.cn/images/logo.png'
+
+# 隐藏右侧SimpleUI广告链接和使用分析
+SIMPLEUI_HOME_INFO = False
+SIMPLEUI_ANALYSIS = False
+
+SIMPLEUI_CONFIG = {
+    # 是否使用系统默认菜单，自定义菜单时建议关闭。
+    'system_keep': True,
+
+    # 用于菜单排序和过滤, 不填此字段为默认排序和全部显示。空列表[] 为全部不显示.
+    'menu_display': ['后台管理'],
+
+    # 设置是否开启动态菜单, 默认为False. 如果开启, 则会在每次用户登陆时刷新展示菜单内容。
+    # 一般建议关闭。
+    'dynamic': False,
+    'menus': [
+        {
+            'name': '后台管理',
+            'icon': 'fa fa-th-list',
+            'models': [
+                {
+                    'name': '学生',
+                    # 注意url按'/admin/应用名小写/模型名小写/'命名。
+                    'url': '/admin/app/student/',
+                    'icon': 'fa fa-tasks'
+                },
+                {
+                    'name': '导师',
+                    # 注意url按'/admin/应用名小写/模型名小写/'命名。
+                    'url': '/admin/app/tutor/',
+                    'icon': 'fa fa-tasks'
+                },
+                {
+                    'name': '学生选择',
+                    # 注意url按'/admin/应用名小写/模型名小写/'命名。
+                    'url': '/admin/app/studentteacher/',
+                    'icon': 'fa fa-tasks'
+                },
+                {
+                    'name': '学生选择记录',
+                    # 注意url按'/admin/应用名小写/模型名小写/'命名。
+                    'url': '/admin/app/userlog/',
+                    'icon': 'fa fa-tasks'
+                },
+            ]
+        },
+    ]
+}

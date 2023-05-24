@@ -1,5 +1,5 @@
 **/__pycache__
 .idea
 venv
-!app/migrations
+app/migrations/*.py
 student/node_modules
