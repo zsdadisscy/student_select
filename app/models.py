@@ -1,28 +1,50 @@
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, User
 from django.db import models
 from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.hashers import make_password, check_password
+
+
+class TutorManager(BaseUserManager):
+    def create_user(self, id, password=None, **extra_fields):
+        print('Creating user')
+        user = self.model(id=id, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, id, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(id, password, **extra_fields)
+
+    def create(self, **param):
+        return self.create_user(**param)
 
 
 # 将权限删除，后期可拓展
 class Tutor(AbstractBaseUser):
-    username = models.CharField('姓名', max_length=10, blank=True)
+    username = models.CharField('姓名', max_length=10, blank=False)
+    password = models.CharField('密码', max_length=128)
     id = models.CharField('工号', max_length=10, primary_key=True)
     USERNAME_FIELD = 'id'
     date_of_birth = models.DateField('出生日期')
+    college = models.CharField('学院', max_length=50, blank=True,
+                               choices=[('college_of_computer', '计算机学院'), ('engineering_college', '工学院'),
+                                        ('school_of_media', '传媒学院'), ('academy_of_fine_arts', '美术学院'),
+                                        ('conservatory_of_music', '音乐学院')])
     gender = models.CharField('性别', max_length=10, choices=[('man', '男'), ('women', '女')], default='man')
     email = models.EmailField('邮箱', blank=False)
     phone = models.CharField('手机号', max_length=20, blank=False)
     research_area = models.CharField('研究方向', max_length=100)
     bio = models.TextField('简介')
-    is_recruiting = models.BooleanField('是否招收学生', default=False, blank=False)
-    enrollment_type = models.CharField('招生类型', max_length=50,
-                                       choices=[('special_master', '专硕'), ('learning_master', '学硕')])
+    is_recruiting_specialized = models.BooleanField('是否招收专硕学生', default=False, blank=False)
+    is_recruiting_learning = models.BooleanField('是否招收学硕学生', default=False, blank=False)
     enrollment_limit = models.PositiveIntegerField('招生上限', default=0)
     enrollment_count = models.PositiveIntegerField('目前招生', default=0)
-
-    # groups = models.ManyToManyField(Group, related_name='%(class)s_groups')
-    # user_permissions = models.ManyToManyField(Permission, related_name='%(class)s_user_permissions')
     photo = models.ImageField('头像', upload_to='tutor_photo/', default='tutor_photo/tutor_photo.png')
+
+    objects = TutorManager()
 
     def __str__(self):
         return self.username
@@ -32,8 +54,31 @@ class Tutor(AbstractBaseUser):
         verbose_name_plural = '导师'
 
 
+class StudentManager(BaseUserManager):
+    def create_user(self, id, password=None, **extra_fields):
+        print('Creating user')
+        user = self.model(id=id, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, id, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        return self.create_user(id, password, **extra_fields)
+
+    def create(self, **param):
+        print('Creating')
+        return self.create_user(**param)
+
+
 class Student(AbstractBaseUser):
     username = models.CharField('姓名', max_length=10, blank=True)
+    password = models.CharField('密码', max_length=128)
+    college = models.CharField('学院', max_length=50, blank=True,
+                               choices=[('college_of_computer', '计算机学院'), ('engineering_college', '工学院'),
+                                        ('school_of_media', '传媒学院'), ('academy_of_fine_arts', '美术学院'),
+                                        ('conservatory_of_music', '音乐学院')])
     id = models.CharField('学号', max_length=10, primary_key=True)
     date_of_birth = models.DateField('出生日期')
     gender = models.CharField('性别', max_length=10, choices=[('man', '男'), ('women', '女')], default='man')
@@ -44,15 +89,14 @@ class Student(AbstractBaseUser):
     email = models.EmailField('邮箱', blank=False)
     phone = models.CharField('手机号', max_length=20, blank=False)
     is_selected = models.BooleanField('是否有老师选择', default=False)
-    select_limit = models.PositiveIntegerField('选择老师上线', default=0)
+    select_limit = models.PositiveIntegerField('选择老师上限', default=0)
     select_count = models.PositiveIntegerField('目前已选择的老师数目', default=0)
-    # groups = models.ManyToManyField(Group, related_name='%(class)s_groups')
-    # user_permissions = models.ManyToManyField(Permission, related_name='%(class)s_user_permissions')
-    photo = models.ImageField('头像', upload_to='student_photo/', default='student_photo/student_photo.png')
     USERNAME_FIELD = 'id'
     selected_tutor = models.ForeignKey('Tutor', verbose_name='导师', related_name='tutor_student',
                                        on_delete=models.CASCADE, null=True,
                                        blank=True)
+    photo = models.ImageField('头像', upload_to='student_photo/', default='student_photo/student_photo.png')
+    objects = StudentManager
 
     def __str__(self):
         return self.username

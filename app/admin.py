@@ -1,16 +1,15 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-
 from app.models import *
 
 
 # Register your models here.
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'gender', 'email', 'phone', 'date_of_birth', 'student_type')
+    list_display = ('id', 'username', 'gender', 'email', 'phone', 'date_of_birth', 'student_type', 'college')
 
 
 class TutorAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'gender', 'email', 'phone', 'date_of_birth')
+    list_display = ('id', 'username', 'gender', 'email', 'phone', 'date_of_birth', 'college')
 
 
 admin.site.site_header = '硕士导师双选系统后台管理'
