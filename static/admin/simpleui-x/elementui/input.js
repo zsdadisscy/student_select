@@ -393,7 +393,7 @@ module.exports =
                                             _vm.showPwdVisible
                                                 ? _c("i", {
                                                     staticClass:
-                                                        "el-input__icon el-icon-view el-input__clear",
+                                                        "el-input__icon el-icon-views el-input__clear",
                                                     on: {click: _vm.handlePasswordVisible}
                                                 })
                                                 : _vm._e(),

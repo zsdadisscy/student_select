@@ -330,7 +330,7 @@ module.exports =
     /* 27 */
     /***/ (function (module, exports) {
 
-        module.exports = require("element-ui/lib/utils/scroll-into-view");
+        module.exports = require("element-ui/lib/utils/scroll-into-views");
 
         /***/
     }),
@@ -4434,7 +4434,7 @@ module.exports =
                                             _vm.showPwdVisible
                                                 ? _c("i", {
                                                     staticClass:
-                                                        "el-input__icon el-icon-view el-input__clear",
+                                                        "el-input__icon el-icon-views el-input__clear",
                                                     on: {click: _vm.handlePasswordVisible}
                                                 })
                                                 : _vm._e(),
@@ -8252,7 +8252,7 @@ module.exports =
         var lib_locale_ = __webpack_require__(15);
         var lib_locale_default = /*#__PURE__*/__webpack_require__.n(lib_locale_);
 
-// EXTERNAL MODULE: external "element-ui/lib/utils/scroll-into-view"
+// EXTERNAL MODULE: external "element-ui/lib/utils/scroll-into-views"
         var scroll_into_view_ = __webpack_require__(27);
         var scroll_into_view_default = /*#__PURE__*/__webpack_require__.n(scroll_into_view_);
 

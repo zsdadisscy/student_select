@@ -2,12 +2,10 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, User
 from django.db import models
 from django.contrib.auth.models import Group, Permission
-from django.contrib.auth.hashers import make_password, check_password
 
 
 class TutorManager(BaseUserManager):
     def create_user(self, id, password=None, **extra_fields):
-        print('Creating user')
         user = self.model(id=id, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -56,7 +54,6 @@ class Tutor(AbstractBaseUser):
 
 class StudentManager(BaseUserManager):
     def create_user(self, id, password=None, **extra_fields):
-        print('Creating user')
         user = self.model(id=id, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -68,7 +65,6 @@ class StudentManager(BaseUserManager):
         return self.create_user(id, password, **extra_fields)
 
     def create(self, **param):
-        print('Creating')
         return self.create_user(**param)
 
 

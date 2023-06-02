@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-            
-# @Time : 2023/5/21 19:19
+# @Time : 2023/6/1 23:02
 # @name: scy
-# @FileName: urls.py
+# @FileName: tutor.py
 # @Software: PyCharm
-
 from django.urls import path, include
-from app.views import index
+
 
 urlpatterns = [
-    path('', index, name='index')
+
 ]

@@ -350,7 +350,7 @@ module.exports =
     /* 31 */
     /***/ (function (module, exports) {
 
-        module.exports = require("element-ui/lib/utils/scroll-into-view");
+        module.exports = require("element-ui/lib/utils/scroll-into-views");
 
         /***/
     }),
@@ -1277,7 +1277,7 @@ module.exports =
 // EXTERNAL MODULE: external "element-ui/lib/locale"
         var lib_locale_ = __webpack_require__(20);
 
-// EXTERNAL MODULE: external "element-ui/lib/utils/scroll-into-view"
+// EXTERNAL MODULE: external "element-ui/lib/utils/scroll-into-views"
         var scroll_into_view_ = __webpack_require__(31);
         var scroll_into_view_default = /*#__PURE__*/__webpack_require__.n(scroll_into_view_);
 
