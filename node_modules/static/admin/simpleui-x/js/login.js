@@ -15,7 +15,7 @@ var loginApp = new Vue({
             if (this.username === "" || this.password === "") {
                 this.$message.error("Please enter your username or password!");
                 this.loading = false;
-                return ;
+                return;
             }
             this.$nextTick(function () {
                 document.getElementById('login-form').submit();

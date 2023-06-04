@@ -136,158 +136,158 @@ module.exports =
     return __webpack_require__(__webpack_require__.s = 104);
     /******/
 })
-/************************************************************************/
-/******/({
+    /************************************************************************/
+    /******/({
 
-    /***/ 0:
-    /***/ (function (module, __webpack_exports__, __webpack_require__) {
+        /***/ 0:
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
-        "use strict";
-        /* harmony export (binding) */
-        __webpack_require__.d(__webpack_exports__, "a", function () {
-            return normalizeComponent;
-        });
-        /* globals __VUE_SSR_CONTEXT__ */
+            "use strict";
+            /* harmony export (binding) */
+            __webpack_require__.d(__webpack_exports__, "a", function () {
+                return normalizeComponent;
+            });
+            /* globals __VUE_SSR_CONTEXT__ */
 
 // IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
 // This module is a runtime utility for cleaner component module output and will
 // be included in the final webpack user bundle.
 
-        function normalizeComponent(
-            scriptExports,
-            render,
-            staticRenderFns,
-            functionalTemplate,
-            injectStyles,
-            scopeId,
-            moduleIdentifier, /* server only */
-            shadowMode /* vue-cli only */
-        ) {
-            // Vue.extend constructor export interop
-            var options = typeof scriptExports === 'function'
-                ? scriptExports.options
-                : scriptExports
+            function normalizeComponent(
+                scriptExports,
+                render,
+                staticRenderFns,
+                functionalTemplate,
+                injectStyles,
+                scopeId,
+                moduleIdentifier, /* server only */
+                shadowMode /* vue-cli only */
+            ) {
+                // Vue.extend constructor export interop
+                var options = typeof scriptExports === 'function'
+                    ? scriptExports.options
+                    : scriptExports
 
-            // render functions
-            if (render) {
-                options.render = render
-                options.staticRenderFns = staticRenderFns
-                options._compiled = true
-            }
+                // render functions
+                if (render) {
+                    options.render = render
+                    options.staticRenderFns = staticRenderFns
+                    options._compiled = true
+                }
 
-            // functional template
-            if (functionalTemplate) {
-                options.functional = true
-            }
+                // functional template
+                if (functionalTemplate) {
+                    options.functional = true
+                }
 
-            // scopedId
-            if (scopeId) {
-                options._scopeId = 'data-v-' + scopeId
-            }
+                // scopedId
+                if (scopeId) {
+                    options._scopeId = 'data-v-' + scopeId
+                }
 
-            var hook
-            if (moduleIdentifier) { // server build
-                hook = function (context) {
-                    // 2.3 injection
-                    context =
-                        context || // cached call
-                        (this.$vnode && this.$vnode.ssrContext) || // stateful
-                        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-                    // 2.2 with runInNewContext: true
-                    if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-                        context = __VUE_SSR_CONTEXT__
+                var hook
+                if (moduleIdentifier) { // server build
+                    hook = function (context) {
+                        // 2.3 injection
+                        context =
+                            context || // cached call
+                            (this.$vnode && this.$vnode.ssrContext) || // stateful
+                            (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+                        // 2.2 with runInNewContext: true
+                        if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+                            context = __VUE_SSR_CONTEXT__
+                        }
+                        // inject component styles
+                        if (injectStyles) {
+                            injectStyles.call(this, context)
+                        }
+                        // register component module identifier for async chunk inferrence
+                        if (context && context._registeredComponents) {
+                            context._registeredComponents.add(moduleIdentifier)
+                        }
                     }
-                    // inject component styles
-                    if (injectStyles) {
-                        injectStyles.call(this, context)
-                    }
-                    // register component module identifier for async chunk inferrence
-                    if (context && context._registeredComponents) {
-                        context._registeredComponents.add(moduleIdentifier)
+                    // used by ssr in case component is cached and beforeCreate
+                    // never gets called
+                    options._ssrRegister = hook
+                } else if (injectStyles) {
+                    hook = shadowMode
+                        ? function () {
+                            injectStyles.call(this, this.$root.$options.shadowRoot)
+                        }
+                        : injectStyles
+                }
+
+                if (hook) {
+                    if (options.functional) {
+                        // for template-only hot-reload because in that case the render fn doesn't
+                        // go through the normalizer
+                        options._injectStyles = hook
+                        // register for functioal component in vue file
+                        var originalRender = options.render
+                        options.render = function renderWithStyleInjection(h, context) {
+                            hook.call(context)
+                            return originalRender(h, context)
+                        }
+                    } else {
+                        // inject component registration as beforeCreate hook
+                        var existing = options.beforeCreate
+                        options.beforeCreate = existing
+                            ? [].concat(existing, hook)
+                            : [hook]
                     }
                 }
-                // used by ssr in case component is cached and beforeCreate
-                // never gets called
-                options._ssrRegister = hook
-            } else if (injectStyles) {
-                hook = shadowMode
-                    ? function () {
-                        injectStyles.call(this, this.$root.$options.shadowRoot)
-                    }
-                    : injectStyles
-            }
 
-            if (hook) {
-                if (options.functional) {
-                    // for template-only hot-reload because in that case the render fn doesn't
-                    // go through the normalizer
-                    options._injectStyles = hook
-                    // register for functioal component in vue file
-                    var originalRender = options.render
-                    options.render = function renderWithStyleInjection(h, context) {
-                        hook.call(context)
-                        return originalRender(h, context)
-                    }
-                } else {
-                    // inject component registration as beforeCreate hook
-                    var existing = options.beforeCreate
-                    options.beforeCreate = existing
-                        ? [].concat(existing, hook)
-                        : [hook]
+                return {
+                    exports: scriptExports,
+                    options: options
                 }
             }
 
-            return {
-                exports: scriptExports,
-                options: options
-            }
-        }
 
+            /***/
+        }),
 
-        /***/
-    }),
+        /***/ 10:
+        /***/ (function (module, exports) {
 
-    /***/ 10:
-    /***/ (function (module, exports) {
+            module.exports = require("element-ui/lib/mixins/migrating");
 
-        module.exports = require("element-ui/lib/mixins/migrating");
+            /***/
+        }),
 
-        /***/
-    }),
+        /***/ 104:
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
-    /***/ 104:
-    /***/ (function (module, __webpack_exports__, __webpack_require__) {
-
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
+            "use strict";
+            __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./node_modules/_vue-loader@15.7.1@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_vue-loader@15.7.1@vue-loader/lib??vue-loader-options!./packages/steps/src/steps.vue?vue&type=template&id=3c6b6dc0&
-        var render = function () {
-            var _vm = this
-            var _h = _vm.$createElement
-            var _c = _vm._self._c || _h
-            return _c(
-                "div",
-                {
-                    staticClass: "el-steps",
-                    class: [
-                        !_vm.simple && "el-steps--" + _vm.direction,
-                        _vm.simple && "el-steps--simple"
-                    ]
-                },
-                [_vm._t("default")],
-                2
-            )
-        }
-        var staticRenderFns = []
-        render._withStripped = true
+            var render = function () {
+                var _vm = this
+                var _h = _vm.$createElement
+                var _c = _vm._self._c || _h
+                return _c(
+                    "div",
+                    {
+                        staticClass: "el-steps",
+                        class: [
+                            !_vm.simple && "el-steps--" + _vm.direction,
+                            _vm.simple && "el-steps--simple"
+                        ]
+                    },
+                    [_vm._t("default")],
+                    2
+                )
+            }
+            var staticRenderFns = []
+            render._withStripped = true
 
 
 // CONCATENATED MODULE: ./packages/steps/src/steps.vue?vue&type=template&id=3c6b6dc0&
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/migrating"
-        var migrating_ = __webpack_require__(10);
-        var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
+            var migrating_ = __webpack_require__(10);
+            var migrating_default = /*#__PURE__*/__webpack_require__.n(migrating_);
 
 // CONCATENATED MODULE: ./node_modules/_babel-loader@7.1.5@babel-loader/lib!./node_modules/_vue-loader@15.7.1@vue-loader/lib??vue-loader-options!./packages/steps/src/steps.vue?vue&type=script&lang=js&
 //
@@ -303,101 +303,101 @@ module.exports =
 //
 
 
-        /* harmony default export */
-        var stepsvue_type_script_lang_js_ = ({
-            name: 'ElSteps',
+            /* harmony default export */
+            var stepsvue_type_script_lang_js_ = ({
+                name: 'ElSteps',
 
-            mixins: [migrating_default.a],
+                mixins: [migrating_default.a],
 
-            props: {
-                space: [Number, String],
-                active: Number,
-                direction: {
-                    type: String,
-                    default: 'horizontal'
+                props: {
+                    space: [Number, String],
+                    active: Number,
+                    direction: {
+                        type: String,
+                        default: 'horizontal'
+                    },
+                    alignCenter: Boolean,
+                    simple: Boolean,
+                    finishStatus: {
+                        type: String,
+                        default: 'finish'
+                    },
+                    processStatus: {
+                        type: String,
+                        default: 'process'
+                    }
                 },
-                alignCenter: Boolean,
-                simple: Boolean,
-                finishStatus: {
-                    type: String,
-                    default: 'finish'
-                },
-                processStatus: {
-                    type: String,
-                    default: 'process'
-                }
-            },
 
-            data: function data() {
-                return {
-                    steps: [],
-                    stepOffset: 0
-                };
-            },
-
-
-            methods: {
-                getMigratingConfig: function getMigratingConfig() {
+                data: function data() {
                     return {
-                        props: {
-                            'center': 'center is removed.'
-                        }
+                        steps: [],
+                        stepOffset: 0
                     };
-                }
-            },
-
-            watch: {
-                active: function active(newVal, oldVal) {
-                    this.$emit('change', newVal, oldVal);
                 },
-                steps: function steps(_steps) {
-                    _steps.forEach(function (child, index) {
-                        child.index = index;
-                    });
+
+
+                methods: {
+                    getMigratingConfig: function getMigratingConfig() {
+                        return {
+                            props: {
+                                'center': 'center is removed.'
+                            }
+                        };
+                    }
+                },
+
+                watch: {
+                    active: function active(newVal, oldVal) {
+                        this.$emit('change', newVal, oldVal);
+                    },
+                    steps: function steps(_steps) {
+                        _steps.forEach(function (child, index) {
+                            child.index = index;
+                        });
+                    }
                 }
-            }
-        });
+            });
 // CONCATENATED MODULE: ./packages/steps/src/steps.vue?vue&type=script&lang=js&
-        /* harmony default export */
-        var src_stepsvue_type_script_lang_js_ = (stepsvue_type_script_lang_js_);
+            /* harmony default export */
+            var src_stepsvue_type_script_lang_js_ = (stepsvue_type_script_lang_js_);
 // EXTERNAL MODULE: ./node_modules/_vue-loader@15.7.1@vue-loader/lib/runtime/componentNormalizer.js
-        var componentNormalizer = __webpack_require__(0);
+            var componentNormalizer = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./packages/steps/src/steps.vue
 
 
-        /* normalize component */
+            /* normalize component */
 
-        var component = Object(componentNormalizer["a" /* default */])(
-            src_stepsvue_type_script_lang_js_,
-            render,
-            staticRenderFns,
-            false,
-            null,
-            null,
-            null
-        )
+            var component = Object(componentNormalizer["a" /* default */])(
+                src_stepsvue_type_script_lang_js_,
+                render,
+                staticRenderFns,
+                false,
+                null,
+                null,
+                null
+            )
 
-        /* hot reload */
-        if (false) {
-            var api;
-        }
-        component.options.__file = "packages/steps/src/steps.vue"
-        /* harmony default export */
-        var steps = (component.exports);
+            /* hot reload */
+            if (false) {
+                var api;
+            }
+            component.options.__file = "packages/steps/src/steps.vue"
+            /* harmony default export */
+            var steps = (component.exports);
 // CONCATENATED MODULE: ./packages/steps/index.js
 
 
-        /* istanbul ignore next */
-        steps.install = function (Vue) {
-            Vue.component(steps.name, steps);
-        };
+            /* istanbul ignore next */
+            steps.install = function (Vue) {
+                Vue.component(steps.name, steps);
+            };
 
-        /* harmony default export */
-        var packages_steps = __webpack_exports__["default"] = (steps);
+            /* harmony default export */
+            var packages_steps = __webpack_exports__["default"] = (steps);
 
-        /***/
-    })
+            /***/
+        })
 
-    /******/
-});
+        /******/
+    });

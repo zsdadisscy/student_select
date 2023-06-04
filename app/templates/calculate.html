@@ -15,11 +15,11 @@
 
 <form method="POST" action="/calculate/">
     {% csrf_token %}
-    <input type="number" name="value_A" value={{a}}>
+    <input type="number" name="value_A" value={{ a }}>
     +
-    <input type="number" name="value_B" value={{b}}>
+    <input type="number" name="value_B" value={{ b }}>
     <input type="submit" value=" = ">
-    {{c}}
+    {{ c }}
 </form>
 <br>
 

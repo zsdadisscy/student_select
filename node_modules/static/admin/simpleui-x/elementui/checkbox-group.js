@@ -136,239 +136,239 @@ module.exports =
     return __webpack_require__(__webpack_require__.s = 88);
     /******/
 })
-/************************************************************************/
-/******/({
+    /************************************************************************/
+    /******/({
 
-    /***/ 0:
-    /***/ (function (module, __webpack_exports__, __webpack_require__) {
+        /***/ 0:
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
-        "use strict";
-        /* harmony export (binding) */
-        __webpack_require__.d(__webpack_exports__, "a", function () {
-            return normalizeComponent;
-        });
-        /* globals __VUE_SSR_CONTEXT__ */
+            "use strict";
+            /* harmony export (binding) */
+            __webpack_require__.d(__webpack_exports__, "a", function () {
+                return normalizeComponent;
+            });
+            /* globals __VUE_SSR_CONTEXT__ */
 
 // IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
 // This module is a runtime utility for cleaner component module output and will
 // be included in the final webpack user bundle.
 
-        function normalizeComponent(
-            scriptExports,
-            render,
-            staticRenderFns,
-            functionalTemplate,
-            injectStyles,
-            scopeId,
-            moduleIdentifier, /* server only */
-            shadowMode /* vue-cli only */
-        ) {
-            // Vue.extend constructor export interop
-            var options = typeof scriptExports === 'function'
-                ? scriptExports.options
-                : scriptExports
+            function normalizeComponent(
+                scriptExports,
+                render,
+                staticRenderFns,
+                functionalTemplate,
+                injectStyles,
+                scopeId,
+                moduleIdentifier, /* server only */
+                shadowMode /* vue-cli only */
+            ) {
+                // Vue.extend constructor export interop
+                var options = typeof scriptExports === 'function'
+                    ? scriptExports.options
+                    : scriptExports
 
-            // render functions
-            if (render) {
-                options.render = render
-                options.staticRenderFns = staticRenderFns
-                options._compiled = true
-            }
+                // render functions
+                if (render) {
+                    options.render = render
+                    options.staticRenderFns = staticRenderFns
+                    options._compiled = true
+                }
 
-            // functional template
-            if (functionalTemplate) {
-                options.functional = true
-            }
+                // functional template
+                if (functionalTemplate) {
+                    options.functional = true
+                }
 
-            // scopedId
-            if (scopeId) {
-                options._scopeId = 'data-v-' + scopeId
-            }
+                // scopedId
+                if (scopeId) {
+                    options._scopeId = 'data-v-' + scopeId
+                }
 
-            var hook
-            if (moduleIdentifier) { // server build
-                hook = function (context) {
-                    // 2.3 injection
-                    context =
-                        context || // cached call
-                        (this.$vnode && this.$vnode.ssrContext) || // stateful
-                        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-                    // 2.2 with runInNewContext: true
-                    if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-                        context = __VUE_SSR_CONTEXT__
+                var hook
+                if (moduleIdentifier) { // server build
+                    hook = function (context) {
+                        // 2.3 injection
+                        context =
+                            context || // cached call
+                            (this.$vnode && this.$vnode.ssrContext) || // stateful
+                            (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+                        // 2.2 with runInNewContext: true
+                        if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+                            context = __VUE_SSR_CONTEXT__
+                        }
+                        // inject component styles
+                        if (injectStyles) {
+                            injectStyles.call(this, context)
+                        }
+                        // register component module identifier for async chunk inferrence
+                        if (context && context._registeredComponents) {
+                            context._registeredComponents.add(moduleIdentifier)
+                        }
                     }
-                    // inject component styles
-                    if (injectStyles) {
-                        injectStyles.call(this, context)
-                    }
-                    // register component module identifier for async chunk inferrence
-                    if (context && context._registeredComponents) {
-                        context._registeredComponents.add(moduleIdentifier)
+                    // used by ssr in case component is cached and beforeCreate
+                    // never gets called
+                    options._ssrRegister = hook
+                } else if (injectStyles) {
+                    hook = shadowMode
+                        ? function () {
+                            injectStyles.call(this, this.$root.$options.shadowRoot)
+                        }
+                        : injectStyles
+                }
+
+                if (hook) {
+                    if (options.functional) {
+                        // for template-only hot-reload because in that case the render fn doesn't
+                        // go through the normalizer
+                        options._injectStyles = hook
+                        // register for functioal component in vue file
+                        var originalRender = options.render
+                        options.render = function renderWithStyleInjection(h, context) {
+                            hook.call(context)
+                            return originalRender(h, context)
+                        }
+                    } else {
+                        // inject component registration as beforeCreate hook
+                        var existing = options.beforeCreate
+                        options.beforeCreate = existing
+                            ? [].concat(existing, hook)
+                            : [hook]
                     }
                 }
-                // used by ssr in case component is cached and beforeCreate
-                // never gets called
-                options._ssrRegister = hook
-            } else if (injectStyles) {
-                hook = shadowMode
-                    ? function () {
-                        injectStyles.call(this, this.$root.$options.shadowRoot)
-                    }
-                    : injectStyles
-            }
 
-            if (hook) {
-                if (options.functional) {
-                    // for template-only hot-reload because in that case the render fn doesn't
-                    // go through the normalizer
-                    options._injectStyles = hook
-                    // register for functioal component in vue file
-                    var originalRender = options.render
-                    options.render = function renderWithStyleInjection(h, context) {
-                        hook.call(context)
-                        return originalRender(h, context)
-                    }
-                } else {
-                    // inject component registration as beforeCreate hook
-                    var existing = options.beforeCreate
-                    options.beforeCreate = existing
-                        ? [].concat(existing, hook)
-                        : [hook]
+                return {
+                    exports: scriptExports,
+                    options: options
                 }
             }
 
-            return {
-                exports: scriptExports,
-                options: options
-            }
-        }
 
+            /***/
+        }),
 
-        /***/
-    }),
+        /***/ 4:
+        /***/ (function (module, exports) {
 
-    /***/ 4:
-    /***/ (function (module, exports) {
+            module.exports = require("element-ui/lib/mixins/emitter");
 
-        module.exports = require("element-ui/lib/mixins/emitter");
+            /***/
+        }),
 
-        /***/
-    }),
+        /***/ 88:
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
-    /***/ 88:
-    /***/ (function (module, __webpack_exports__, __webpack_require__) {
-
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
+            "use strict";
+            __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./node_modules/_vue-loader@15.7.1@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_vue-loader@15.7.1@vue-loader/lib??vue-loader-options!./packages/checkbox/src/checkbox-group.vue?vue&type=template&id=7289a290&
-        var render = function () {
-            var _vm = this
-            var _h = _vm.$createElement
-            var _c = _vm._self._c || _h
-            return _c(
-                "div",
-                {
-                    staticClass: "el-checkbox-group",
-                    attrs: {role: "group", "aria-label": "checkbox-group"}
-                },
-                [_vm._t("default")],
-                2
-            )
-        }
-        var staticRenderFns = []
-        render._withStripped = true
+            var render = function () {
+                var _vm = this
+                var _h = _vm.$createElement
+                var _c = _vm._self._c || _h
+                return _c(
+                    "div",
+                    {
+                        staticClass: "el-checkbox-group",
+                        attrs: {role: "group", "aria-label": "checkbox-group"}
+                    },
+                    [_vm._t("default")],
+                    2
+                )
+            }
+            var staticRenderFns = []
+            render._withStripped = true
 
 
 // CONCATENATED MODULE: ./packages/checkbox/src/checkbox-group.vue?vue&type=template&id=7289a290&
 
 // EXTERNAL MODULE: external "element-ui/lib/mixins/emitter"
-        var emitter_ = __webpack_require__(4);
-        var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
+            var emitter_ = __webpack_require__(4);
+            var emitter_default = /*#__PURE__*/__webpack_require__.n(emitter_);
 
 // CONCATENATED MODULE: ./node_modules/_babel-loader@7.1.5@babel-loader/lib!./node_modules/_vue-loader@15.7.1@vue-loader/lib??vue-loader-options!./packages/checkbox/src/checkbox-group.vue?vue&type=script&lang=js&
 
 
-        /* harmony default export */
-        var checkbox_groupvue_type_script_lang_js_ = ({
-            name: 'ElCheckboxGroup',
+            /* harmony default export */
+            var checkbox_groupvue_type_script_lang_js_ = ({
+                name: 'ElCheckboxGroup',
 
-            componentName: 'ElCheckboxGroup',
+                componentName: 'ElCheckboxGroup',
 
-            mixins: [emitter_default.a],
+                mixins: [emitter_default.a],
 
-            inject: {
-                elFormItem: {
-                    default: ''
-                }
-            },
-
-            props: {
-                value: {},
-                disabled: Boolean,
-                min: Number,
-                max: Number,
-                size: String,
-                fill: String,
-                textColor: String
-            },
-
-            computed: {
-                _elFormItemSize: function _elFormItemSize() {
-                    return (this.elFormItem || {}).elFormItemSize;
+                inject: {
+                    elFormItem: {
+                        default: ''
+                    }
                 },
-                checkboxGroupSize: function checkboxGroupSize() {
-                    return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
-                }
-            },
 
-            watch: {
-                value: function value(_value) {
-                    this.dispatch('ElFormItem', 'el.form.change', [_value]);
+                props: {
+                    value: {},
+                    disabled: Boolean,
+                    min: Number,
+                    max: Number,
+                    size: String,
+                    fill: String,
+                    textColor: String
+                },
+
+                computed: {
+                    _elFormItemSize: function _elFormItemSize() {
+                        return (this.elFormItem || {}).elFormItemSize;
+                    },
+                    checkboxGroupSize: function checkboxGroupSize() {
+                        return this.size || this._elFormItemSize || (this.$ELEMENT || {}).size;
+                    }
+                },
+
+                watch: {
+                    value: function value(_value) {
+                        this.dispatch('ElFormItem', 'el.form.change', [_value]);
+                    }
                 }
-            }
-        });
+            });
 // CONCATENATED MODULE: ./packages/checkbox/src/checkbox-group.vue?vue&type=script&lang=js&
-        /* harmony default export */
-        var src_checkbox_groupvue_type_script_lang_js_ = (checkbox_groupvue_type_script_lang_js_);
+            /* harmony default export */
+            var src_checkbox_groupvue_type_script_lang_js_ = (checkbox_groupvue_type_script_lang_js_);
 // EXTERNAL MODULE: ./node_modules/_vue-loader@15.7.1@vue-loader/lib/runtime/componentNormalizer.js
-        var componentNormalizer = __webpack_require__(0);
+            var componentNormalizer = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./packages/checkbox/src/checkbox-group.vue
 
 
-        /* normalize component */
+            /* normalize component */
 
-        var component = Object(componentNormalizer["a" /* default */])(
-            src_checkbox_groupvue_type_script_lang_js_,
-            render,
-            staticRenderFns,
-            false,
-            null,
-            null,
-            null
-        )
+            var component = Object(componentNormalizer["a" /* default */])(
+                src_checkbox_groupvue_type_script_lang_js_,
+                render,
+                staticRenderFns,
+                false,
+                null,
+                null,
+                null
+            )
 
-        /* hot reload */
-        if (false) {
-            var api;
-        }
-        component.options.__file = "packages/checkbox/src/checkbox-group.vue"
-        /* harmony default export */
-        var checkbox_group = (component.exports);
+            /* hot reload */
+            if (false) {
+                var api;
+            }
+            component.options.__file = "packages/checkbox/src/checkbox-group.vue"
+            /* harmony default export */
+            var checkbox_group = (component.exports);
 // CONCATENATED MODULE: ./packages/checkbox-group/index.js
 
 
-        /* istanbul ignore next */
-        checkbox_group.install = function (Vue) {
-            Vue.component(checkbox_group.name, checkbox_group);
-        };
+            /* istanbul ignore next */
+            checkbox_group.install = function (Vue) {
+                Vue.component(checkbox_group.name, checkbox_group);
+            };
 
-        /* harmony default export */
-        var packages_checkbox_group = __webpack_exports__["default"] = (checkbox_group);
+            /* harmony default export */
+            var packages_checkbox_group = __webpack_exports__["default"] = (checkbox_group);
 
-        /***/
-    })
+            /***/
+        })
 
-    /******/
-});
+        /******/
+    });

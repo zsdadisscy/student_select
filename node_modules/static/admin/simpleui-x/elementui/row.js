@@ -136,72 +136,72 @@ module.exports =
     return __webpack_require__(__webpack_require__.s = 129);
     /******/
 })
-/************************************************************************/
-/******/({
+    /************************************************************************/
+    /******/({
 
-    /***/ 129:
-    /***/ (function (module, __webpack_exports__, __webpack_require__) {
+        /***/ 129:
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
+            "use strict";
+            __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./packages/row/src/row.js
-        /* harmony default export */
-        var row = ({
-            name: 'ElRow',
+            /* harmony default export */
+            var row = ({
+                name: 'ElRow',
 
-            componentName: 'ElRow',
+                componentName: 'ElRow',
 
-            props: {
-                tag: {
+                props: {
+                    tag: {
+                        type: String,
+                        default: 'div'
+                    },
+                    gutter: Number,
                     type: String,
-                    default: 'div'
-                },
-                gutter: Number,
-                type: String,
-                justify: {
-                    type: String,
-                    default: 'start'
-                },
-                align: {
-                    type: String,
-                    default: 'top'
-                }
-            },
-
-            computed: {
-                style: function style() {
-                    var ret = {};
-
-                    if (this.gutter) {
-                        ret.marginLeft = '-' + this.gutter / 2 + 'px';
-                        ret.marginRight = ret.marginLeft;
+                    justify: {
+                        type: String,
+                        default: 'start'
+                    },
+                    align: {
+                        type: String,
+                        default: 'top'
                     }
+                },
 
-                    return ret;
+                computed: {
+                    style: function style() {
+                        var ret = {};
+
+                        if (this.gutter) {
+                            ret.marginLeft = '-' + this.gutter / 2 + 'px';
+                            ret.marginRight = ret.marginLeft;
+                        }
+
+                        return ret;
+                    }
+                },
+
+                render: function render(h) {
+                    return h(this.tag, {
+                        class: ['el-row', this.justify !== 'start' ? 'is-justify-' + this.justify : '', this.align !== 'top' ? 'is-align-' + this.align : '', {'el-row--flex': this.type === 'flex'}],
+                        style: this.style
+                    }, this.$slots.default);
                 }
-            },
-
-            render: function render(h) {
-                return h(this.tag, {
-                    class: ['el-row', this.justify !== 'start' ? 'is-justify-' + this.justify : '', this.align !== 'top' ? 'is-align-' + this.align : '', {'el-row--flex': this.type === 'flex'}],
-                    style: this.style
-                }, this.$slots.default);
-            }
-        });
+            });
 // CONCATENATED MODULE: ./packages/row/index.js
 
 
-        /* istanbul ignore next */
-        row.install = function (Vue) {
-            Vue.component(row.name, row);
-        };
+            /* istanbul ignore next */
+            row.install = function (Vue) {
+                Vue.component(row.name, row);
+            };
 
-        /* harmony default export */
-        var packages_row = __webpack_exports__["default"] = (row);
+            /* harmony default export */
+            var packages_row = __webpack_exports__["default"] = (row);
 
-        /***/
-    })
+            /***/
+        })
 
-    /******/
-});
+        /******/
+    });

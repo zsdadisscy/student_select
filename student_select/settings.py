@@ -10,8 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
+
 import django
 from django.utils.encoding import force_str
 
@@ -29,7 +30,7 @@ SECRET_KEY = 'django-insecure-44^1r4q47mpsl&xtf01k(sk_btqjki7smdapl1f$@4d8ci8w!y
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -48,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware', # 测试
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -87,18 +88,18 @@ WSGI_APPLICATION = 'student_select.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'student',
-        'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.mysql',
+    #     'NAME': 'student',
+    #     'USER': 'root',
+    #     'PASSWORD': '123456',
+    #     'HOST': 'localhost',
+    #     'PORT': '3306',
+    # }
 }
 
 # Password validation
@@ -179,13 +180,13 @@ SIMPLEUI_CONFIG = {
                 {
                     'name': '学生选择',
                     # 注意url按'/admin/应用名小写/模型名小写/'命名。
-                    'url': '/admin/app/studentteacher/',
+                    'url': '/admin/app/studenttutor/',
                     'icon': 'fa fa-tasks'
                 },
                 {
-                    'name': '学生选择记录',
+                    'name': '操作记录',
                     # 注意url按'/admin/应用名小写/模型名小写/'命名。
-                    'url': '/admin/app/userlog/',
+                    'url': '/admin/app/studentlog/',
                     'icon': 'fa fa-tasks'
                 },
             ]
@@ -193,3 +194,13 @@ SIMPLEUI_CONFIG = {
     ]
 }
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # 默认的模型后端
+]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
