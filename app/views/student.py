@@ -5,14 +5,13 @@
 # @Software: PyCharm
 import hashlib
 
-from django.http import JsonResponse
-from django.contrib.auth.hashers import make_password, check_password
-from django.views.decorators.csrf import csrf_protect, csrf_exempt
-from django.views.decorators.http import require_http_methods
+from django.contrib.auth.hashers import check_password
 from django.core.cache import cache
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
 
-from app.views import get_cache, update_cache
 from app.models import *
+from app.views import get_cache, update_cache
 
 
 # 登录

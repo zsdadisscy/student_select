@@ -136,154 +136,154 @@ module.exports =
     return __webpack_require__(__webpack_require__.s = 100);
     /******/
 })
-/************************************************************************/
-/******/({
+    /************************************************************************/
+    /******/({
 
-    /***/ 0:
-    /***/ (function (module, __webpack_exports__, __webpack_require__) {
+        /***/ 0:
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
-        "use strict";
-        /* harmony export (binding) */
-        __webpack_require__.d(__webpack_exports__, "a", function () {
-            return normalizeComponent;
-        });
-        /* globals __VUE_SSR_CONTEXT__ */
+            "use strict";
+            /* harmony export (binding) */
+            __webpack_require__.d(__webpack_exports__, "a", function () {
+                return normalizeComponent;
+            });
+            /* globals __VUE_SSR_CONTEXT__ */
 
 // IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
 // This module is a runtime utility for cleaner component module output and will
 // be included in the final webpack user bundle.
 
-        function normalizeComponent(
-            scriptExports,
-            render,
-            staticRenderFns,
-            functionalTemplate,
-            injectStyles,
-            scopeId,
-            moduleIdentifier, /* server only */
-            shadowMode /* vue-cli only */
-        ) {
-            // Vue.extend constructor export interop
-            var options = typeof scriptExports === 'function'
-                ? scriptExports.options
-                : scriptExports
+            function normalizeComponent(
+                scriptExports,
+                render,
+                staticRenderFns,
+                functionalTemplate,
+                injectStyles,
+                scopeId,
+                moduleIdentifier, /* server only */
+                shadowMode /* vue-cli only */
+            ) {
+                // Vue.extend constructor export interop
+                var options = typeof scriptExports === 'function'
+                    ? scriptExports.options
+                    : scriptExports
 
-            // render functions
-            if (render) {
-                options.render = render
-                options.staticRenderFns = staticRenderFns
-                options._compiled = true
-            }
+                // render functions
+                if (render) {
+                    options.render = render
+                    options.staticRenderFns = staticRenderFns
+                    options._compiled = true
+                }
 
-            // functional template
-            if (functionalTemplate) {
-                options.functional = true
-            }
+                // functional template
+                if (functionalTemplate) {
+                    options.functional = true
+                }
 
-            // scopedId
-            if (scopeId) {
-                options._scopeId = 'data-v-' + scopeId
-            }
+                // scopedId
+                if (scopeId) {
+                    options._scopeId = 'data-v-' + scopeId
+                }
 
-            var hook
-            if (moduleIdentifier) { // server build
-                hook = function (context) {
-                    // 2.3 injection
-                    context =
-                        context || // cached call
-                        (this.$vnode && this.$vnode.ssrContext) || // stateful
-                        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-                    // 2.2 with runInNewContext: true
-                    if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-                        context = __VUE_SSR_CONTEXT__
+                var hook
+                if (moduleIdentifier) { // server build
+                    hook = function (context) {
+                        // 2.3 injection
+                        context =
+                            context || // cached call
+                            (this.$vnode && this.$vnode.ssrContext) || // stateful
+                            (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+                        // 2.2 with runInNewContext: true
+                        if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+                            context = __VUE_SSR_CONTEXT__
+                        }
+                        // inject component styles
+                        if (injectStyles) {
+                            injectStyles.call(this, context)
+                        }
+                        // register component module identifier for async chunk inferrence
+                        if (context && context._registeredComponents) {
+                            context._registeredComponents.add(moduleIdentifier)
+                        }
                     }
-                    // inject component styles
-                    if (injectStyles) {
-                        injectStyles.call(this, context)
-                    }
-                    // register component module identifier for async chunk inferrence
-                    if (context && context._registeredComponents) {
-                        context._registeredComponents.add(moduleIdentifier)
+                    // used by ssr in case component is cached and beforeCreate
+                    // never gets called
+                    options._ssrRegister = hook
+                } else if (injectStyles) {
+                    hook = shadowMode
+                        ? function () {
+                            injectStyles.call(this, this.$root.$options.shadowRoot)
+                        }
+                        : injectStyles
+                }
+
+                if (hook) {
+                    if (options.functional) {
+                        // for template-only hot-reload because in that case the render fn doesn't
+                        // go through the normalizer
+                        options._injectStyles = hook
+                        // register for functioal component in vue file
+                        var originalRender = options.render
+                        options.render = function renderWithStyleInjection(h, context) {
+                            hook.call(context)
+                            return originalRender(h, context)
+                        }
+                    } else {
+                        // inject component registration as beforeCreate hook
+                        var existing = options.beforeCreate
+                        options.beforeCreate = existing
+                            ? [].concat(existing, hook)
+                            : [hook]
                     }
                 }
-                // used by ssr in case component is cached and beforeCreate
-                // never gets called
-                options._ssrRegister = hook
-            } else if (injectStyles) {
-                hook = shadowMode
-                    ? function () {
-                        injectStyles.call(this, this.$root.$options.shadowRoot)
-                    }
-                    : injectStyles
-            }
 
-            if (hook) {
-                if (options.functional) {
-                    // for template-only hot-reload because in that case the render fn doesn't
-                    // go through the normalizer
-                    options._injectStyles = hook
-                    // register for functioal component in vue file
-                    var originalRender = options.render
-                    options.render = function renderWithStyleInjection(h, context) {
-                        hook.call(context)
-                        return originalRender(h, context)
-                    }
-                } else {
-                    // inject component registration as beforeCreate hook
-                    var existing = options.beforeCreate
-                    options.beforeCreate = existing
-                        ? [].concat(existing, hook)
-                        : [hook]
+                return {
+                    exports: scriptExports,
+                    options: options
                 }
             }
 
-            return {
-                exports: scriptExports,
-                options: options
-            }
-        }
 
+            /***/
+        }),
 
-        /***/
-    }),
+        /***/ 100:
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
-    /***/ 100:
-    /***/ (function (module, __webpack_exports__, __webpack_require__) {
-
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
+            "use strict";
+            __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./node_modules/_vue-loader@15.7.1@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_vue-loader@15.7.1@vue-loader/lib??vue-loader-options!./packages/spinner/src/spinner.vue?vue&type=template&id=697b8538&
-        var render = function () {
-            var _vm = this
-            var _h = _vm.$createElement
-            var _c = _vm._self._c || _h
-            return _c("span", {staticClass: "el-spinner"}, [
-                _c(
-                    "svg",
-                    {
-                        staticClass: "el-spinner-inner",
-                        style: {width: _vm.radius / 2 + "px", height: _vm.radius / 2 + "px"},
-                        attrs: {viewBox: "0 0 50 50"}
-                    },
-                    [
-                        _c("circle", {
-                            staticClass: "path",
-                            attrs: {
-                                cx: "25",
-                                cy: "25",
-                                r: "20",
-                                fill: "none",
-                                stroke: _vm.strokeColor,
-                                "stroke-width": _vm.strokeWidth
-                            }
-                        })
-                    ]
-                )
-            ])
-        }
-        var staticRenderFns = []
-        render._withStripped = true
+            var render = function () {
+                var _vm = this
+                var _h = _vm.$createElement
+                var _c = _vm._self._c || _h
+                return _c("span", {staticClass: "el-spinner"}, [
+                    _c(
+                        "svg",
+                        {
+                            staticClass: "el-spinner-inner",
+                            style: {width: _vm.radius / 2 + "px", height: _vm.radius / 2 + "px"},
+                            attrs: {viewBox: "0 0 50 50"}
+                        },
+                        [
+                            _c("circle", {
+                                staticClass: "path",
+                                attrs: {
+                                    cx: "25",
+                                    cy: "25",
+                                    r: "20",
+                                    fill: "none",
+                                    stroke: _vm.strokeColor,
+                                    "stroke-width": _vm.strokeWidth
+                                }
+                            })
+                        ]
+                    )
+                ])
+            }
+            var staticRenderFns = []
+            render._withStripped = true
 
 
 // CONCATENATED MODULE: ./packages/spinner/src/spinner.vue?vue&type=template&id=697b8538&
@@ -297,66 +297,66 @@ module.exports =
 //
 //
 
-        /* harmony default export */
-        var spinnervue_type_script_lang_js_ = ({
-            name: 'ElSpinner',
-            props: {
-                type: String,
-                radius: {
-                    type: Number,
-                    default: 100
-                },
-                strokeWidth: {
-                    type: Number,
-                    default: 5
-                },
-                strokeColor: {
+            /* harmony default export */
+            var spinnervue_type_script_lang_js_ = ({
+                name: 'ElSpinner',
+                props: {
                     type: String,
-                    default: '#efefef'
+                    radius: {
+                        type: Number,
+                        default: 100
+                    },
+                    strokeWidth: {
+                        type: Number,
+                        default: 5
+                    },
+                    strokeColor: {
+                        type: String,
+                        default: '#efefef'
+                    }
                 }
-            }
-        });
+            });
 // CONCATENATED MODULE: ./packages/spinner/src/spinner.vue?vue&type=script&lang=js&
-        /* harmony default export */
-        var src_spinnervue_type_script_lang_js_ = (spinnervue_type_script_lang_js_);
+            /* harmony default export */
+            var src_spinnervue_type_script_lang_js_ = (spinnervue_type_script_lang_js_);
 // EXTERNAL MODULE: ./node_modules/_vue-loader@15.7.1@vue-loader/lib/runtime/componentNormalizer.js
-        var componentNormalizer = __webpack_require__(0);
+            var componentNormalizer = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./packages/spinner/src/spinner.vue
 
 
-        /* normalize component */
+            /* normalize component */
 
-        var component = Object(componentNormalizer["a" /* default */])(
-            src_spinnervue_type_script_lang_js_,
-            render,
-            staticRenderFns,
-            false,
-            null,
-            null,
-            null
-        )
+            var component = Object(componentNormalizer["a" /* default */])(
+                src_spinnervue_type_script_lang_js_,
+                render,
+                staticRenderFns,
+                false,
+                null,
+                null,
+                null
+            )
 
-        /* hot reload */
-        if (false) {
-            var api;
-        }
-        component.options.__file = "packages/spinner/src/spinner.vue"
-        /* harmony default export */
-        var spinner = (component.exports);
+            /* hot reload */
+            if (false) {
+                var api;
+            }
+            component.options.__file = "packages/spinner/src/spinner.vue"
+            /* harmony default export */
+            var spinner = (component.exports);
 // CONCATENATED MODULE: ./packages/spinner/index.js
 
 
-        /* istanbul ignore next */
-        spinner.install = function (Vue) {
-            Vue.component(spinner.name, spinner);
-        };
+            /* istanbul ignore next */
+            spinner.install = function (Vue) {
+                Vue.component(spinner.name, spinner);
+            };
 
-        /* harmony default export */
-        var packages_spinner = __webpack_exports__["default"] = (spinner);
+            /* harmony default export */
+            var packages_spinner = __webpack_exports__["default"] = (spinner);
 
-        /***/
-    })
+            /***/
+        })
 
-    /******/
-});
+        /******/
+    });

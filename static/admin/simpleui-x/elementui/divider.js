@@ -136,70 +136,70 @@ module.exports =
     return __webpack_require__(__webpack_require__.s = 131);
     /******/
 })
-/************************************************************************/
-/******/({
+    /************************************************************************/
+    /******/({
 
-    /***/ 131:
-    /***/ (function (module, __webpack_exports__, __webpack_require__) {
+        /***/ 131:
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
+            "use strict";
+            __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./packages/divider/src/main.js
-        /* harmony default export */
-        var main = ({
-            functional: true,
+            /* harmony default export */
+            var main = ({
+                functional: true,
 
-            name: 'ElDivider',
+                name: 'ElDivider',
 
-            props: {
-                direction: {
-                    type: String,
-                    default: 'horizontal',
-                    validator: function validator(val) {
-                        return ['horizontal', 'vertical'].indexOf(val) !== -1;
+                props: {
+                    direction: {
+                        type: String,
+                        default: 'horizontal',
+                        validator: function validator(val) {
+                            return ['horizontal', 'vertical'].indexOf(val) !== -1;
+                        }
+                    },
+
+                    contentPosition: {
+                        type: String,
+                        default: 'center',
+                        validator: function validator(val) {
+                            return ['left', 'center', 'right'].indexOf(val) !== -1;
+                        }
                     }
                 },
 
-                contentPosition: {
-                    type: String,
-                    default: 'center',
-                    validator: function validator(val) {
-                        return ['left', 'center', 'right'].indexOf(val) !== -1;
-                    }
-                }
-            },
+                render: function render(h, context) {
+                    var $slots = context.slots();
+                    var _context$props = context.props,
+                        direction = _context$props.direction,
+                        contentPosition = _context$props.contentPosition;
 
-            render: function render(h, context) {
-                var $slots = context.slots();
-                var _context$props = context.props,
-                    direction = _context$props.direction,
-                    contentPosition = _context$props.contentPosition;
-
-                return h(
-                    'div',
-                    {'class': ['el-divider', 'el-divider--' + direction]},
-                    [$slots.default && direction !== 'vertical' ? h(
+                    return h(
                         'div',
-                        {'class': ['el-divider__text', 'is-' + contentPosition]},
-                        [$slots.default]
-                    ) : null]
-                );
-            }
-        });
+                        {'class': ['el-divider', 'el-divider--' + direction]},
+                        [$slots.default && direction !== 'vertical' ? h(
+                            'div',
+                            {'class': ['el-divider__text', 'is-' + contentPosition]},
+                            [$slots.default]
+                        ) : null]
+                    );
+                }
+            });
 // CONCATENATED MODULE: ./packages/divider/index.js
 
 
-        /* istanbul ignore next */
-        main.install = function (Vue) {
-            Vue.component(main.name, main);
-        };
+            /* istanbul ignore next */
+            main.install = function (Vue) {
+                Vue.component(main.name, main);
+            };
 
-        /* harmony default export */
-        var divider = __webpack_exports__["default"] = (main);
+            /* harmony default export */
+            var divider = __webpack_exports__["default"] = (main);
 
-        /***/
-    })
+            /***/
+        })
 
-    /******/
-});
+        /******/
+    });

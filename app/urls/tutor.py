@@ -4,7 +4,8 @@
 # @FileName: tutor.py
 # @Software: PyCharm
 
-from django.urls import path, include
+from django.urls import path
+
 from app.views.tutor import *
 
 urlpatterns = [

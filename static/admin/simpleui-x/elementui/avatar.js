@@ -136,291 +136,291 @@ module.exports =
     return __webpack_require__(__webpack_require__.s = 126);
     /******/
 })
-/************************************************************************/
-/******/({
+    /************************************************************************/
+    /******/({
 
-    /***/ 0:
-    /***/ (function (module, __webpack_exports__, __webpack_require__) {
+        /***/ 0:
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
-        "use strict";
-        /* harmony export (binding) */
-        __webpack_require__.d(__webpack_exports__, "a", function () {
-            return normalizeComponent;
-        });
-        /* globals __VUE_SSR_CONTEXT__ */
+            "use strict";
+            /* harmony export (binding) */
+            __webpack_require__.d(__webpack_exports__, "a", function () {
+                return normalizeComponent;
+            });
+            /* globals __VUE_SSR_CONTEXT__ */
 
 // IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
 // This module is a runtime utility for cleaner component module output and will
 // be included in the final webpack user bundle.
 
-        function normalizeComponent(
-            scriptExports,
-            render,
-            staticRenderFns,
-            functionalTemplate,
-            injectStyles,
-            scopeId,
-            moduleIdentifier, /* server only */
-            shadowMode /* vue-cli only */
-        ) {
-            // Vue.extend constructor export interop
-            var options = typeof scriptExports === 'function'
-                ? scriptExports.options
-                : scriptExports
+            function normalizeComponent(
+                scriptExports,
+                render,
+                staticRenderFns,
+                functionalTemplate,
+                injectStyles,
+                scopeId,
+                moduleIdentifier, /* server only */
+                shadowMode /* vue-cli only */
+            ) {
+                // Vue.extend constructor export interop
+                var options = typeof scriptExports === 'function'
+                    ? scriptExports.options
+                    : scriptExports
 
-            // render functions
-            if (render) {
-                options.render = render
-                options.staticRenderFns = staticRenderFns
-                options._compiled = true
-            }
+                // render functions
+                if (render) {
+                    options.render = render
+                    options.staticRenderFns = staticRenderFns
+                    options._compiled = true
+                }
 
-            // functional template
-            if (functionalTemplate) {
-                options.functional = true
-            }
+                // functional template
+                if (functionalTemplate) {
+                    options.functional = true
+                }
 
-            // scopedId
-            if (scopeId) {
-                options._scopeId = 'data-v-' + scopeId
-            }
+                // scopedId
+                if (scopeId) {
+                    options._scopeId = 'data-v-' + scopeId
+                }
 
-            var hook
-            if (moduleIdentifier) { // server build
-                hook = function (context) {
-                    // 2.3 injection
-                    context =
-                        context || // cached call
-                        (this.$vnode && this.$vnode.ssrContext) || // stateful
-                        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-                    // 2.2 with runInNewContext: true
-                    if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-                        context = __VUE_SSR_CONTEXT__
+                var hook
+                if (moduleIdentifier) { // server build
+                    hook = function (context) {
+                        // 2.3 injection
+                        context =
+                            context || // cached call
+                            (this.$vnode && this.$vnode.ssrContext) || // stateful
+                            (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+                        // 2.2 with runInNewContext: true
+                        if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+                            context = __VUE_SSR_CONTEXT__
+                        }
+                        // inject component styles
+                        if (injectStyles) {
+                            injectStyles.call(this, context)
+                        }
+                        // register component module identifier for async chunk inferrence
+                        if (context && context._registeredComponents) {
+                            context._registeredComponents.add(moduleIdentifier)
+                        }
                     }
-                    // inject component styles
-                    if (injectStyles) {
-                        injectStyles.call(this, context)
-                    }
-                    // register component module identifier for async chunk inferrence
-                    if (context && context._registeredComponents) {
-                        context._registeredComponents.add(moduleIdentifier)
+                    // used by ssr in case component is cached and beforeCreate
+                    // never gets called
+                    options._ssrRegister = hook
+                } else if (injectStyles) {
+                    hook = shadowMode
+                        ? function () {
+                            injectStyles.call(this, this.$root.$options.shadowRoot)
+                        }
+                        : injectStyles
+                }
+
+                if (hook) {
+                    if (options.functional) {
+                        // for template-only hot-reload because in that case the render fn doesn't
+                        // go through the normalizer
+                        options._injectStyles = hook
+                        // register for functioal component in vue file
+                        var originalRender = options.render
+                        options.render = function renderWithStyleInjection(h, context) {
+                            hook.call(context)
+                            return originalRender(h, context)
+                        }
+                    } else {
+                        // inject component registration as beforeCreate hook
+                        var existing = options.beforeCreate
+                        options.beforeCreate = existing
+                            ? [].concat(existing, hook)
+                            : [hook]
                     }
                 }
-                // used by ssr in case component is cached and beforeCreate
-                // never gets called
-                options._ssrRegister = hook
-            } else if (injectStyles) {
-                hook = shadowMode
-                    ? function () {
-                        injectStyles.call(this, this.$root.$options.shadowRoot)
-                    }
-                    : injectStyles
-            }
 
-            if (hook) {
-                if (options.functional) {
-                    // for template-only hot-reload because in that case the render fn doesn't
-                    // go through the normalizer
-                    options._injectStyles = hook
-                    // register for functioal component in vue file
-                    var originalRender = options.render
-                    options.render = function renderWithStyleInjection(h, context) {
-                        hook.call(context)
-                        return originalRender(h, context)
-                    }
-                } else {
-                    // inject component registration as beforeCreate hook
-                    var existing = options.beforeCreate
-                    options.beforeCreate = existing
-                        ? [].concat(existing, hook)
-                        : [hook]
+                return {
+                    exports: scriptExports,
+                    options: options
                 }
             }
 
-            return {
-                exports: scriptExports,
-                options: options
-            }
-        }
 
+            /***/
+        }),
 
-        /***/
-    }),
+        /***/ 126:
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
-    /***/ 126:
-    /***/ (function (module, __webpack_exports__, __webpack_require__) {
-
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
+            "use strict";
+            __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./node_modules/_babel-loader@7.1.5@babel-loader/lib!./node_modules/_vue-loader@15.7.1@vue-loader/lib??vue-loader-options!./packages/avatar/src/main.vue?vue&type=script&lang=js&
 
-        /* harmony default export */
-        var mainvue_type_script_lang_js_ = ({
-            name: 'ElAvatar',
+            /* harmony default export */
+            var mainvue_type_script_lang_js_ = ({
+                name: 'ElAvatar',
 
-            props: {
-                size: {
-                    type: [Number, String],
-                    validator: function validator(val) {
-                        if (typeof val === 'string') {
-                            return ['large', 'medium', 'small'].includes(val);
+                props: {
+                    size: {
+                        type: [Number, String],
+                        validator: function validator(val) {
+                            if (typeof val === 'string') {
+                                return ['large', 'medium', 'small'].includes(val);
+                            }
+                            return typeof val === 'number';
                         }
-                        return typeof val === 'number';
+                    },
+                    shape: {
+                        type: String,
+                        default: 'circle',
+                        validator: function validator(val) {
+                            return ['circle', 'square'].includes(val);
+                        }
+                    },
+                    icon: String,
+                    src: String,
+                    alt: String,
+                    srcSet: String,
+                    error: Function,
+                    fit: {
+                        type: String,
+                        default: 'cover'
                     }
                 },
-                shape: {
-                    type: String,
-                    default: 'circle',
-                    validator: function validator(val) {
-                        return ['circle', 'square'].includes(val);
+
+                data: function data() {
+                    return {
+                        isImageExist: true
+                    };
+                },
+
+
+                computed: {
+                    avatarClass: function avatarClass() {
+                        var size = this.size,
+                            icon = this.icon,
+                            shape = this.shape;
+
+                        var classList = ['el-avatar'];
+
+                        if (size && typeof size === 'string') {
+                            classList.push('el-avatar--' + size);
+                        }
+
+                        if (icon) {
+                            classList.push('el-avatar--icon');
+                        }
+
+                        if (shape) {
+                            classList.push('el-avatar--' + shape);
+                        }
+
+                        return classList.join(' ');
                     }
                 },
-                icon: String,
-                src: String,
-                alt: String,
-                srcSet: String,
-                error: Function,
-                fit: {
-                    type: String,
-                    default: 'cover'
-                }
-            },
 
-            data: function data() {
-                return {
-                    isImageExist: true
-                };
-            },
+                methods: {
+                    handleError: function handleError() {
+                        var error = this.error;
+
+                        var errorFlag = error ? error() : undefined;
+                        if (errorFlag !== false) {
+                            this.isImageExist = false;
+                        }
+                    },
+                    renderAvatar: function renderAvatar() {
+                        var h = this.$createElement;
+                        var icon = this.icon,
+                            src = this.src,
+                            alt = this.alt,
+                            isImageExist = this.isImageExist,
+                            srcSet = this.srcSet,
+                            fit = this.fit;
 
 
-            computed: {
-                avatarClass: function avatarClass() {
-                    var size = this.size,
-                        icon = this.icon,
-                        shape = this.shape;
+                        if (isImageExist && src) {
+                            return h('img', {
+                                attrs: {
+                                    src: src,
 
-                    var classList = ['el-avatar'];
+                                    alt: alt,
+                                    srcSet: srcSet
+                                },
+                                on: {
+                                    'error': this.handleError
+                                },
+                                style: {'object-fit': fit}
+                            });
+                        }
 
-                    if (size && typeof size === 'string') {
-                        classList.push('el-avatar--' + size);
-                    }
+                        if (icon) {
+                            return h('i', {'class': icon});
+                        }
 
-                    if (icon) {
-                        classList.push('el-avatar--icon');
-                    }
-
-                    if (shape) {
-                        classList.push('el-avatar--' + shape);
-                    }
-
-                    return classList.join(' ');
-                }
-            },
-
-            methods: {
-                handleError: function handleError() {
-                    var error = this.error;
-
-                    var errorFlag = error ? error() : undefined;
-                    if (errorFlag !== false) {
-                        this.isImageExist = false;
+                        return this.$slots.default;
                     }
                 },
-                renderAvatar: function renderAvatar() {
-                    var h = this.$createElement;
-                    var icon = this.icon,
-                        src = this.src,
-                        alt = this.alt,
-                        isImageExist = this.isImageExist,
-                        srcSet = this.srcSet,
-                        fit = this.fit;
+
+                render: function render() {
+                    var h = arguments[0];
+                    var avatarClass = this.avatarClass,
+                        size = this.size;
 
 
-                    if (isImageExist && src) {
-                        return h('img', {
-                            attrs: {
-                                src: src,
+                    var sizeStyle = typeof size === 'number' ? {
+                        height: size + 'px',
+                        width: size + 'px',
+                        lineHeight: size + 'px'
+                    } : {};
 
-                                alt: alt,
-                                srcSet: srcSet
-                            },
-                            on: {
-                                'error': this.handleError
-                            },
-                            style: {'object-fit': fit}
-                        });
-                    }
-
-                    if (icon) {
-                        return h('i', {'class': icon});
-                    }
-
-                    return this.$slots.default;
+                    return h(
+                        'span',
+                        {'class': avatarClass, style: sizeStyle},
+                        [this.renderAvatar()]
+                    );
                 }
-            },
-
-            render: function render() {
-                var h = arguments[0];
-                var avatarClass = this.avatarClass,
-                    size = this.size;
-
-
-                var sizeStyle = typeof size === 'number' ? {
-                    height: size + 'px',
-                    width: size + 'px',
-                    lineHeight: size + 'px'
-                } : {};
-
-                return h(
-                    'span',
-                    {'class': avatarClass, style: sizeStyle},
-                    [this.renderAvatar()]
-                );
-            }
-        });
+            });
 // CONCATENATED MODULE: ./packages/avatar/src/main.vue?vue&type=script&lang=js&
-        /* harmony default export */
-        var src_mainvue_type_script_lang_js_ = (mainvue_type_script_lang_js_);
+            /* harmony default export */
+            var src_mainvue_type_script_lang_js_ = (mainvue_type_script_lang_js_);
 // EXTERNAL MODULE: ./node_modules/_vue-loader@15.7.1@vue-loader/lib/runtime/componentNormalizer.js
-        var componentNormalizer = __webpack_require__(0);
+            var componentNormalizer = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./packages/avatar/src/main.vue
-        var render, staticRenderFns
+            var render, staticRenderFns
 
 
-        /* normalize component */
+            /* normalize component */
 
-        var component = Object(componentNormalizer["a" /* default */])(
-            src_mainvue_type_script_lang_js_,
-            render,
-            staticRenderFns,
-            false,
-            null,
-            null,
-            null
-        )
+            var component = Object(componentNormalizer["a" /* default */])(
+                src_mainvue_type_script_lang_js_,
+                render,
+                staticRenderFns,
+                false,
+                null,
+                null,
+                null
+            )
 
-        /* hot reload */
-        if (false) {
-            var api;
-        }
-        component.options.__file = "packages/avatar/src/main.vue"
-        /* harmony default export */
-        var main = (component.exports);
+            /* hot reload */
+            if (false) {
+                var api;
+            }
+            component.options.__file = "packages/avatar/src/main.vue"
+            /* harmony default export */
+            var main = (component.exports);
 // CONCATENATED MODULE: ./packages/avatar/index.js
 
 
-        /* istanbul ignore next */
-        main.install = function (Vue) {
-            Vue.component(main.name, main);
-        };
+            /* istanbul ignore next */
+            main.install = function (Vue) {
+                Vue.component(main.name, main);
+            };
 
-        /* harmony default export */
-        var avatar = __webpack_exports__["default"] = (main);
+            /* harmony default export */
+            var avatar = __webpack_exports__["default"] = (main);
 
-        /***/
-    })
+            /***/
+        })
 
-    /******/
-});
+        /******/
+    });

@@ -136,208 +136,208 @@ module.exports =
     return __webpack_require__(__webpack_require__.s = 97);
     /******/
 })
-/************************************************************************/
-/******/({
+    /************************************************************************/
+    /******/({
 
-    /***/ 0:
-    /***/ (function (module, __webpack_exports__, __webpack_require__) {
+        /***/ 0:
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
-        "use strict";
-        /* harmony export (binding) */
-        __webpack_require__.d(__webpack_exports__, "a", function () {
-            return normalizeComponent;
-        });
-        /* globals __VUE_SSR_CONTEXT__ */
+            "use strict";
+            /* harmony export (binding) */
+            __webpack_require__.d(__webpack_exports__, "a", function () {
+                return normalizeComponent;
+            });
+            /* globals __VUE_SSR_CONTEXT__ */
 
 // IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
 // This module is a runtime utility for cleaner component module output and will
 // be included in the final webpack user bundle.
 
-        function normalizeComponent(
-            scriptExports,
-            render,
-            staticRenderFns,
-            functionalTemplate,
-            injectStyles,
-            scopeId,
-            moduleIdentifier, /* server only */
-            shadowMode /* vue-cli only */
-        ) {
-            // Vue.extend constructor export interop
-            var options = typeof scriptExports === 'function'
-                ? scriptExports.options
-                : scriptExports
+            function normalizeComponent(
+                scriptExports,
+                render,
+                staticRenderFns,
+                functionalTemplate,
+                injectStyles,
+                scopeId,
+                moduleIdentifier, /* server only */
+                shadowMode /* vue-cli only */
+            ) {
+                // Vue.extend constructor export interop
+                var options = typeof scriptExports === 'function'
+                    ? scriptExports.options
+                    : scriptExports
 
-            // render functions
-            if (render) {
-                options.render = render
-                options.staticRenderFns = staticRenderFns
-                options._compiled = true
-            }
+                // render functions
+                if (render) {
+                    options.render = render
+                    options.staticRenderFns = staticRenderFns
+                    options._compiled = true
+                }
 
-            // functional template
-            if (functionalTemplate) {
-                options.functional = true
-            }
+                // functional template
+                if (functionalTemplate) {
+                    options.functional = true
+                }
 
-            // scopedId
-            if (scopeId) {
-                options._scopeId = 'data-v-' + scopeId
-            }
+                // scopedId
+                if (scopeId) {
+                    options._scopeId = 'data-v-' + scopeId
+                }
 
-            var hook
-            if (moduleIdentifier) { // server build
-                hook = function (context) {
-                    // 2.3 injection
-                    context =
-                        context || // cached call
-                        (this.$vnode && this.$vnode.ssrContext) || // stateful
-                        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-                    // 2.2 with runInNewContext: true
-                    if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-                        context = __VUE_SSR_CONTEXT__
+                var hook
+                if (moduleIdentifier) { // server build
+                    hook = function (context) {
+                        // 2.3 injection
+                        context =
+                            context || // cached call
+                            (this.$vnode && this.$vnode.ssrContext) || // stateful
+                            (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+                        // 2.2 with runInNewContext: true
+                        if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+                            context = __VUE_SSR_CONTEXT__
+                        }
+                        // inject component styles
+                        if (injectStyles) {
+                            injectStyles.call(this, context)
+                        }
+                        // register component module identifier for async chunk inferrence
+                        if (context && context._registeredComponents) {
+                            context._registeredComponents.add(moduleIdentifier)
+                        }
                     }
-                    // inject component styles
-                    if (injectStyles) {
-                        injectStyles.call(this, context)
-                    }
-                    // register component module identifier for async chunk inferrence
-                    if (context && context._registeredComponents) {
-                        context._registeredComponents.add(moduleIdentifier)
+                    // used by ssr in case component is cached and beforeCreate
+                    // never gets called
+                    options._ssrRegister = hook
+                } else if (injectStyles) {
+                    hook = shadowMode
+                        ? function () {
+                            injectStyles.call(this, this.$root.$options.shadowRoot)
+                        }
+                        : injectStyles
+                }
+
+                if (hook) {
+                    if (options.functional) {
+                        // for template-only hot-reload because in that case the render fn doesn't
+                        // go through the normalizer
+                        options._injectStyles = hook
+                        // register for functioal component in vue file
+                        var originalRender = options.render
+                        options.render = function renderWithStyleInjection(h, context) {
+                            hook.call(context)
+                            return originalRender(h, context)
+                        }
+                    } else {
+                        // inject component registration as beforeCreate hook
+                        var existing = options.beforeCreate
+                        options.beforeCreate = existing
+                            ? [].concat(existing, hook)
+                            : [hook]
                     }
                 }
-                // used by ssr in case component is cached and beforeCreate
-                // never gets called
-                options._ssrRegister = hook
-            } else if (injectStyles) {
-                hook = shadowMode
-                    ? function () {
-                        injectStyles.call(this, this.$root.$options.shadowRoot)
-                    }
-                    : injectStyles
-            }
 
-            if (hook) {
-                if (options.functional) {
-                    // for template-only hot-reload because in that case the render fn doesn't
-                    // go through the normalizer
-                    options._injectStyles = hook
-                    // register for functioal component in vue file
-                    var originalRender = options.render
-                    options.render = function renderWithStyleInjection(h, context) {
-                        hook.call(context)
-                        return originalRender(h, context)
-                    }
-                } else {
-                    // inject component registration as beforeCreate hook
-                    var existing = options.beforeCreate
-                    options.beforeCreate = existing
-                        ? [].concat(existing, hook)
-                        : [hook]
+                return {
+                    exports: scriptExports,
+                    options: options
                 }
             }
 
-            return {
-                exports: scriptExports,
-                options: options
-            }
-        }
 
+            /***/
+        }),
 
-        /***/
-    }),
+        /***/ 97:
+        /***/ (function (module, __webpack_exports__, __webpack_require__) {
 
-    /***/ 97:
-    /***/ (function (module, __webpack_exports__, __webpack_require__) {
-
-        "use strict";
-        __webpack_require__.r(__webpack_exports__);
+            "use strict";
+            __webpack_require__.r(__webpack_exports__);
 
 // CONCATENATED MODULE: ./node_modules/_vue-loader@15.7.1@vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/_vue-loader@15.7.1@vue-loader/lib??vue-loader-options!./packages/alert/src/main.vue?vue&type=template&id=6e53341b&
-        var render = function () {
-            var _vm = this
-            var _h = _vm.$createElement
-            var _c = _vm._self._c || _h
-            return _c("transition", {attrs: {name: "el-alert-fade"}}, [
-                _c(
-                    "div",
-                    {
-                        directives: [
-                            {
-                                name: "show",
-                                rawName: "v-show",
-                                value: _vm.visible,
-                                expression: "visible"
-                            }
-                        ],
-                        staticClass: "el-alert",
-                        class: [
-                            _vm.typeClass,
-                            _vm.center ? "is-center" : "",
-                            "is-" + _vm.effect
-                        ],
-                        attrs: {role: "alert"}
-                    },
-                    [
-                        _vm.showIcon
-                            ? _c("i", {
-                                staticClass: "el-alert__icon",
-                                class: [_vm.iconClass, _vm.isBigIcon]
-                            })
-                            : _vm._e(),
-                        _c("div", {staticClass: "el-alert__content"}, [
-                            _vm.title || _vm.$slots.title
-                                ? _c(
-                                "span",
-                                {staticClass: "el-alert__title", class: [_vm.isBoldTitle]},
-                                [_vm._t("title", [_vm._v(_vm._s(_vm.title))])],
-                                2
-                                )
-                                : _vm._e(),
-                            _vm.$slots.default && !_vm.description
-                                ? _c(
-                                "p",
-                                {staticClass: "el-alert__description"},
-                                [_vm._t("default")],
-                                2
-                                )
-                                : _vm._e(),
-                            _vm.description && !_vm.$slots.default
-                                ? _c("p", {staticClass: "el-alert__description"}, [
-                                    _vm._v(_vm._s(_vm.description))
-                                ])
-                                : _vm._e(),
-                            _c(
-                                "i",
+            var render = function () {
+                var _vm = this
+                var _h = _vm.$createElement
+                var _c = _vm._self._c || _h
+                return _c("transition", {attrs: {name: "el-alert-fade"}}, [
+                    _c(
+                        "div",
+                        {
+                            directives: [
                                 {
-                                    directives: [
-                                        {
-                                            name: "show",
-                                            rawName: "v-show",
-                                            value: _vm.closable,
-                                            expression: "closable"
+                                    name: "show",
+                                    rawName: "v-show",
+                                    value: _vm.visible,
+                                    expression: "visible"
+                                }
+                            ],
+                            staticClass: "el-alert",
+                            class: [
+                                _vm.typeClass,
+                                _vm.center ? "is-center" : "",
+                                "is-" + _vm.effect
+                            ],
+                            attrs: {role: "alert"}
+                        },
+                        [
+                            _vm.showIcon
+                                ? _c("i", {
+                                    staticClass: "el-alert__icon",
+                                    class: [_vm.iconClass, _vm.isBigIcon]
+                                })
+                                : _vm._e(),
+                            _c("div", {staticClass: "el-alert__content"}, [
+                                _vm.title || _vm.$slots.title
+                                    ? _c(
+                                        "span",
+                                        {staticClass: "el-alert__title", class: [_vm.isBoldTitle]},
+                                        [_vm._t("title", [_vm._v(_vm._s(_vm.title))])],
+                                        2
+                                    )
+                                    : _vm._e(),
+                                _vm.$slots.default && !_vm.description
+                                    ? _c(
+                                        "p",
+                                        {staticClass: "el-alert__description"},
+                                        [_vm._t("default")],
+                                        2
+                                    )
+                                    : _vm._e(),
+                                _vm.description && !_vm.$slots.default
+                                    ? _c("p", {staticClass: "el-alert__description"}, [
+                                        _vm._v(_vm._s(_vm.description))
+                                    ])
+                                    : _vm._e(),
+                                _c(
+                                    "i",
+                                    {
+                                        directives: [
+                                            {
+                                                name: "show",
+                                                rawName: "v-show",
+                                                value: _vm.closable,
+                                                expression: "closable"
+                                            }
+                                        ],
+                                        staticClass: "el-alert__closebtn",
+                                        class: {
+                                            "is-customed": _vm.closeText !== "",
+                                            "el-icon-close": _vm.closeText === ""
+                                        },
+                                        on: {
+                                            click: function ($event) {
+                                                _vm.close()
+                                            }
                                         }
-                                    ],
-                                    staticClass: "el-alert__closebtn",
-                                    class: {
-                                        "is-customed": _vm.closeText !== "",
-                                        "el-icon-close": _vm.closeText === ""
                                     },
-                                    on: {
-                                        click: function ($event) {
-                                            _vm.close()
-                                        }
-                                    }
-                                },
-                                [_vm._v(_vm._s(_vm.closeText))]
-                            )
-                        ])
-                    ]
-                )
-            ])
-        }
-        var staticRenderFns = []
-        render._withStripped = true
+                                    [_vm._v(_vm._s(_vm.closeText))]
+                                )
+                            ])
+                        ]
+                    )
+                ])
+            }
+            var staticRenderFns = []
+            render._withStripped = true
 
 
 // CONCATENATED MODULE: ./packages/alert/src/main.vue?vue&type=template&id=6e53341b&
@@ -365,117 +365,117 @@ module.exports =
 //
 //
 
-        var TYPE_CLASSES_MAP = {
-            'success': 'el-icon-success',
-            'warning': 'el-icon-warning',
-            'error': 'el-icon-error'
-        };
-        /* harmony default export */
-        var mainvue_type_script_lang_js_ = ({
-            name: 'ElAlert',
+            var TYPE_CLASSES_MAP = {
+                'success': 'el-icon-success',
+                'warning': 'el-icon-warning',
+                'error': 'el-icon-error'
+            };
+            /* harmony default export */
+            var mainvue_type_script_lang_js_ = ({
+                name: 'ElAlert',
 
-            props: {
-                title: {
-                    type: String,
-                    default: ''
+                props: {
+                    title: {
+                        type: String,
+                        default: ''
+                    },
+                    description: {
+                        type: String,
+                        default: ''
+                    },
+                    type: {
+                        type: String,
+                        default: 'info'
+                    },
+                    closable: {
+                        type: Boolean,
+                        default: true
+                    },
+                    closeText: {
+                        type: String,
+                        default: ''
+                    },
+                    showIcon: Boolean,
+                    center: Boolean,
+                    effect: {
+                        type: String,
+                        default: 'light',
+                        validator: function validator(value) {
+                            return ['light', 'dark'].indexOf(value) !== -1;
+                        }
+                    }
                 },
-                description: {
-                    type: String,
-                    default: ''
+
+                data: function data() {
+                    return {
+                        visible: true
+                    };
                 },
-                type: {
-                    type: String,
-                    default: 'info'
+
+
+                methods: {
+                    close: function close() {
+                        this.visible = false;
+                        this.$emit('close');
+                    }
                 },
-                closable: {
-                    type: Boolean,
-                    default: true
-                },
-                closeText: {
-                    type: String,
-                    default: ''
-                },
-                showIcon: Boolean,
-                center: Boolean,
-                effect: {
-                    type: String,
-                    default: 'light',
-                    validator: function validator(value) {
-                        return ['light', 'dark'].indexOf(value) !== -1;
+
+                computed: {
+                    typeClass: function typeClass() {
+                        return 'el-alert--' + this.type;
+                    },
+                    iconClass: function iconClass() {
+                        return TYPE_CLASSES_MAP[this.type] || 'el-icon-info';
+                    },
+                    isBigIcon: function isBigIcon() {
+                        return this.description || this.$slots.default ? 'is-big' : '';
+                    },
+                    isBoldTitle: function isBoldTitle() {
+                        return this.description || this.$slots.default ? 'is-bold' : '';
                     }
                 }
-            },
-
-            data: function data() {
-                return {
-                    visible: true
-                };
-            },
-
-
-            methods: {
-                close: function close() {
-                    this.visible = false;
-                    this.$emit('close');
-                }
-            },
-
-            computed: {
-                typeClass: function typeClass() {
-                    return 'el-alert--' + this.type;
-                },
-                iconClass: function iconClass() {
-                    return TYPE_CLASSES_MAP[this.type] || 'el-icon-info';
-                },
-                isBigIcon: function isBigIcon() {
-                    return this.description || this.$slots.default ? 'is-big' : '';
-                },
-                isBoldTitle: function isBoldTitle() {
-                    return this.description || this.$slots.default ? 'is-bold' : '';
-                }
-            }
-        });
+            });
 // CONCATENATED MODULE: ./packages/alert/src/main.vue?vue&type=script&lang=js&
-        /* harmony default export */
-        var src_mainvue_type_script_lang_js_ = (mainvue_type_script_lang_js_);
+            /* harmony default export */
+            var src_mainvue_type_script_lang_js_ = (mainvue_type_script_lang_js_);
 // EXTERNAL MODULE: ./node_modules/_vue-loader@15.7.1@vue-loader/lib/runtime/componentNormalizer.js
-        var componentNormalizer = __webpack_require__(0);
+            var componentNormalizer = __webpack_require__(0);
 
 // CONCATENATED MODULE: ./packages/alert/src/main.vue
 
 
-        /* normalize component */
+            /* normalize component */
 
-        var component = Object(componentNormalizer["a" /* default */])(
-            src_mainvue_type_script_lang_js_,
-            render,
-            staticRenderFns,
-            false,
-            null,
-            null,
-            null
-        )
+            var component = Object(componentNormalizer["a" /* default */])(
+                src_mainvue_type_script_lang_js_,
+                render,
+                staticRenderFns,
+                false,
+                null,
+                null,
+                null
+            )
 
-        /* hot reload */
-        if (false) {
-            var api;
-        }
-        component.options.__file = "packages/alert/src/main.vue"
-        /* harmony default export */
-        var main = (component.exports);
+            /* hot reload */
+            if (false) {
+                var api;
+            }
+            component.options.__file = "packages/alert/src/main.vue"
+            /* harmony default export */
+            var main = (component.exports);
 // CONCATENATED MODULE: ./packages/alert/index.js
 
 
-        /* istanbul ignore next */
-        main.install = function (Vue) {
-            Vue.component(main.name, main);
-        };
+            /* istanbul ignore next */
+            main.install = function (Vue) {
+                Vue.component(main.name, main);
+            };
 
-        /* harmony default export */
-        var packages_alert = __webpack_exports__["default"] = (main);
+            /* harmony default export */
+            var packages_alert = __webpack_exports__["default"] = (main);
 
-        /***/
-    })
+            /***/
+        })
 
-    /******/
-});
+        /******/
+    });
