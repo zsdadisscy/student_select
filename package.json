@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@ant-design/icons-vue": "^6.1.0",
-    "components": "^0.1.0",
-    "dayjs": "^1.11.8"
-  }
-}

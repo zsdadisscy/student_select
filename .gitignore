@@ -3,3 +3,7 @@
 venv
 app/migrations/*.py
 student/node_modules
+package.json
+node_modules
+media/student_photo/*
+media/tutor_photo/*

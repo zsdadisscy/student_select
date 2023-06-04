@@ -179,13 +179,13 @@ SIMPLEUI_CONFIG = {
                 {
                     'name': '学生选择',
                     # 注意url按'/admin/应用名小写/模型名小写/'命名。
-                    'url': '/admin/app/studentteacher/',
+                    'url': '/admin/app/studenttutor/',
                     'icon': 'fa fa-tasks'
                 },
                 {
-                    'name': '学生选择记录',
+                    'name': '操作记录',
                     # 注意url按'/admin/应用名小写/模型名小写/'命名。
-                    'url': '/admin/app/userlog/',
+                    'url': '/admin/app/studentlog/',
                     'icon': 'fa fa-tasks'
                 },
             ]
@@ -193,3 +193,13 @@ SIMPLEUI_CONFIG = {
     ]
 }
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # 默认的模型后端
+]
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
