@@ -1,30 +1,58 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="top">
+      <p>StudentPage</p>
+  </div>
+  <div class="container">
+    <div class="sidebar">
+      <NavStudents />
+    </div>
+    <div class="content">
+      <StudentsInfo />
+    </div>
+  </div>
+
 </template>
 
+<script>
+import NavStudents from './components/NavStudents.vue'
+import StudentsInfo from './components/StudentsInfo.vue'
+export default {
+    name: 'App',
+    components: {
+      NavStudents,
+      StudentsInfo,
+    }
+  }
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+  .top {
+    width: 100%;
+    height: 80px;
+    background-color: rgb(0,21,41);
+  }
+  .top p {
+    font-size: 20;
+    font-weight: bold;
+    line-height: 80px;
+    text-align: center;
+    color: white;
+  }
+  .container {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: first center; */
+  }
+  .content {
+  flex-grow: 1;
+  display: flex;
+  /* justify-content: center; */
+  /* align-items: center; */
+  margin-top: 50px;
+  margin-left: 200px;
 }
 </style>
+
+
+
+
