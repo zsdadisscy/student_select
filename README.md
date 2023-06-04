@@ -61,7 +61,7 @@
    ```
    4. ```/student/get_info/ 获得个人信息```
 
-   ```json
+   ```
     get 登陆后可调用
    返回值 {
     'result': 'success' / 错误信息
@@ -99,7 +99,7 @@
    ```
    6. ```/student/get_tutor/ 获得自己学院，学硕/专硕，取决于自己的类型所有的导师```
 
-   ```json
+   ```
      get 登陆后可调用
    返回值{
        'result': 'success' / 错误信息,
@@ -143,7 +143,7 @@
    ```
    8. ```/student/select_tutor/ 选择导师```
 
-   ```json
+   ```
     POST 登陆后可调用
    data={
    tutor_id
@@ -180,7 +180,7 @@
    ```
    11. ```/student/get_select_tutor_record/ 查看自己的选择记录```
 
-   ```json
+   ```
     GET 登陆后可调用
    返回值 {
    'result':'success' / 错误信息
@@ -239,7 +239,7 @@
    ```
    4. ```/tutor/get_info/ 获得个人信息```
 
-   ```json
+   ```
     get 登陆后可调用
    返回值 {
     'result': 'success' / 错误信息
@@ -279,7 +279,7 @@
    ```
    6. ```/tutor/get_student_info/ 查看某个学生的具体信息```
 
-   ```json
+   ```
      POST 
    data {
    student_id
@@ -315,7 +315,7 @@
    ```
    8. ```/tutor/processing_application/ 处理学生申请```
 
-   ```json
+   ```
     POST 登陆后可调用
    data={
    student_id,
