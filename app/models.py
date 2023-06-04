@@ -93,7 +93,7 @@ class Student(AbstractBaseUser):
                                        on_delete=models.CASCADE, null=True,
                                        blank=True)
     photo = models.ImageField('头像', upload_to='student_photo/', default='student_photo/student_photo.png')
-    objects = StudentManager
+    objects = StudentManager()
 
     def __str__(self):
         return f"{self.username} - {self.id}"
