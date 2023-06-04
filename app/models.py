@@ -25,13 +25,13 @@ class TutorManager(BaseUserManager):
 class Tutor(AbstractBaseUser):
     username = models.CharField('姓名', max_length=10, blank=False)
     password = models.CharField('密码', max_length=250, default=make_password('123456'))
-    id = models.CharField('工号', max_length=10, primary_key=True)
+    id = models.CharField('工号', max_length=10, primary_key=True, null=False, default='123456')
     USERNAME_FIELD = 'id'
     date_of_birth = models.DateField('出生日期')
     college = models.CharField('学院', max_length=50, blank=False,
                                choices=[('college_of_computer', '计算机学院'), ('engineering_college', '工学院'),
                                         ('school_of_media', '传媒学院'), ('academy_of_fine_arts', '美术学院'),
-                                        ('conservatory_of_music', '音乐学院')])
+                                        ('conservatory_of_music', '音乐学院')], default='计算机学院')
     gender = models.CharField('性别', max_length=10, choices=[('man', '男'), ('women', '女')], default='man')
     email = models.EmailField('邮箱', blank=False)
     phone = models.CharField('手机号', max_length=20, blank=False)
@@ -75,8 +75,8 @@ class Student(AbstractBaseUser):
     college = models.CharField('学院', max_length=50, blank=False,
                                choices=[('college_of_computer', '计算机学院'), ('engineering_college', '工学院'),
                                         ('school_of_media', '传媒学院'), ('academy_of_fine_arts', '美术学院'),
-                                        ('conservatory_of_music', '音乐学院')])
-    id = models.CharField('学号', max_length=10, primary_key=True)
+                                        ('conservatory_of_music', '音乐学院')], default='计算机学院')
+    id = models.CharField('学号', max_length=10, primary_key=True, null=False, default='123456')
     date_of_birth = models.DateField('出生日期')
     gender = models.CharField('性别', max_length=10, choices=[('man', '男'), ('women', '女')], default='man')
     student_type = models.CharField('学生类型', max_length=50,
