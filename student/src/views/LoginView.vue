@@ -62,11 +62,5 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.login {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding-bottom: 20px;
-}
+
 </style>
