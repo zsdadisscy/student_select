@@ -1,49 +1,53 @@
 <template>
-  <div class="top">
-<<<<<<< HEAD
-    <p class="StudentPage">StudentPage</p>
-    <p class="selectedMenu">{{ selectedMenuItem }}</p>
-    <div class="right">
-      <StudentsHead />
-      <p class="yourName">your name</p>
-    </div>
-  </div>
-  <div class="container">
-    <div class="sidebar">
-      <NavStudents @selectComponent="selectComponent"  @selectMenuItem="selectMenuItem" />
-    </div>
-    <div class="content">
+  <LoginView />
+<!--  <div class="top">-->
+<!--    <p class="StudentPage">StudentPage</p>-->
+<!--    <p class="selectedMenu">{{ selectedMenuItem }}</p>-->
+<!--    <div class="right">-->
+<!--      <StudentsHead />-->
+<!--      <p class="yourName">your name</p>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="container">-->
+<!--    <div class="sidebar">-->
+<!--      <NavStudents @selectComponent="selectComponent"  @selectMenuItem="selectMenuItem" />-->
+<!--    </div>-->
+<!--    <div class="content">-->
 
-      <component :is="currentComponent" v-model:selectedTutors="selectedTutors" :addSelectedTutor="addSelectedTutor" />
-      
-    </div>
-  </div>
+<!--      <component :is="currentComponent" v-model:selectedTutors="selectedTutors" :addSelectedTutor="addSelectedTutor" />-->
+<!--      -->
+<!--    </div>-->
+<!--  </div>-->
 </template>
 
 
 <script>
-import StudentsHead from './components/StudentsHead.vue'
-import NavStudents from './components/NavStudents.vue'
-import StudentsInfo from './components/StudentsInfo.vue'
-import TutorInfo from './components/TutorInfo.vue'
-import SelectedTutor from './components/SelectedTutor.vue'
-import EditInfo from './components/EditInfo.vue'
+// import StudentsHead from './components/StudentsHead.vue'
+// import NavStudents from './components/NavStudents.vue'
+// import StudentsInfo from './components/StudentsInfo.vue'
+// import TutorInfo from './components/TutorInfo.vue'
+// import SelectedTutor from './components/SelectedTutor.vue'
+// import EditInfo from './components/EditInfo.vue'
+import LoginView from './views/LoginView.vue';
+
+
 export default {
     name: 'App',
     data() {
       return {
-        selectedTutors: [], // 初始化为空数组
-        currentComponent: TutorInfo,
-        selectedMenuItem: '选择您的导师' // 存储选中的菜单项名称
+        // selectedTutors: [], // 初始化为空数组
+        // currentComponent: TutorInfo,
+        // selectedMenuItem: '选择您的导师' // 存储选中的菜单项名称
       }
     },
     components: {
-      NavStudents,
-      StudentsInfo,
-      StudentsHead,
-      TutorInfo,
-      SelectedTutor,
-      EditInfo
+      // NavStudents,
+      // StudentsInfo,
+      // StudentsHead,
+      // TutorInfo,
+      // SelectedTutor,
+      // EditInfo,
+      LoginView,
     },
     methods: {
       selectComponent(component) {
@@ -53,38 +57,12 @@ export default {
       this.selectedMenuItem = menuItem;
     },
 
-
-=======
-    <p>StudentPage</p>
-  </div>
-  <div class="container">
-    <div class="sidebar">
-      <NavStudents/>
-    </div>
-    <div class="content">
-      <StudentsInfo/>
-    </div>
-  </div>
-
-</template>
-
-<script>
-import NavStudents from './components/NavStudents.vue'
-import StudentsInfo from './components/StudentsInfo.vue'
-
-export default {
-  name: 'App',
-  components: {
-    NavStudents,
-    StudentsInfo,
->>>>>>> 2d2df0127dbbc80b3bbcb3eb8bdf29a6d18f1082
   }
 }
 </script>
 
 <style>
 .top {
-<<<<<<< HEAD
   position: fixed;
   top: 0;
   left: 0;
@@ -150,34 +128,6 @@ export default {
 
 .studentsHead {
   display: inline-block;
-=======
-  width: 100%;
-  height: 80px;
-  background-color: rgb(0, 21, 41);
-}
-
-.top p {
-  font-size: 20;
-  font-weight: bold;
-  line-height: 80px;
-  text-align: center;
-  color: white;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  /* justify-content: first center; */
-}
-
-.content {
-  flex-grow: 1;
-  display: flex;
-  /* justify-content: center; */
-  /* align-items: center; */
-  margin-top: 50px;
-  margin-left: 200px;
->>>>>>> 2d2df0127dbbc80b3bbcb3eb8bdf29a6d18f1082
 }
 </style>
 
