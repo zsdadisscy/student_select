@@ -1,10 +1,10 @@
 <template>
-  <div class="login">
+ 
     <ContentBase>
         <a-form
           :model="formState"
           name="basic"
-          :label-col="{ span: 8 }"
+          :label-col="{ span:  16}"
           :wrapper-col="{ span: 16 }"
           autocomplete="off"
           @finish="onFinish"
@@ -30,7 +30,7 @@
           </a-form-item>
         </a-form>
     </ContentBase>
-  </div>
+
 </template>
 <script>
 import { defineComponent, reactive } from 'vue';
