@@ -92,7 +92,7 @@ const routes = [
         component: TutorInfo
     },
     {
-        path: '/catchAll(.*)',
+        path: '/:catchAll(.*)',
         redirect: '/404/'
     }
 ]

@@ -2,10 +2,16 @@
   <router-view :key="$route.fullPath"/>
 </template>
 
-<script>
-
-</script>
-
 <style>
 
 </style>
+
+<script>
+
+
+export default {
+  name: 'App',
+  components: {
+  }
+}
+</script>
