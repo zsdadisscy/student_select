@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="login-container">
     <h2 class="login-title">登录</h2>
     <a-form ref="form" :model="form" class="login-form">
@@ -27,8 +27,8 @@
       </a-form-item>
     </a-form>
   </div>
-</template>
-
+</template> -->
+<!-- 
 <script>
 import { defineComponent, ref } from 'vue';
 import { Select } from 'ant-design-vue';
@@ -59,7 +59,80 @@ export default defineComponent({
     };
   }
 })
+</script> -->
+
+
+
+<template>
+  <div class="login-container">
+    <h2 class="login-title">登录</h2>
+    <a-form ref="form" :model="form" class="login-form">
+      <h2 class="title">用户登录</h2>
+      <div class="account-type-wrapper">
+        <div class="account-type-label">账号类型:</div>
+        <div class="account-type-select">
+          <a-select v-model="userType" style="width: 200px">
+            <a-select-option value="学生">学生</a-select-option>
+            <a-select-option value="导师">导师</a-select-option>
+          </a-select>
+        </div>
+      </div>
+      <a-form-item>
+        <a-input v-model="id" :placeholder="placeholderId">
+        </a-input>
+      </a-form-item>
+      <a-form-item>
+        <a-input-password v-model="password" placeholder="密码">
+        </a-input-password>
+      </a-form-item>
+      <div class="error_message">{{ error_message }}</div>
+      <a-form-item>
+        <a-button class="submit" type="primary" @click="login">登录</a-button>
+      </a-form-item>
+    </a-form>
+  </div>
+</template>
+
+<script>
+import { defineComponent, ref, computed } from 'vue';
+import { Select } from 'ant-design-vue';
+
+export default defineComponent({
+  name: 'LoginView',
+  components: {
+    'a-select': Select,
+    'a-select-option': Select.Option
+  },
+  setup() {
+    const id = ref('');
+    const password = ref('');
+    const error_message = ref('');
+    const userType = ref('学生');
+
+    const placeholderId = computed(() => userType.value === '学生' ? '学号' : '工号');
+
+    const login = () => {
+      if (userType.value === '学生') {
+        // Call student API
+      } else if (userType.value === '导师') {
+        // Call tutor API
+      } else {
+        error_message.value = '请选择用户类型';
+      }
+    };
+
+    return {
+      id,
+      password,
+      error_message,
+      login,
+      userType,
+      placeholderId
+    };
+  }
+})
 </script>
+
 
 <style scoped>
 .error_message {
