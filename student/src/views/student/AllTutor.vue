@@ -15,11 +15,11 @@ export default defineComponent({
     data() {
     return {
       persons: [
-        { name: "耀耀", gender: "男", research: "AI", tutor_id: '2019416199' },
-        { name: "萍萍", gender: "女", research: "Machine", tutor_id: '2019416199'},
-        { name: "花花", gender: "女", research: "sing", tutor_id: '2019416199' },
-        { name: "张三", gender: "男", research: "Coding", tutor_id: '2019416199' },
-        { name: "张三", gender: "男", research: "Coding", tutor_id: '2019416199' },
+        { name: "耀耀", gender: "男",type:"学硕", research: "AI", tutor_id: '2019416199' },
+        { name: "萍萍", gender: "女",type:"学硕",research: "Machine", tutor_id: '2019416199'},
+        { name: "花花", gender: "女",type:"学硕", research: "sing", tutor_id: '2019416199' },
+        { name: "张三", gender: "男",type:"学硕", research: "Coding", tutor_id: '2019416199' },
+        { name: "张三", gender: "男",type:"学硕", research: "Coding", tutor_id: '2019416199' },
         // 添加更多人员信息...
       ],
     };
@@ -34,7 +34,7 @@ export default defineComponent({
     <StudentLayOut>
       <div class="person-info-wrapper">
         <div v-for="(person, index) in persons" :key="index" class="person-info-item">
-          <PersonInfo :name="person.name" :gender="person.gender" :research="person.research" :tutor_id="person.tutor_id" />
+          <PersonInfo :name="person.name" :gender="person.gender" :type="person.type" :research="person.research" :tutor_id="person.tutor_id" />
         </div>
       </div>
     </StudentLayOut>

@@ -9,32 +9,46 @@
         <div class="logo" />
         <a-menu theme="dark" mode="inline" v-model:selectedKeys="selectedKeys">
           <a-menu-item key="1">
+            <router-link to="/student/alltutor/">
             <user-outlined />
             <span class="nav-text">所有导师</span>
+          </router-link>
           </a-menu-item>
           <a-menu-item key="2">
+            <router-link to="/student/tutorinfo/:tutorid/">
             <video-camera-outlined />
             <span class="nav-text">导师信息</span>
+          </router-link>
           </a-menu-item>
           <a-menu-item key="3">
+            <router-link to="/student/myselect/">
             <upload-outlined />
             <span class="nav-text">选择导师</span>
+          </router-link>
           </a-menu-item>
           <a-menu-item key="4">
-            <user-outlined />
-            <span class="nav-text">我的选择</span>
-          </a-menu-item>
-          <a-menu-item key="5">
+            <router-link to="/student/mytutor/">
             <user-outlined />
             <span class="nav-text">我的导师</span>
+          </router-link>
+          </a-menu-item>
+          <a-menu-item key="5">
+            <router-link to="/student/info/">
+            <user-outlined />
+            <span class="nav-text">注册信息</span>
+          </router-link>
           </a-menu-item>
           <a-menu-item key="6">
+            <router-link to="/student/modifyinfo/">
             <user-outlined />
             <span class="nav-text">修改信息</span>
+          </router-link>
           </a-menu-item>
           <a-menu-item key="7">
+            <router-link to="/student/modifypassword/">
             <user-outlined />
             <span class="nav-text">修改密码</span>
+          </router-link>
           </a-menu-item>
         </a-menu>
       </a-layout-sider>
@@ -69,7 +83,7 @@
         console.log(broken);
       };
       return {
-        selectedKeys: ref(['4']),
+        selectedKeys: ref(['1']),
         onCollapse,
         onBreakpoint,
       };
