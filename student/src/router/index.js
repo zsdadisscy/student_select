@@ -1,4 +1,5 @@
 import {createRouter, createWebHashHistory} from 'vue-router';
+
 import LoginView from '../views/LoginView.vue'
 import TutorModifyInfo from '../views/tutor/ModifyInfo.vue'
 import TutorModifyPassword from '../views/tutor/ModifyPassword.vue'
