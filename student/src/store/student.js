@@ -1,13 +1,14 @@
-// import $ from 'jquery';
+import $ from 'jquery';
 
 const ModuleStudent = {
+    namespaced: true,
     state: {
         id: '',
         username: '',
         photo: '',
         is_login: false,
         college: '',
-        data_of_birth: '',
+        date_of_birth: '',
         gender: '',
         student_type: '',
         bio: '',
@@ -17,7 +18,8 @@ const ModuleStudent = {
         select_limit: 0,
         select_count: 0,
         tutor_id: '',
-        tutor_name: '',
+        tutor: '',
+        user: ''
   },
   getters: {
   },
@@ -27,7 +29,7 @@ const ModuleStudent = {
             state.username = student.username;
             state.photo = student.photo;
             state.college = student.college;
-            state.data_of_birth = student.data;
+            state.date_of_birth = student.date_of_birth;
             state.gender = student.gender;
             state.student_type = student.student_type;
             state.bio = student.bio;
@@ -36,7 +38,7 @@ const ModuleStudent = {
             state.is_selected = student.is_selected;
             state.select_limit =  student.select_limit;
             state.select_count = student.select_count;
-            state.tutor_name = student.tutor_name;
+            state.tutor = student.tutor;
         },
       logout(state) {
             state.id = '';
@@ -54,11 +56,22 @@ const ModuleStudent = {
             state.select_count = '';
             state.tutor_id = '';
             state.tutor_name = '';
+            state.is_login = false;
       }
   },
   actions: {
-        login(context, data) {
-
+        get_info(context) {
+            context.state.is_login = true;
+            $.ajax({
+                url: 'http://8.130.65.99:8002/student/get_info/',
+                type: 'GET',
+                data: {
+                    user: context.state.user,
+                },
+                success(resp) {
+                    context.commit('updateStudent', resp.date);
+                }
+            })
         }
   },
   modules: {

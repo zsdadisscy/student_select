@@ -36,14 +36,13 @@ def student_login(request):
             })
         # 创建哈希对象
         hash_object = hashlib.sha256(id.encode())
-
         # 获取哈希值（加密后的结果）
         encrypted_id = hash_object.hexdigest()
-        request.session['user'] = encrypted_id
         # 保存一天
         cache.set(encrypted_id, (id, 'student'), timeout=3600 * 24)
         return JsonResponse({
-            'result': 'success'
+            'result': 'success',
+            'user': encrypted_id,
         })
     except Student.DoesNotExist:
         return JsonResponse({
@@ -125,8 +124,9 @@ def get_info(request):
             'college': user.college,
             'id': user.id,
             'gender': user.gender,
+            'is_selected': user.is_selected,
             'student_type': user.student_type,
-            'tutor': user.selected_tutor.username,
+            'tutor': user.selected_tutor,
             'select_limit': user.select_limit,
             'select_count': user.select_count
         }

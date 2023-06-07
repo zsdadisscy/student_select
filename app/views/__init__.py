@@ -10,7 +10,12 @@ from django.views.decorators.http import require_http_methods
 
 
 def get_cache(request):
-    user = request.session.get('user')
+    if request.method == 'GET':
+        user = request.GET.get('user')
+    elif request.method == 'POST':
+        user = request.POST.get('user')
+    else:
+        return False, ''
     return cache.has_key(user), user
 
 

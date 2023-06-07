@@ -1,7 +1,6 @@
 <template>
     <a-card :title="name" style="width: 300px">
       <template #extra><div @click="open_tutor_info(tutor_id)" style="cursor: pointer; color: blue">more</div></template>
-
       <p>性别：{{ gender }}</p>
       <p>招生类型：{{ type }}</p>
       <p>研究方向：{{ research }}</p>
@@ -43,7 +42,7 @@ export default ({
             router.push({
                 name: 'looktutorinfo',
                 params: {
-                    tutorid: id
+                    tutor_id: id
                 }
             })
         }

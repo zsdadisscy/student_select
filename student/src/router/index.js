@@ -58,7 +58,7 @@ const routes = [
         component: StudentInfo
     },
     {
-        path: '/student/tutorinfo/:tutorid/',
+        path: '/student/tutorinfo/:tutor_id/',
         name: 'looktutorinfo',
         component: LookTutorInfo
     },
