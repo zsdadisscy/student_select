@@ -12,7 +12,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const tutor_id  = route.params.tutor_id;
-    const tutor = reactive([]);
+    const tutor = reactive({});
     $.ajax({
       url: 'http://8.130.65.99:8002/student/get_tutor_info/',
       type: 'POST',
@@ -21,8 +21,15 @@ export default defineComponent({
       },
       success(resp) {
         if (resp.result === 'success') {
-          tutor.value = resp.date;
-          console.log(tutor.value);
+          tutor.username = resp.date.username;
+          tutor.gender = resp.date.gender;
+          tutor.id = resp.date.id;
+          tutor.date_of_birth = resp.date.date_of_birth;
+          tutor.college = resp.date.college;
+          tutor.email = resp.date.email;
+          tutor.phone = resp.date.phone;
+          tutor.research_area = resp.date.research_area;
+          console.log(tutor);
         }
       },
       error(resp) {
@@ -48,7 +55,7 @@ export default defineComponent({
       <a-descriptions-item label="性别">{{ tutor.gender }}</a-descriptions-item>
       <a-descriptions-item label="工号">{{ tutor.id }}</a-descriptions-item>
       <a-descriptions-item label="出生日期">{{ tutor.date_of_birth }}</a-descriptions-item>
-      <a-descriptions-item label="学院">{{ tutor.collage }}</a-descriptions-item>
+      <a-descriptions-item label="学院">{{ tutor.college }}</a-descriptions-item>
       <a-descriptions-item label="邮箱">{{ tutor.email }}</a-descriptions-item>
       <a-descriptions-item label="手机号">{{  tutor.phone }}</a-descriptions-item>
       <a-descriptions-item label="研究方向">{{ tutor.research_area }}</a-descriptions-item>
