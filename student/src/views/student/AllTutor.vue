@@ -3,14 +3,14 @@ import {defineComponent} from "vue";
 
 
 import StudentLayOut from "@/components/StudentLayOut.vue";
-import PersonInfo from "@/components/PersonInfo.vue";
+import TutorsInfo from "@/components/TutorsInfo.vue";
 
 
 export default defineComponent({
     name: "AllTutor",
     components: { 
       StudentLayOut ,
-      PersonInfo
+      TutorsInfo
     },
     data() {
     return {
@@ -34,7 +34,7 @@ export default defineComponent({
     <StudentLayOut>
       <div class="person-info-wrapper">
         <div v-for="(person, index) in persons" :key="index" class="person-info-item">
-          <PersonInfo :name="person.name" :gender="person.gender" :type="person.type" :research="person.research" :tutor_id="person.tutor_id" />
+          <TutorsInfo :name="person.name" :gender="person.gender" :type="person.type" :research="person.research" :tutor_id="person.tutor_id" />
         </div>
       </div>
     </StudentLayOut>

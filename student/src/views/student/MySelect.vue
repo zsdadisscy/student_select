@@ -1,133 +1,23 @@
-<!-- 
-<script>
-import {defineComponent} from "vue";
-import StudentLayOut from "@/components/StudentLayOut.vue";
 
-export default defineComponent({
-  name: 'MySelect',
-  components: { 
-      StudentLayOut ,
-
-    },
- data() {
-    return {
-      tutors: [
-        { id: 1, name: '张三', avatar: 'tutor1.jpg' },
-        { id: 2, name: '李四', avatar: 'tutor2.jpg' },
-        { id: 3, name: '王五', avatar: 'tutor3.jpg' },
-        // 添加更多导师...
-      ],
-      selectedTutorId: null,
-    };
-  },
-  methods: {
-    getSelectedTutorName() {
-      const tutor = this.tutors.find((t) => t.id === this.selectedTutorId);
-      return tutor ? tutor.name : '';
-    },
-  },
-});
-</script>
- <template>
+<template>
   <div class="container">
     <StudentLayOut>
       <div class="content-wrapper">
-        <div v-for="tutor in tutors" :key="tutor.id" class="tutor">
-          <div class="tutor-info">
-            <img :src="tutor.avatar" alt="Tutor Avatar" class="avatar" />
-            <span class="name">{{ tutor.name }}</span>
+        <div v-for="student in students" :key="student.id" class="student">
+          <div class="student-info">
+            <img :src="student.avatar" alt="Student Avatar" class="avatar" />
+            <span class="name">{{ student.name }}</span>
           </div>
           <input
-            type="radio"
-            :id="tutor.id"
-            :value="tutor.id"
-            v-model="selectedTutorId"
+            type="checkbox"
+            :id="student.id"
+            :value="student.id"
+            v-model="selectedStudentIds"
           />
-          <label :for="tutor.id">选择</label>
+          <label :for="student.id">选择</label>
         </div>
-        <div v-if="selectedTutorId" class="selected-tutor">
-          你选择的导师是: {{ getSelectedTutorName() }}
-        </div>
-      </div>
-    </StudentLayOut>
-  </div>
-</template>
-
-<style scoped>
-.container {
-  display: flex;
-  justify-content: center; /* 水平居中 */
-  align-items: center; /* 垂直居中 */
-}
-
-.content-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-
-.tutor {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.tutor-info {
-  display: flex;
-  align-items: center;
-  margin-right: 30px;
-}
-
-.avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-right: 20px;
-}
-
-.name {
-  font-weight: bold;
-  font-size: 18px;
-}
-
-input[type='radio'] {
-  margin-right: 10px;
-  transform: scale(1.3); /* 放大选择框 */
-}
-
-label {
-  font-size: 18px;
-}
-
-.selected-tutor {
-  margin-top: 30px;
-  font-weight: bold;
-  font-size: 18px;
-}
-</style>
- -->
- <template>
-  <div class="container">
-    <StudentLayOut>
-      <div class="content-wrapper">
-        <div v-for="tutor in tutors" :key="tutor.id" class="tutor">
-          <div class="tutor-info">
-            <img :src="tutor.avatar" alt="Tutor Avatar" class="avatar" />
-            <span class="name">{{ tutor.name }}</span>
-          </div>
-          <input
-            type="radio"
-            :id="tutor.id"
-            :value="tutor.id"
-            v-model="selectedTutorId"
-          />
-          <label :for="tutor.id">选择</label>
-        </div>
-        <div v-if="selectedTutorId" class="selected-tutor">
-          你选择的导师是: {{ getSelectedTutorName() }}
+        <div v-if="selectedStudentIds.length > 0" class="selected-student">
+          你选择的学生是: {{ getSelectedStudentNames() }}
         </div>
         <button v-if="!submitted" @click="submit" class="submit-button">提交</button>
         <div v-if="submitted" class="submission-message">你已经提交过选择了</div>
@@ -137,8 +27,13 @@ label {
 </template>
 
 <script>
-import { defineComponent} from 'vue';
+import { defineComponent } from 'vue';
 import StudentLayOut from "@/components/StudentLayOut.vue";
+
+// Import images
+import student1 from '@/assets/student_photo.png';
+import student2 from '@/assets/student_photo.png';
+import student3 from '@/assets/student_photo.png';
 
 export default defineComponent({
   name: 'MySelect',
@@ -147,31 +42,31 @@ export default defineComponent({
   },
   data() {
     return {
-      tutors: [
-        { id: 1, name: '张三', avatar: 'tutor1.jpg' },
-        { id: 2, name: '李四', avatar: 'tutor2.jpg' },
-        { id: 3, name: '王五', avatar: 'tutor3.jpg' },
-        // 添加更多导师...
+      students: [
+        { id: 1, name: '张三', avatar: student1 },
+        { id: 2, name: '李四', avatar: student2 },
+        { id: 3, name: '王五', avatar: student3 },
+        // 添加更多学生...
       ],
-      selectedTutorId: null,
+      selectedStudentIds: [],
       submitted: false,
     };
   },
   methods: {
-    getSelectedTutorName() {
-      const tutor = this.tutors.find((t) => t.id === this.selectedTutorId);
-      return tutor ? tutor.name : '';
+    getSelectedStudentNames() {
+      return this.students.filter((s) => this.selectedStudentIds.includes(s.id)).map((s) => s.name).join(', ');
     },
     submit() {
-      if (!this.submitted && this.selectedTutorId) {
+      if (!this.submitted && this.selectedStudentIds.length > 0) {
         // 提交逻辑，可以在这里处理提交的数据
-        console.log('提交的导师ID：', this.selectedTutorId);
+        console.log('提交的学生ID：', this.selectedStudentIds);
         this.submitted = true;
       }
     },
   },
 });
 </script>
+
 
 <style scoped>
 .container {

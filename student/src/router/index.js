@@ -68,8 +68,8 @@ const routes = [
         component: TutorModifyInfo
     },
     {
-        path: '/tutor/modifypassoword/',
-        name: 'tutor_modifypassoword',
+        path: '/tutor/modifypassword/',
+        name: 'tutor_modifypassword',
         component: TutorModifyPassword
     },
     {
