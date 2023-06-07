@@ -1,5 +1,5 @@
 <script>
-import {defineComponent} from "vue";
+import {defineComponent, reactive} from "vue";
 import $ from 'jquery';
 import { useRoute } from 'vue-router'; 
 import StudentLayOut from "@/components/StudentLayOut.vue";
@@ -11,7 +11,8 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const tutor_id = parseInt(route.params.tutor_id);
+    const tutor_id  = route.params.tutor_id;
+    const tutor = reactive([]);
     $.ajax({
       url: 'http://8.130.65.99:8002/student/get_tutor_info/',
       type: 'POST',
@@ -19,29 +20,21 @@ export default defineComponent({
         tutor_id: tutor_id,
       },
       success(resp) {
-          console.log(resp);
+        if (resp.result === 'success') {
+          tutor.value = resp.date;
+          console.log(tutor.value);
+        }
       },
       error(resp) {
         console.log(resp);
       }
     })
-   
+    console.log(tutor.value);
+   return {
+      tutor
+   }
   },
-  data() {
-    return {
-      tutor: {
-        name: "李四",
-        gender: "男",
-        id: "20230001",
-        birthdate: "1980-01-01",
-        school: "计算机学院",
-        email: "lisi@example.com",
-        phone: "13000000000",
-        research: "人工智能",
-        in: '英俊帅气'
-      },
-    };
-  },
+
 });
 </script>
 
@@ -51,15 +44,15 @@ export default defineComponent({
     <a-card class="info-card">
     <div class="title">导师信息</div>
     <a-descriptions bordered layout="vertical">
-      <a-descriptions-item label="姓名">{{ tutor.name }}</a-descriptions-item>
+      <a-descriptions-item label="姓名">{{ tutor.username }}</a-descriptions-item>
       <a-descriptions-item label="性别">{{ tutor.gender }}</a-descriptions-item>
       <a-descriptions-item label="工号">{{ tutor.id }}</a-descriptions-item>
-      <a-descriptions-item label="出生日期">{{ tutor.birthdate }}</a-descriptions-item>
-      <a-descriptions-item label="学院">{{ tutor.school }}</a-descriptions-item>
+      <a-descriptions-item label="出生日期">{{ tutor.date_of_birth }}</a-descriptions-item>
+      <a-descriptions-item label="学院">{{ tutor.collage }}</a-descriptions-item>
       <a-descriptions-item label="邮箱">{{ tutor.email }}</a-descriptions-item>
       <a-descriptions-item label="手机号">{{  tutor.phone }}</a-descriptions-item>
-      <a-descriptions-item label="研究方向">{{ tutor.research }}</a-descriptions-item>
-      <a-descriptions-item label="研究方向">{{ tutor.research }}</a-descriptions-item>
+      <a-descriptions-item label="研究方向">{{ tutor.research_area }}</a-descriptions-item>
+
     </a-descriptions>
   </a-card>
   </StudentLayOut>
