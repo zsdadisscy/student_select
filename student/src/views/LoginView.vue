@@ -1,202 +1,249 @@
-<!-- <template>
-  <div class="login-container">
-    <h2 class="login-title">登录</h2>
-    <a-form ref="form" :model="form" class="login-form">
-      <h2 class="title">用户登录</h2>
-      <div class="account-type-wrapper">
-        <div class="account-type-label">账号类型:</div>
-        <div class="account-type-select">
-          <a-select v-model="id_name" style="width: 200px">
-            <a-select-option value="">请选择账号类型</a-select-option>
-            <a-select-option value="学生">学生</a-select-option>
-            <a-select-option value="导师">导师</a-select-option>
-          </a-select>
-        </div>
-      </div>
-      <a-form-item>
-        <a-input v-model="id" placeholder="学号/工号">
-        </a-input>
-      </a-form-item>
-      <a-form-item>
-        <a-input-password v-model="password" placeholder="密码">
-        </a-input-password>
-      </a-form-item>
-      <div class="error_message">{{ error_message }}</div>
-      <a-form-item>
-        <a-button class="submit" type="primary" @click="login">登录</a-button>
-      </a-form-item>
-    </a-form>
-  </div>
-</template> -->
-<!-- 
-<script>
-import { defineComponent, ref } from 'vue';
-import { Select } from 'ant-design-vue';
-
-export default defineComponent({
-  name: 'LoginView',
-  components: {
-    'a-select': Select,
-    'a-select-option': Select.Option
-  },
-  setup() {
-    const id = ref('');
-    const password = ref('');
-    const error_message = ref('');
-    const id_name = ref('');
-
-    const login = () => {
-      error_message.value = '错误';
-      console.log(id_name.value);
-    };
-
-    return {
-      id,
-      password,
-      error_message,
-      login,
-      id_name
-    };
-  }
-})
-</script> -->
-
-
 
 <template>
-  <div class="login-container">
-    <h2 class="login-title">登录</h2>
-    <a-form ref="form" :model="form" class="login-form">
-      <h2 class="title">用户登录</h2>
-      <div class="account-type-wrapper">
-        <div class="account-type-label">账号类型:</div>
-        <div class="account-type-select">
-          <a-select v-model="userType" style="width: 200px">
-            <a-select-option value="学生">学生</a-select-option>
-            <a-select-option value="导师">导师</a-select-option>
-          </a-select>
-        </div>
+  <div class="login">
+    <div class="login-gray">
+      <div class="login-header">
+        <h1>登录</h1>
       </div>
-      <a-form-item>
-        <a-input v-model="id" :placeholder="placeholderId">
-        </a-input>
-      </a-form-item>
-      <a-form-item>
-        <a-input-password v-model="password" placeholder="密码">
-        </a-input-password>
-      </a-form-item>
-      <div class="error_message">{{ error_message }}</div>
-      <a-form-item>
-        <a-button class="submit" type="primary" @click="login">登录</a-button>
-      </a-form-item>
-    </a-form>
+      <div class="login-container">
+        <a-form @submit="handleSubmit" :class="['login-form']">
+          <a-form-item>
+            <a-tooltip title="请选择你的身份">
+              <a-select v-model="userType" style="width: 100%;" @change="handleChange" placeholder="选择身份">
+                <a-select-option value="student">学生</a-select-option>
+                <a-select-option value="tutor">导师</a-select-option>
+              </a-select>
+            </a-tooltip>
+          </a-form-item>
+          <input class="login-input"
+              v-model=username
+              :placeholder="userType === 'student' ? '请输入学号' : '请输入工号'"
+            />
+          <input class="login-input"
+              v-model="password"
+              type="password"
+              placeholder="请输入密码"
+            />
+          <div class="error-message">
+            {{error_message}}
+          </div>
+          <a-form-item>
+            <a-button type="primary" html-type="submit" class="login-form-button">
+              登陆
+            </a-button>
+          </a-form-item>
+        </a-form>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, computed } from 'vue';
-import { Select } from 'ant-design-vue';
+import {ref} from "vue";
+import $ from 'jquery';
+import {useStore} from 'vuex';
+import ModuleStudent from "@/store/student";
+import ModuleTutor from "@/store/tutor";
+import router from '@/router/index.js';
 
-export default defineComponent({
-  name: 'LoginView',
-  components: {
-    'a-select': Select,
-    'a-select-option': Select.Option
-  },
+
+export default {
   setup() {
-    const id = ref('');
+    const userType = ref('');
+    const username = ref('');
     const password = ref('');
-    const error_message = ref('');
-    const userType = ref('学生');
+    let error_message = ref('');
+    const store = useStore();
 
-    const placeholderId = computed(() => userType.value === '学生' ? '学号' : '工号');
+    if (ModuleStudent.state.user !== '') {
+      $.ajax({
+        url: "http://8.130.65.99:8002/get_status/",
+        type: 'GET',
+        data: {
+          user: ModuleStudent.state.user,
+        },
+        success(resp) {
+          if (resp.result === 'student') {
+            store.dispatch('ModuleStudent/get_info');
+            router.push({name: 'alltutor'});
+          }
+          else
+            error_message.value = resp.result;
+        },
+        error() {
+          error_message.value = '出现未知错误';
+        }
+      })
+    }
+    if (ModuleTutor.state.user !== '') {
+      $.ajax({
+        url: "http://8.130.65.99:8002/get_status/",
+        type: 'GET',
+        data: {
+          user: ModuleTutor.state.user,
+        },
+        success(resp) {
+          if (resp.result === 'student') {
+            store.dispatch('ModuleTutor/get_info');
+            router.push({name: 'selectstudent'});
+          }
+          else
+            error_message.value = resp.result;
+        },
+        error() {
+          error_message.value = '出现未知错误';
+        }
+      })
+    }
 
-    const login = () => {
-      if (userType.value === '学生') {
-        // Call student API
-      } else if (userType.value === '导师') {
-        // Call tutor API
-      } else {
+    const handleSubmit = e => {
+      e.preventDefault();
+      error_message.value = '';
+      // 表单验证
+      if (userType.value === '') {
         error_message.value = '请选择用户类型';
+        return;
       }
+      if (!username.value) {
+        error_message.value = '请输入学号/工号';
+        return;
+      }
+      if (!password.value) {
+        error_message.value = '请输入密码';
+        return;
+      }
+
+      if (userType.value === 'student') {
+        handleStudentLogin(username.value, password.value);
+      } else {
+        handleTutorLogin(username.value, password.value);
+      }
+    }
+
+
+    const handleChange = value => {
+      userType.value = value;
+
+    };
+
+    const handleStudentLogin = (username, password) => {
+      $.ajax({
+        url: 'http://8.130.65.99:8002/student/login/',
+        type: 'POST',
+        data: {
+          id: username,
+          password: password
+        },
+        success(resp) {
+          if (resp.result === 'success') {
+            ModuleStudent.state.user = resp.user;
+            store.dispatch('ModuleStudent/get_info');
+            router.push({name: 'alltutor'});
+          }
+          else
+            error_message.value = resp.result;
+        },
+        error() {
+          error_message.value = '出现未知错误';
+        }
+      })
+    };
+
+    const handleTutorLogin = (username, password) => {
+      $.ajax({
+        url: 'http://8.130.65.99:8002/tutor/login/',
+        type: 'POST',
+        data: {
+          id: username,
+          password: password
+        },
+        success(resp) {
+          if (resp.result === 'success') {
+            ModuleTutor.state.user = resp.user;
+            store.dispatch('ModuleTutor/get_info');
+            router.push({name: 'selectstudent'});
+          }
+          else
+            error_message.value = resp.result;
+        },
+        error() {
+          error_message.value = '出现未知错误';
+        }
+      })
     };
 
     return {
-      id,
+      userType,
+      username,
       password,
       error_message,
-      login,
-      userType,
-      placeholderId
-    };
+      handleSubmit,
+      handleChange };
   }
-})
+};
 </script>
 
-
 <style scoped>
-.error_message {
-  font-family: Microsoft Yahei;
-  color: red;
-  margin-bottom: 5px;
-}
-.account-type-wrapper {
-  display: flex;
-  align-items: center;
-  margin-bottom: 13px;
-}
-
-.account-type-label {
-  margin-right: 59px;
-  font-size: 20px;
-  font-family: Microsoft Yahei;
-}
-.login-form {
-  width: 565px;
-  height: 372px;
-  margin: 0 auto;
-  background: url("../assets/graybackground.png");
-  padding: 40px 110px;
-}
-
-/* 背景 */
 .login-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: url("../assets/background.jpg") no-repeat;
-  background-size: 100% 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Log */
-.login-title {
-  color: #fff;
-  text-align: center;
-  margin: 100px 0 60px 0;
-  font-size: 36px;
-  font-family: Microsoft Yahei;
+.login-form {
+  width: 400px;
+  padding: 20px;
 }
-/* 登陆按钮 */
-.submit {
+
+.login-form-button {
   width: 100%;
-  height: 45px;
-  font-size: 16px;
 }
-/* 用户登陆标题 */
-.title {
+
+.has-error .ant-form-item-explain {
+  color: #ff4d4f;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  padding-top: 20px; /* 调整此处的数值来改变标题与登录框之间的距离 */
+  background-image: url("../assets/background.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.login-gray {
+  margin-top: 190px;
+  background-image: url("../assets/graybackground.png");
+  background-size: cover;
+  background-position: center;
+  border-radius: 5%;
+}
+
+.login-header {
+
   text-align: center;
-  margin-bottom: 50px;
-  color: #fff;
-  font-weight: 700;
+}
+
+.login-header h1 {
   font-size: 24px;
-  font-family: Microsoft Yahei;
+  margin-top: 0; /* 添加此行以重置默认的上边距 */
 }
-/* 输入框 */
-.inputBox {
-  height: 45px;
+
+.error-message {
+  color: red;
+  margin-bottom: 15px;
 }
-/* 输入框内左边距50px */
-.ant-input-affix-wrapper .ant-input:not(:first-child) {
-  padding-left: 50px;
+
+.login-input {
+  width: 100%;
+  margin-bottom: 23px;
+  height: 33px;
 }
+
+
+
 </style>

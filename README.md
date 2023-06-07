@@ -77,6 +77,7 @@
             'gender': 
             'student_type': 
             'tutor':
+            'is_selected':
             'select_limit': 
             'select_count': 
         }
@@ -337,3 +338,5 @@
                'type': student.student_type
            }
    ```
+### 6.8
+完成了登陆界面，修改了部分api，后端部分更改了验证方式，凡是需要登录才能访问的api，均需向api传递一个参数user，user存在store中，

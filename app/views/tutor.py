@@ -39,11 +39,11 @@ def tutor_login(request):
 
         # 获取哈希值（加密后的结果）
         encrypted_id = hash_object.hexdigest()
-        request.session['user'] = encrypted_id
         # 保存一天
         cache.set(encrypted_id, (id, 'tutor'), timeout=3600 * 24)
         return JsonResponse({
-            'result': 'success'
+            'result': 'success',
+            'user': encrypted_id,
         })
     except Tutor.DoesNotExist:
         return JsonResponse({
