@@ -1,7 +1,8 @@
 <script>
-import { defineComponent, reactive } from 'vue';
+import { defineComponent, reactive, ref } from 'vue';
 import StudentLayOut from "@/components/StudentLayOut.vue";
-import axios from 'axios'; // make sure axios is installed and imported
+import $ from 'jquery';
+import ModuleStudent from '@/store/student';
 
 export default defineComponent({
   name: 'StudentModifyPassword',
@@ -14,7 +15,7 @@ export default defineComponent({
       new_password: '',
       confirm_password: '',
     });
-
+    let error_message = ref('');
     const rules = {
       required: { required: true, message: '必填项', trigger: 'blur' },
       password: { validator: checkPassword, trigger: 'blur' },
@@ -22,21 +23,33 @@ export default defineComponent({
     };
 
     const handleSubmit = e => {
+      error_message.value = '';
       e.preventDefault();
-      axios.post('/api/change_password/', formState)
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      if (formState.new_password !== formState.confirm_password) {
+        error_message.value = '两次密码不一致';
+        return;
+      }
+      $.ajax({
+        url: 'http://8.130.65.99:8002/student/modify_password/',
+        type: 'POST',
+        data: {
+          user: ModuleStudent.state.user,
+          old_password : formState.old_password,
+          new_password: formState.new_password,
+          confirm_password: formState.confirm_password,
+        },
+        success(resp) {
+          if (resp.result === 'successs')
+            alert('密码修改成功');
+          else error_message.value = resp.result;
+        }
+      })
+      
     };
 
     function checkPassword(rule, value, callback) {
       if (value === '') {
-        callback(new Error('请输入密码'));
-      } else if (value !== formState.confirm_password) {
-        callback(new Error('两次输入密码不一致!'));
+        callback(new Error('请输入新密码'));
       } else {
         callback();
       }
@@ -45,14 +58,13 @@ export default defineComponent({
     function checkConfirmPassword(rule, value, callback) {
       if (value === '') {
         callback(new Error('请再次输入密码'));
-      } else if (value !== formState.new_password) {
-        callback(new Error('两次输入密码不一致!'));
-      } else {
+      }  else {
         callback();
       }
     }
 
     return {
+      error_message,
       formState,
       rules,
       handleSubmit,
@@ -83,6 +95,7 @@ export default defineComponent({
     <a-form-item label="确认密码" name="confirmPassword" :rules="[rules.required, rules.password, rules.confirmPassword]">
       <a-input-password v-model:value="formState.confirm_password" placeholder="确认新密码" style="width: 300px;"/>
     </a-form-item>
+    <div class="tips">{{ error_message }}</div>
     <a-form-item>
       <a-button type="primary" html-type="submit" class="login-form-button">
         提交
@@ -96,9 +109,16 @@ export default defineComponent({
 
 <style scoped>
 .change-password-container {
+  margin-top: 50px;
   display: flex;
   justify-content: center;
   /* align-items: center; */
   height: 100vh;
+}
+.tips {
+  color: red;
+}
+.login-form-button {
+  margin-left: 50%;
 }
 </style>

@@ -3,14 +3,14 @@ import {defineComponent, ref} from "vue";
 import $ from 'jquery';
 
 import StudentLayOut from "@/components/StudentLayOut.vue";
-// import TutorsInfo from "@/components/TutorsInfo.vue";
+import TutorsInfo from "@/components/TutorsInfo.vue";
 import ModuleStudent from "@/store/student";
 
 export default defineComponent({
     name: "AllTutor",
     components: { 
       StudentLayOut ,
-      // TutorsInfo
+      TutorsInfo
     },
     data() {
       let persons = ref([]);
@@ -23,6 +23,7 @@ export default defineComponent({
         success(resp) {
           if (resp.result === 'success') {
               persons.value = resp.data;
+              console.log(persons.value);
           }
         }
       })
@@ -40,7 +41,7 @@ export default defineComponent({
     <StudentLayOut>
       <div class="person-info-wrapper">
         <div v-for="person in persons" :key="person.id" class="person-info-item">
-          <PersonInfo :name="person.username" :gender="person.gender" :type="person.college" :research="person.research_area" :tutor_id="person.id" />
+          <TutorsInfo :name="person.username" :gender="person.gender" :type="person.college" :research="person.research_area" :tutor_id="person.id" />
         </div>
       </div>
     </StudentLayOut>

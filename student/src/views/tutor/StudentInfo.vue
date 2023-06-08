@@ -1,7 +1,9 @@
 <script>
-import {defineComponent} from "vue";
+import {defineComponent, ref} from "vue";
 import TeacherLayOut from "@/components/TeacherLayOut.vue";
 import StudentsInfo from "@/components/StudentsInfo.vue"
+import $ from 'jquery';
+import ModuleTutor from "@/store/tutor";
 
 export default defineComponent({
   name: 'LookStudentInfo',
@@ -9,20 +11,43 @@ export default defineComponent({
     TeacherLayOut,
     StudentsInfo
   },
-  data() {
-    return {
-      persons: [
-        { name: "耀耀", gender: "男",type:"学硕", age:"20", birth:"2001-05-21",student_id: '2019416199',email:"245892@qq.com",phone:"124687654",introduction:"成绩优异" },
-        { name: "耀耀", gender: "男",type:"学硕", age:"20", birth:"2001-05-21",student_id: '2019416199',email:"245892@qq.com",phone:"124687654",introduction:"成绩优异" },
-        { name: "耀耀", gender: "男",type:"学硕", age:"20", birth:"2001-05-21",student_id: '2019416199',email:"245892@qq.com",phone:"124687654",introduction:"成绩优异" },
-        { name: "耀耀", gender: "男",type:"学硕", age:"20", birth:"2001-05-21",student_id: '2019416199',email:"245892@qq.com",phone:"124687654",introduction:"成绩优异" },
-        { name: "耀耀", gender: "男",type:"学硕", age:"20", birth:"2001-05-21",student_id: '2019416199',email:"245892@qq.com",phone:"124687654",introduction:"成绩优异" },
 
-        // 添加更多人员信息...
-      ],
-    };
+      
+    data() {
+      let students = ref([]);
+
+      $.ajax({
+        url: 'http://8.130.65.99:8002/tutor/get_select_student/',
+        type: 'GET',
+        data: {
+          user: ModuleTutor.state.user,
+        },
+        success(resp) {
+          console.log(resp);
+          // if(resp.result === 'success') {
+          //   student.username = resp.date.username;
+          //   student.date_of_birth = resp.date.data_of_birth;
+          //   student.bio = resp.date.bio;
+          //   student. email = resp.date.email;
+          //   student.photo = "http://8.130.65.99:8002" + resp.date.photo;
+          //   student.collage = resp.date.collage;
+          //   student.id = resp.date.id;
+          //   student.gender = resp.date.gender;
+          //   student.id = resp.date.id;
+          //   student.student_type = resp.date.student_type;
+          // }
+          if (resp.result === 'success') {
+              students.value = resp.date;
+              console.log(students.value);
+          }
+        }
+    })
+  
+   return {
+      students,
+      // calculateAge,
+   }
   },
-
 });
 </script>
 
@@ -30,17 +55,22 @@ export default defineComponent({
   <div>
     <TeacherLayOut>   
       <div class="grid-container">
-        <div v-for="(person, index) in persons" :key="index" class="person-info-item">
-          <StudentsInfo 
-          :name="person.name" 
-          :gender="person.gender" 
-          :type="person.type" 
-          :age="person.age" 
-          :birth="person.birth" 
-          :student_id="person.student_id" 
-          :email="person.email" 
-          :phone="person.phone"
-          :introduction="person.introduction"  />
+         <div v-for="student in students" :key="student.id" class="person-info-item">
+          <!-- <StudentsInfo
+            :name="student.username"
+            :gender="student.gender"
+            :type="student.student_type"
+
+            :birth="student.date_of_birth"
+            :student_id="student.id"
+            :email="student.email"
+            :phone="student.phone"
+            :introduction="student.bio"
+          /> -->
+          <StudentsInfo
+            :name="student.username"
+
+          />
         </div>
       </div>
     </TeacherLayOut>

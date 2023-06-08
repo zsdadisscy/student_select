@@ -1,8 +1,9 @@
 <script>
 // import {defineComponent} from "vue";
 import { defineComponent, reactive, ref, readonly } from 'vue';
-
+import ModuleStudent from '@/store/student';
 import StudentLayOut from "@/components/StudentLayOut.vue";
+import $ from 'jquery';
 
 export default defineComponent({
   name: 'StudentModifyInfo',
@@ -10,16 +11,23 @@ export default defineComponent({
     StudentLayOut,
   },
   setup() {
+  let shift = {
+    'man' :'男',
+    'women': '女',
+  }
   const initialData = {
     // 这些应该是从后端获取的初始数据
-    name: '张三',
-    id: '12345678',
-    date1: '2000-01-01',
-    sex: '男',
-    resource: '1',
-    info: '这是个人简介',
+    name: ModuleStudent.state.username,
+    id: ModuleStudent.state.id,
+    date1: ModuleStudent.state.date_of_birth,
+    sex: shift[ModuleStudent.state.gender],
+    resource: ModuleStudent.state.student_type,
+    email: ModuleStudent.state.email,
+    phone: ModuleStudent.state.phone,
+    info: ModuleStudent.state.bio,
+  
     avatar: {
-      url: 'https://example.com/path/to/avatar.jpg',
+      url: 'http://8.130.65.99:8002' + ModuleStudent.state.photo,
     },
   };
   const formState = reactive({
@@ -30,10 +38,31 @@ export default defineComponent({
     resource: ref(initialData.resource),
     info: ref(initialData.info),
     avatar: ref(initialData.avatar),
+    email: ref(initialData.email),
+    phone: ref(initialData.phone),
   });
+  const onSubmit = () => {
+      $.ajax({
+        url: 'http://8.130.65.99:8002/student/modify_info/',
+        type: 'POST',
+        data: {
+          user: ModuleStudent.state.user,
+          bio: formState.info,
+          email: formState.email,
+          phone: formState.phone,
+          photo: formState.avatar,
+        },
+        success(resp) {
+            console.log(formState.avatar);
+            console.log(resp);
+            alert("提交成功");
+        }
+      })
+  }
   // ...
   return {
     formState,
+    onSubmit
     // ...
   };
 }
@@ -60,10 +89,16 @@ export default defineComponent({
           <a-input :value="formState.sex" readonly />
         </a-form-item>
         <a-form-item label="类型">
-          <a-radio-group v-model:value="formState.resource">
+          <a-radio-group v-model:value="formState.resource" readonly>
             <a-radio value="1">专硕</a-radio>
             <a-radio value="2">学硕</a-radio>
           </a-radio-group>
+        </a-form-item>
+        <a-form-item label="邮箱">
+          <a-input v-model:value="formState.email" />
+        </a-form-item>
+        <a-form-item label="手机号">
+          <a-input v-model:value="formState.phone" />
         </a-form-item>
         <a-form-item label="个人简介">
           <a-textarea :rows="4" v-model:value="formState.info" />

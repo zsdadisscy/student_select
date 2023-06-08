@@ -20,6 +20,7 @@ export default defineComponent({
         tutor_id: tutor_id,
       },
       success(resp) {
+
         if (resp.result === 'success') {
           tutor.username = resp.date.username;
           tutor.gender = resp.date.gender;
@@ -28,8 +29,9 @@ export default defineComponent({
           tutor.college = resp.date.college;
           tutor.email = resp.date.email;
           tutor.phone = resp.date.phone;
+          tutor.photo = "http://8.130.65.99:8002" + resp.date.photo; // 添加头像
           tutor.research_area = resp.date.research_area;
-          console.log(tutor);
+
         }
       },
       error(resp) {
@@ -49,11 +51,21 @@ export default defineComponent({
 <div>
   <StudentLayOut>
     <a-card class="info-card">
-    <div class="title">导师信息</div>
+
+      <div class="title">
+          <div class="avatar-wrapper">
+            <img :src="tutor.photo" alt="" class="avatar" />
+          </div>
+          <div class="title">导师信息</div>
+        </div>
+    <!-- <div class="avatar-wrapper">
+      <img :src="tutor.photo" alt="导师头像" class="avatar" />
+    </div> -->
+
     <a-descriptions bordered layout="vertical">
       <a-descriptions-item label="姓名">{{ tutor.username }}</a-descriptions-item>
       <a-descriptions-item label="性别">{{ tutor.gender }}</a-descriptions-item>
-      <a-descriptions-item label="工号">{{ tutor.id }}</a-descriptions-item>
+      <!-- <a-descriptions-item label="工号">{{ tutor.id }}</a-descriptions-item> -->
       <a-descriptions-item label="出生日期">{{ tutor.date_of_birth }}</a-descriptions-item>
       <a-descriptions-item label="学院">{{ tutor.college }}</a-descriptions-item>
       <a-descriptions-item label="邮箱">{{ tutor.email }}</a-descriptions-item>
@@ -69,11 +81,6 @@ export default defineComponent({
 
 <style scoped>
 .info-card {
-  width: 50%;
-  margin: auto;
-  margin-top: 50px;
-}
-.info-card {
   width: 80%;
   margin: auto;
   margin-top: 50px;
@@ -88,4 +95,33 @@ export default defineComponent({
   margin-bottom: 30px;
 }
 
+.avatar-wrapper {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+
+.info-title {
+  margin-left: 10px;
+}
+
+a-descriptions {
+  margin-top: 30px;
+}
+
+a-descriptions-item {
+  margin-bottom: 20px;
+}
+
 </style>
+
+
+
+
+
+

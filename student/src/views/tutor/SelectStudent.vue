@@ -1,49 +1,75 @@
 <script>
-import {defineComponent} from "vue";
+import {defineComponent, ref} from "vue";
 import TeacherLayOut from "@/components/TeacherLayOut.vue";
-import { Card, Button, Alert } from 'ant-design-vue';
-import student1 from '@/assets/student_photo.png';
-import student2 from '@/assets/student_photo.png';
-import student3 from '@/assets/student_photo.png';
+// import { Card, Button, Alert } from 'ant-design-vue';
+
+import $ from 'jquery';
+import ModuleTutor from '@/store/tutor'
+
 
 export default defineComponent({
   name: 'SelectStudent',
   components: {
     TeacherLayOut,
-    'a-card': Card,
-    'a-button': Button,
-    'a-alert': Alert,
+    // 'a-card': Card,
+    // 'a-button': Button,
+    // 'a-alert': Alert,
   },
   data() {
+    let students = ref([]);
+    $.ajax({
+          url: 'http://8.130.65.99:8002/tutor/get_select_student',
+          type: 'GET',
+          data: {
+            user: ModuleTutor.state.user,
+          },
+          success(resp) {
+            if (resp.result === 'success') {
+              // students.value = resp.data;
+              // console.log(students.value);
+              students.value = resp.date; // 直接赋值给students数组
+              console.log(students.value);
+            }
+
+          },
+          error: (err) => {
+            console.error('Error fetching students: ', err);
+          },
+    });
     return {
-      students: [
-        { id: 1, name: '张三', type: '文科', avatar: student1 },
-        { id: 2, name: '李四', type: '理科', avatar: student2 },
-        { id: 3, name: '王五', type: '文科', avatar: student3 },
-      ],
-      selectedStudentIds: [],
+      students,
+      selectedStudentsIds: [],
       submitted: false,
-    };
+    }
   },
-  computed: {
-    selectedNames() {
-      return this.students
-        .filter(student => this.selectedStudentIds.includes(student.id))
-        .map(student => student.name)
-        .join(', ');
-    },
-  },
+
   methods: {
-    toggleSelection(id) {
-      if (this.selectedStudentIds.includes(id)) {
-        this.selectedStudentIds = this.selectedStudentIds.filter(studentId => studentId !== id);
-      } else {
-        this.selectedStudentIds.push(id);
-      }
+    getSelectedStudentsNames() {
+      return this.students.filter((s) => this.selectedStudentsIds.includes(s.id)).map((s) => s.username).join(', ');
     },
+
     submit() {
-      console.log('提交的学生ID：', this.selectedStudentIds);
-      this.submitted = true;
+      if (!this.submitted && this.selectedStudentsIds.length > 0) {
+        // 提交逻辑，可以在这里处理提交的数据
+        $.ajax({
+          
+          url: 'http://8.130.65.99:8002/student/processing_application/',
+          type: 'POST',
+          data: {
+            user: ModuleTutor.state.user,
+            selectedStudentsIds: this.selectedStudentsIds
+          },
+          success: (response) => {
+            console.log('成功提交学生选择', response);
+            this.submitted = true;
+          },
+          error: (err) => {
+            console.error('提交学生选择出错：', err);
+          },
+
+        });
+
+      }
     },
   },
 });
@@ -52,7 +78,7 @@ export default defineComponent({
 <template>
   <TeacherLayOut>
     <div class="container">
-      <div class="student-grid">
+      <div  v-if="students && students.length" class="student-grid">
         <a-card
           v-for="student in students"
           :key="student.id"
@@ -61,8 +87,8 @@ export default defineComponent({
           <div class="student-info">
             <img :src="student.avatar" alt="Student Avatar" class="avatar" />
             <div class="student-details">
-              <p><b>类型：</b>{{ student.type }}</p>
-              <p><b>姓名：</b>{{ student.name }}</p>
+              <!-- <p><b>类型：</b>{{ student.type }}</p> -->
+              <p><b>姓名：</b>{{ student.username }}</p>
             </div>
             <a-button 
               @click="toggleSelection(student.id)"

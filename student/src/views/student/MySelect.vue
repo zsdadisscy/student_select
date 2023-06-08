@@ -3,21 +3,21 @@
   <div class="container">
     <StudentLayOut>
       <div class="content-wrapper">
-        <div v-for="student in students" :key="student.id" class="student">
+        <div v-for="tutor in tutors" :key="tutor.id" class="student">
           <div class="student-info">
-            <img :src="student.avatar" alt="Student Avatar" class="avatar" />
-            <span class="name">{{ student.name }}</span>
+            <img :src="'http://8.130.65.99:8002'+tutor.photo" alt="tutor Avatar" class="avatar" />
+            <span class="name">姓名：{{ tutor.username }}</span>
           </div>
           <input
             type="checkbox"
-            :id="student.id"
-            :value="student.id"
-            v-model="selectedStudentIds"
+            :id="tutor.id"
+            :value="tutor.id"
+            v-model="selectedTutorsIds"
           />
-          <label :for="student.id">选择</label>
+          <label :for="tutor.id">选择</label>
         </div>
-        <div v-if="selectedStudentIds.length > 0" class="selected-student">
-          你选择的学生是: {{ getSelectedStudentNames() }}
+        <div v-if="selectedTutorsIds.length > 0" class="selected-student">
+          你选择的导师是: {{ getSelectedTutorsNames() }}
         </div>
         <button v-if="!submitted" @click="submit" class="submit-button">提交</button>
         <div v-if="submitted" class="submission-message">你已经提交过选择了</div>
@@ -27,13 +27,12 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent,ref } from 'vue';
 import StudentLayOut from "@/components/StudentLayOut.vue";
+import $ from 'jquery';
+import ModuleStudent from '@/store/student'
 
-// Import images
-import student1 from '@/assets/student_photo.png';
-import student2 from '@/assets/student_photo.png';
-import student3 from '@/assets/student_photo.png';
+
 
 export default defineComponent({
   name: 'MySelect',
@@ -41,26 +40,63 @@ export default defineComponent({
     StudentLayOut,
   },
   data() {
+    let tutors = ref([]);
+    $.ajax({
+          url: 'http://8.130.65.99:8002/student/get_tutor',
+          type: 'GET',
+          data: {
+            user: ModuleStudent.state.user,
+          },
+          success(resp) {
+            if (resp.result === 'success') {
+              tutors.value = resp.data;
+              console.log(tutors.value);
+            }
+
+          },
+          error: (err) => {
+            console.error('Error fetching tutors: ', err);
+          },
+
+    });
+
     return {
-      students: [
-        { id: 1, name: '张三', avatar: student1 },
-        { id: 2, name: '李四', avatar: student2 },
-        { id: 3, name: '王五', avatar: student3 },
-        // 添加更多学生...
-      ],
-      selectedStudentIds: [],
+      tutors,
+      selectedTutorsIds: [],
       submitted: false,
     };
+
   },
+
+  // let tutors = ref([]);
   methods: {
-    getSelectedStudentNames() {
-      return this.students.filter((s) => this.selectedStudentIds.includes(s.id)).map((s) => s.name).join(', ');
+
+    getSelectedTutorsNames() {
+      return this.tutors.filter((s) => this.selectedTutorsIds.includes(s.id)).map((s) => s.username).join(', ');
     },
     submit() {
-      if (!this.submitted && this.selectedStudentIds.length > 0) {
+      console.log('User:', ModuleStudent.state.user);
+      console.log('Selected Tutors IDs:', this.selectedTutorsIds);
+      if (!this.submitted && this.selectedTutorsIds.length > 0) {
         // 提交逻辑，可以在这里处理提交的数据
-        console.log('提交的学生ID：', this.selectedStudentIds);
-        this.submitted = true;
+        $.ajax({
+          
+          url: 'http://8.130.65.99:8002/student/select_tutor/',
+          type: 'POST',
+          data: {
+            user: ModuleStudent.state.user,
+            selectedTutorsIds: this.selectedTutorsIds
+          },
+          success: (response) => {
+            console.log('成功提交导师选择', response);
+            this.submitted = true;
+          },
+          error: (err) => {
+            console.error('提交导师选择出错：', err);
+          },
+
+        });
+
       }
     },
   },
