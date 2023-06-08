@@ -70,13 +70,11 @@ export default defineComponent({
 <style scoped>
 .info-card {
   width: 50%;
-  margin: auto;
-  margin-top: 50px;
+  margin: 50px auto auto;
 }
 .info-card {
   width: 80%;
-  margin: auto;
-  margin-top: 50px;
+  margin: 50px auto auto;
   padding: 30px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
