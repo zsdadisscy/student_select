@@ -81,9 +81,15 @@ export default defineComponent({
 
 <style scoped>
 .info-card {
+<<<<<<< HEAD
+=======
+  width: 50%;
+  margin: 50px auto auto;
+}
+.info-card {
+>>>>>>> 2f0dc9f35cdb6242c6e13f3608d89fdcb975ba95
   width: 80%;
-  margin: auto;
-  margin-top: 50px;
+  margin: 50px auto auto;
   padding: 30px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }

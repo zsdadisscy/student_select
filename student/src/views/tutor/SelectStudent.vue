@@ -1,7 +1,8 @@
+
 <script>
 import {defineComponent, ref} from "vue";
 import TeacherLayOut from "@/components/TeacherLayOut.vue";
-// import { Card, Button, Alert } from 'ant-design-vue';
+import { Card, Button, Alert } from 'ant-design-vue';
 
 import $ from 'jquery';
 import ModuleTutor from '@/store/tutor'
@@ -11,12 +12,13 @@ export default defineComponent({
   name: 'SelectStudent',
   components: {
     TeacherLayOut,
-    // 'a-card': Card,
-    // 'a-button': Button,
-    // 'a-alert': Alert,
+    'a-card': Card,
+    'a-button': Button,
+    'a-alert': Alert,
   },
   data() {
-    let students = ref([]);
+    let students =  ref([]);
+    // console.log(students.value.length);
     $.ajax({
           url: 'http://8.130.65.99:8002/tutor/get_select_student',
           type: 'GET',
@@ -25,10 +27,11 @@ export default defineComponent({
           },
           success(resp) {
             if (resp.result === 'success') {
+              console.log(resp);
               // students.value = resp.data;
-              // console.log(students.value);
-              students.value = resp.date; // 直接赋值给students数组
-              console.log(students.value);
+              students.value = resp.data; // 直接赋值给students数组
+              // console.log(typeof(students.value));
+              // console.log(students.value.length);
             }
 
           },
@@ -36,6 +39,7 @@ export default defineComponent({
             console.error('Error fetching students: ', err);
           },
     });
+    
     return {
       students,
       selectedStudentsIds: [],
@@ -45,7 +49,7 @@ export default defineComponent({
 
   methods: {
     getSelectedStudentsNames() {
-      return this.students.filter((s) => this.selectedStudentsIds.includes(s.id)).map((s) => s.username).join(', ');
+      return this.students.value.filter((s) => this.selectedStudentsIds.includes(s.id)).map((s) => s.username).join(', ');
     },
 
     submit() {
@@ -71,6 +75,10 @@ export default defineComponent({
 
       }
     },
+    log(message) {
+      console.log(message.value);
+      console.log(message.length);
+    }
   },
 });
 </script>
@@ -80,28 +88,29 @@ export default defineComponent({
     <div class="container">
       <div  v-if="students && students.length" class="student-grid">
         <a-card
-          v-for="student in students"
+          v-for="student in students" 
           :key="student.id"
           class="student-card"
         >
           <div class="student-info">
-            <img :src="student.avatar" alt="Student Avatar" class="avatar" />
+            <img :src="`@/assets/student_photo.png`" alt="Student Avatar" class="avatar" />
+
             <div class="student-details">
-              <!-- <p><b>类型：</b>{{ student.type }}</p> -->
+       
               <p><b>姓名：</b>{{ student.username }}</p>
             </div>
             <a-button 
               @click="toggleSelection(student.id)"
-              :type="selectedStudentIds.includes(student.id) ? 'primary' : 'default'"
+              :type="selectedStudentsIds.includes(student.id) ? 'primary' : 'default'"
               class="choice"
             >
-              {{ selectedStudentIds.includes(student.id) ? '取消' : '选择' }}
+              {{ selectedStudentsIds.includes(student.id) ? '取消' : '选择' }}
             </a-button>
           </div>
         </a-card>
       </div>
       <a-button type="primary" @click="submit" class="submit-button">提交</a-button>
-      <p v-if="selectedStudentIds.length > 0" class="submission-message">已选择的学生：{{ selectedNames }}</p>
+      <p v-if="selectedStudentsIds.length > 0" class="submission-message">已选择的学生：{{ selectedNames }}</p>
       <a-alert v-if="submitted" type="success" message="提交成功" show-icon />
     </div>
   </TeacherLayOut>

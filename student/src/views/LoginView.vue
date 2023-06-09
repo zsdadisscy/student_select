@@ -49,6 +49,7 @@ import router from '@/router/index.js';
 
 
 export default {
+  name: 'LoginView',
   setup() {
     const userType = ref('');
     const username = ref('');

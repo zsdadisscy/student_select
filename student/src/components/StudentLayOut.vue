@@ -56,7 +56,7 @@
         <a-layout-header :style="{ background: '#fff', padding: 0, display: 'flex', justifyContent: 'flex-end'  }" >
         <div class="user-info">
           <img :src="user.photo" class="avatar" />
-          <span class="username">{{ user.username }}</span>
+          <span class="username">你好，{{ user.username }}同学</span>
         </div>
 
          </a-layout-header>

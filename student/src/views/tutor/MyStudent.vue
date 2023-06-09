@@ -3,7 +3,7 @@ import {defineComponent} from "vue";
 import TeacherLayOut from "@/components/TeacherLayOut.vue";
 import { ref } from 'vue'
 import { Card, Descriptions, Avatar } from 'ant-design-vue'
-import axios from 'axios'
+// import axios from 'axios'
 
 export default defineComponent({
   name: 'MyStudent',
@@ -19,13 +19,7 @@ export default defineComponent({
     const loading = ref(true)
 
     const fetchStudentInfo = async () => {
-      try {
-        const response = await axios.get('你的API地址')
-        student.value = response.data
-        loading.value = false
-      } catch (error) {
-        console.error(error)
-      }
+      
     }
 
     fetchStudentInfo()
