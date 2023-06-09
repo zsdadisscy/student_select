@@ -59,7 +59,7 @@ export default ({
         },
         avatar: {
             type: String,
-            default: require('@/assets/student_photo.png')
+            default: ''
         }
         
 

@@ -2,7 +2,7 @@
 <script>
 import {defineComponent, ref} from "vue";
 import TeacherLayOut from "@/components/TeacherLayOut.vue";
-import { Card, Button, Alert } from 'ant-design-vue';
+import { Card, Button} from 'ant-design-vue';
 
 import $ from 'jquery';
 import ModuleTutor from '@/store/tutor'
@@ -14,10 +14,11 @@ export default defineComponent({
     TeacherLayOut,
     'a-card': Card,
     'a-button': Button,
-    'a-alert': Alert,
+    // 'a-alert': Alert,
   },
   data() {
     let students =  ref([]);
+    let alertMessage = ref('');
     // console.log(students.value.length);
     $.ajax({
           url: 'http://8.130.65.99:8002/tutor/get_select_student',
@@ -27,11 +28,10 @@ export default defineComponent({
           },
           success(resp) {
             if (resp.result === 'success') {
-              console.log(resp);
-              // students.value = resp.data;
+              console.log("修改",resp);
+            
               students.value = resp.data; // 直接赋值给students数组
-              // console.log(typeof(students.value));
-              // console.log(students.value.length);
+
             }
 
           },
@@ -42,6 +42,7 @@ export default defineComponent({
     
     return {
       students,
+      alertMessage,
       selectedStudentsIds: [],
       submitted: false,
     }
@@ -52,33 +53,38 @@ export default defineComponent({
       return this.students.value.filter((s) => this.selectedStudentsIds.includes(s.id)).map((s) => s.username).join(', ');
     },
 
-    submit() {
-      if (!this.submitted && this.selectedStudentsIds.length > 0) {
+    processApplication(studentId, studentName, decision){
         // 提交逻辑，可以在这里处理提交的数据
         $.ajax({
           
-          url: 'http://8.130.65.99:8002/student/processing_application/',
+          url: 'http://8.130.65.99:8002/tutor/processing_application/',
           type: 'POST',
           data: {
+
+            student_id: studentId,
+            processing: decision,
             user: ModuleTutor.state.user,
-            selectedStudentsIds: this.selectedStudentsIds
           },
           success: (response) => {
-            console.log('成功提交学生选择', response);
-            this.submitted = true;
+            // console.log("res");
+            if (response.result === 'success') {
+              console.log('成功处理学生申请', response);
+              this.alertMessage = `您${decision}了${studentName}的申请`;
+              // 你可以在这里添加代码，更新你的students数组
+              if (this.students.value) {
+                let student = this.students.value.find((s) => s.id === studentId);
+                // ...
+                if (student) student.processed = true;  // 标记为已处理
+              }
+              
+            }
           },
           error: (err) => {
             console.error('提交学生选择出错：', err);
           },
-
         });
-
-      }
     },
-    log(message) {
-      console.log(message.value);
-      console.log(message.length);
-    }
+
   },
 });
 </script>
@@ -93,25 +99,37 @@ export default defineComponent({
           class="student-card"
         >
           <div class="student-info">
-            <img :src="`@/assets/student_photo.png`" alt="Student Avatar" class="avatar" />
+            <img src="@/assets/student_photo.png" alt="Student Avatar" class="avatar" />
 
             <div class="student-details">
        
-              <p><b>姓名：</b>{{ student.username }}</p>
+              <p>姓名：{{ student.student_name }}</p>
+              <p>学号：{{ student.student_id }}</p>
             </div>
             <a-button 
-              @click="toggleSelection(student.id)"
-              :type="selectedStudentsIds.includes(student.id) ? 'primary' : 'default'"
-              class="choice"
+            @click="processApplication(student.student_id, student.student_name, '通过')"
+            type="primary"
+            class="choice"
+            :disabled="student.processed"
             >
-              {{ selectedStudentsIds.includes(student.id) ? '取消' : '选择' }}
+             通过
             </a-button>
+
+            <a-button 
+              @click="processApplication(student.student_id, student.student_name, '拒绝')"
+              type="danger"
+              class="choice"
+              :disabled="student.processed" 
+            >
+              拒绝
+            </a-button>
+
           </div>
         </a-card>
       </div>
-      <a-button type="primary" @click="submit" class="submit-button">提交</a-button>
-      <p v-if="selectedStudentsIds.length > 0" class="submission-message">已选择的学生：{{ selectedNames }}</p>
-      <a-alert v-if="submitted" type="success" message="提交成功" show-icon />
+      <!-- <a-button type="primary" @click="submit" class="submit-button">提交</a-button> -->
+      <p>{{ alertMessage }}</p> 
+      <!-- <a-alert v-if="submitted" type="success" message="提交成功" show-icon /> -->
     </div>
   </TeacherLayOut>
 </template>
@@ -147,7 +165,7 @@ export default defineComponent({
 .student-details {
   display: flex;
   flex-direction: column;
-  font-size: 20px;
+  font-size: 18px;
   gap: 10px;
 }
 
@@ -158,9 +176,9 @@ export default defineComponent({
 }
 
 .submit-button {
-  margin-top: 20px;
+  margin-top: 30px;
   font-size: 18px;
-  padding: 10px 20px;
+  padding: 10px 18px;
 }
 
 .submission-message {
