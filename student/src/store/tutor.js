@@ -55,6 +55,7 @@ const ModuleTutor = {
             state.tutor_id = '';
             state.tutor_name = '';
             state.is_login = false;
+            state.user = '';
       }
   },
   actions: {
@@ -67,10 +68,15 @@ const ModuleTutor = {
                     user: context.state.user,
                 },
                 success(resp) {
-                    context.commit('updateTutor', resp.date);
+                    if (resp.result === 'success') {
+                        context.commit('updateTutor', resp.date);
+                    }
                 }
             })
-        }
+        },
+      logout(context) {
+            context.commit('logout')
+      }
   },
   modules: {
   }

@@ -72,17 +72,14 @@ export default defineComponent({
       console.log('Selected Tutors IDs:', this.selectedTutorsIds); // No need for .value
       if (!this.submitted && this.selectedTutorsIds.length > 0) {
         // Submit logic
+        console.log(this.selectedTutorsIds, this.selectedTutorsIds[0]);
         $.ajax({
           url: 'http://8.130.65.99:8002/student/select_tutor/',
           type: 'POST',
-          data: JSON.stringify({
-            tutor_id: this.selectedTutorsIds, // Use the array directly
+          data: {
+            tutor_id: this.selectedTutorsIds[0], // Use the array directly
             user: ModuleStudent.state.user,
-          }),
-          contentType: "application/json",
-          // headers: {
-          //   'Authorization': `Bearer ${ModuleStudent.state.token}` // add Token
-          // },
+          },
           success: (response) => {
             // console.log('token',ModuleStudent.state.token );
             console.log('Successfully submitted tutor selection', response);

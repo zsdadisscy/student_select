@@ -55,7 +55,6 @@ def student_login(request):
 def student_logout(request):
     flag, user = get_cache(request)
     if flag:
-        del request.session['user']
         cache.delete(user)
         return JsonResponse({
             'result': 'success',
@@ -112,6 +111,10 @@ def get_info(request):
         })
     user = Student.objects.filter(id=cache.get(user_cache)[0])[0]
     update_cache(request)
+    if user.tutor:
+        my_tutor = user.selected_tutor.id
+    else:
+        my_tutor = None
     return JsonResponse({
         'result': 'success',
         'date': {
@@ -126,7 +129,7 @@ def get_info(request):
             'gender': user.gender,
             'is_selected': user.is_selected,
             'student_type': user.student_type,
-            'tutor': user.selected_tutor,
+            'tutor': my_tutor,
             'select_limit': user.select_limit,
             'select_count': user.select_count
         }

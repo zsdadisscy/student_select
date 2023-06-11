@@ -56,7 +56,6 @@ def tutor_login(request):
 def tutor_logout(request):
     flag, user = get_cache(request)
     if flag:
-        del request.session['user']
         cache.delete(user)
         return JsonResponse({
             'result': 'success',
@@ -247,7 +246,7 @@ def processing_application(request):
                 return JsonResponse({
                     'result': '学生已有导师'
                 })
-            if tutor.enrollment_limit >= tutor.enrollment_count:
+            if tutor.enrollment_limit <= tutor.enrollment_count:
                 return JsonResponse({
                     'result': '学生已达到上线'
                 })

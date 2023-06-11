@@ -57,6 +57,7 @@ const ModuleStudent = {
             state.tutor_id = '';
             state.tutor_name = '';
             state.is_login = false;
+            state.user = '';
       }
   },
   actions: {
@@ -69,10 +70,15 @@ const ModuleStudent = {
                     user: context.state.user,
                 },
                 success(resp) {
-                    context.commit('updateStudent', resp.date);
+                    if (resp.result === 'success') {
+                        context.commit('updateStudent', resp.date);
+                    }
                 }
             })
-        }
+        },
+      logout(context) {
+            context.commit('logout')
+      }
   },
   modules: {
   }
