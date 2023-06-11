@@ -12,6 +12,7 @@ export default defineComponent({
     TeacherLayOut,
     StudentsInfo
   },
+
   data() {
 
   let students = ref([]);
@@ -29,7 +30,7 @@ export default defineComponent({
         if (response.result === 'success' && response && response.data) {
             console.log("进来了");
             let studentIds =  response.data.map(student => student.student_id);
-            
+            console.log(studentIds);
             console.log("len", studentIds,length);
             // 针对每个学生ID，我们将进行第二步的操作
             for(let i=0; i<studentIds.length; i++){
@@ -68,6 +69,21 @@ export default defineComponent({
     students,
   }
    },
+
+   
+  methods: {
+    getGenderLabel(gender) {
+      if (gender === 'man') {
+        return '男';
+      } else if (gender === 'women') {
+        return '女';
+      } else {
+        return gender;
+      }
+    },
+  },
+  
+   
 });
 </script>
 
@@ -80,7 +96,7 @@ export default defineComponent({
           <!-- <div>fcwe</div> -->
           <StudentsInfo
             :name="student.username"
-            :gender="student.gender"
+            :gender="getGenderLabel(student.gender)"
             :type="student.student_type"
             :birth="student.date_of_birth"
             :student_id="student.id"

@@ -144,7 +144,7 @@ export default defineComponent({
 
 .student-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr); /* 每行两列 */
   grid-gap: 20px;
   width: 100%;
   max-width: 1200px;

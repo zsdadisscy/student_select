@@ -1,5 +1,5 @@
 <script>
-import {defineComponent, ref} from "vue";
+import {defineComponent} from "vue";
 import $ from 'jquery';
 
 import StudentLayOut from "@/components/StudentLayOut.vue";
@@ -7,33 +7,40 @@ import TutorsInfo from "@/components/TutorsInfo.vue";
 import ModuleStudent from "@/store/student";
 
 export default defineComponent({
-    name: "AllTutor",
-    components: { 
-      StudentLayOut ,
-      TutorsInfo
-    },
-    data() {
-      let persons = ref([]);
-      $.ajax({
-        url: "http://8.130.65.99:8002/student/get_tutor/",
-        type: "GET",
-        data: {
-          user: ModuleStudent.state.user,
-        },
-        success(resp) {
-          if (resp.result === 'success') {
-              persons.value = resp.data;
-              console.log(persons.value);
-          }
-        }
-      })
+  name: "AllTutor",
+  components: { 
+    StudentLayOut,
+    TutorsInfo
+  },
+  data() {
     return {
-        persons
+      persons: []
     };
   },
-    
-
+  computed: {
+    formattedGender() {
+      return function(person) {
+        return person.gender === "men" ? "男" : "女";
+      }
+    }
+  },
+  mounted() {
+    $.ajax({
+      url: "http://8.130.65.99:8002/student/get_tutor/",
+      type: "GET",
+      data: {
+        user: ModuleStudent.state.user,
+      },
+      success: (resp) => {
+        if (resp.result === 'success') {
+          this.persons = resp.data;
+          console.log(this.persons);
+        }
+      }
+    });
+  }
 });
+
 </script>
 
 <template>
@@ -41,7 +48,7 @@ export default defineComponent({
     <StudentLayOut>
       <div class="person-info-wrapper">
         <div v-for="person in persons" :key="person.id" class="person-info-item">
-          <TutorsInfo :name="person.username" :gender="person.gender" :type="person.college" :research="person.research_area" :tutor_id="person.id" />
+          <TutorsInfo :name="person.username" :gender="formattedGender(person)" :type="person.college" :research="person.research_area" :tutor_id="person.id" />
         </div>
       </div>
     </StudentLayOut>

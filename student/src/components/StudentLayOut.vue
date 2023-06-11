@@ -137,10 +137,10 @@
     };
     
     const user = reactive({});
-    const userInfo = ref({
-      avatar: '/path/to/default-avatar.jpg',
-      username: 'Guest',
-    });
+    // const userInfo = ref({
+    //   avatar: '/path/to/default-avatar.jpg',
+    //   username: 'Guest',
+    // });
     $.ajax({
 
       url: "http://8.130.65.99:8002/student/get_info/",
@@ -161,7 +161,8 @@
     });
     const logout = async () => {
       try {
-        const response = await axios.get('http://8.130.65.99:8002/student/logout/');
+        let data = {"user": " ModuleStudent.state.user"};
+        const response = await axios.get('http://8.130.65.99:8002/student/logout/', data);
         if (response.data.result === 'success') {
           // 登出成功
           message.success('登出成功');
@@ -182,7 +183,7 @@
     return {
       user,
       // persons,
-      userInfo,
+      // userInfo,
       // dynamicText,
       selectedKeys,
       onCollapse,

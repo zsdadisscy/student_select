@@ -13,17 +13,21 @@ export default defineComponent({
     const route = useRoute();
     const tutor_id  = route.params.tutor_id;
     const tutor = reactive({});
+    let shift = {
+      'man' :'男',
+      'women': '女',
+    }
     $.ajax({
       url: 'http://8.130.65.99:8002/student/get_tutor_info/',
       type: 'POST',
       data: {
         tutor_id: tutor_id,
       },
+    
       success(resp) {
-
         if (resp.result === 'success') {
           tutor.username = resp.date.username;
-          tutor.gender = resp.date.gender;
+          tutor.gender = shift[resp.date.gender];
           tutor.id = resp.date.id;
           tutor.date_of_birth = resp.date.date_of_birth;
           tutor.college = resp.date.college;
