@@ -35,7 +35,7 @@ export default defineComponent({
     id: readonly(ref(initialData.id)),
     date1: readonly(ref(initialData.date1)),
     sex: readonly(ref(initialData.sex)),
-    resource: ref(initialData.resource),
+    resource: readonly(ref(initialData.resource)),
     info: ref(initialData.info),
     avatar: ref(initialData.avatar),
     email: ref(initialData.email),
@@ -89,7 +89,7 @@ export default defineComponent({
           <a-input :value="formState.sex" readonly />
         </a-form-item>
         <a-form-item label="类型">
-          <a-radio-group v-model:value="formState.resource" readonly>
+          <a-radio-group :value="formState.resource" readonly>
             <a-radio value="1">专硕</a-radio>
             <a-radio value="2">学硕</a-radio>
           </a-radio-group>

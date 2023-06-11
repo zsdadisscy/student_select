@@ -14,12 +14,12 @@
             <span class="nav-text">所有导师</span>
           </router-link>
           </a-menu-item>
-          <a-menu-item key="2">
+          <!-- <a-menu-item key="2">
             <router-link to="/student/tutorinfo/:tutorid/">
             <video-camera-outlined />
             <span class="nav-text">导师信息</span>
           </router-link>
-          </a-menu-item>
+          </a-menu-item> -->
           <a-menu-item key="3">
             <router-link to="/student/myselect/">
             <upload-outlined />
@@ -58,7 +58,7 @@
           <img :src="user.photo" class="avatar" />
           <span class="username">你好，{{ user.username }}同学</span>
         </div>
-
+        <a-button type="primary" @click="logout">登出</a-button>
          </a-layout-header>
         <a-layout-content :style="{ margin: '24px 16px 0' }">
           <div :style="{ padding: '24px', background: '#fff', minHeight: '360px' }">
@@ -73,9 +73,13 @@
   </template>
 
   <script>
-  import { UserOutlined, VideoCameraOutlined, UploadOutlined} from '@ant-design/icons-vue';
+  import { UserOutlined,  UploadOutlined} from '@ant-design/icons-vue';
   import { defineComponent, ref, watch, reactive } from 'vue';
   import { useRoute } from 'vue-router';
+  import { useRouter } from 'vue-router';
+  import { message } from 'ant-design-vue';
+
+  import axios from 'axios';
   import $ from 'jquery'
   import ModuleStudent from '@/store/student'
 
@@ -83,13 +87,16 @@
     name: 'StudentLayOut',
     components: {
       UserOutlined,
-      VideoCameraOutlined,
+      // VideoCameraOutlined,
       UploadOutlined,
+
     },
     setup() {
+      const router = useRouter();
+
       const route = useRoute(); // Access the current route
 
-    const selectedKeys = ref([]); // Initialize selectedKeys as an empty array
+      const selectedKeys = ref([]); // Initialize selectedKeys as an empty array
 
     // Update selectedKeys based on the current route
     const updateSelectedKeys = () => {
@@ -152,6 +159,24 @@
         }
       }
     });
+    const logout = async () => {
+      try {
+        const response = await axios.get('http://8.130.65.99:8002/student/logout/');
+        if (response.data.result === 'success') {
+          // 登出成功
+          message.success('登出成功');
+          // 重定向到登录页面
+          router.push('@/views/LoginView.vue'); // 替换 '/login' 为您的登录页面路由路径
+        } else {
+          // 登出失败
+          message.error('登出失败');
+        }
+      } catch (error) {
+        console.error(error);
+        message.error('发生错误');
+      }
+    };
+
     
 
     return {
@@ -162,6 +187,7 @@
       selectedKeys,
       onCollapse,
       onBreakpoint,
+      logout,
     };
   },
 });

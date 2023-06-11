@@ -27,12 +27,10 @@
 </template>
 
 <script>
-import { defineComponent,ref } from 'vue';
+import { defineComponent,} from 'vue'; // import reactive instead of ref
 import StudentLayOut from "@/components/StudentLayOut.vue";
 import $ from 'jquery';
-import ModuleStudent from '@/store/student'
-
-
+import ModuleStudent from '@/store/student';
 
 export default defineComponent({
   name: 'MySelect',
@@ -40,63 +38,60 @@ export default defineComponent({
     StudentLayOut,
   },
   data() {
-    let tutors = ref([]);
-    $.ajax({
-          url: 'http://8.130.65.99:8002/student/get_tutor',
-          type: 'GET',
-          data: {
-            user: ModuleStudent.state.user,
-          },
-          success(resp) {
-            if (resp.result === 'success') {
-              tutors.value = resp.data;
-              console.log(tutors.value);
-            }
-
-          },
-          error: (err) => {
-            console.error('Error fetching tutors: ', err);
-          },
-
-    });
-
     return {
-      tutors,
+      tutors: [], // Change to a simple array declaration
       selectedTutorsIds: [],
       submitted: false,
     };
-
   },
-
-  // let tutors = ref([]);
+  created() { // Use the created lifecycle hook to fetch data
+    $.ajax({
+      url: 'http://8.130.65.99:8002/student/get_tutor',
+      type: 'GET',
+      data: {
+        user: ModuleStudent.state.user,
+      },
+      success: (resp) => {
+        if (resp.result === 'success') {
+          this.tutors = resp.data; // No need for .value
+          console.log(this.tutors);
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching tutors: ', err);
+      },
+    });
+  },
   methods: {
-
     getSelectedTutorsNames() {
       return this.tutors.filter((s) => this.selectedTutorsIds.includes(s.id)).map((s) => s.username).join(', ');
     },
+   
     submit() {
       console.log('User:', ModuleStudent.state.user);
-      console.log('Selected Tutors IDs:', this.selectedTutorsIds);
+      console.log('Selected Tutors IDs:', this.selectedTutorsIds); // No need for .value
       if (!this.submitted && this.selectedTutorsIds.length > 0) {
-        // 提交逻辑，可以在这里处理提交的数据
+        // Submit logic
         $.ajax({
-          
           url: 'http://8.130.65.99:8002/student/select_tutor/',
           type: 'POST',
-          data: {
+          data: JSON.stringify({
+            tutor_id: this.selectedTutorsIds, // Use the array directly
             user: ModuleStudent.state.user,
-            selectedTutorsIds: this.selectedTutorsIds
-          },
+          }),
+          contentType: "application/json",
+          // headers: {
+          //   'Authorization': `Bearer ${ModuleStudent.state.token}` // add Token
+          // },
           success: (response) => {
-            console.log('成功提交导师选择', response);
+            // console.log('token',ModuleStudent.state.token );
+            console.log('Successfully submitted tutor selection', response);
             this.submitted = true;
           },
           error: (err) => {
-            console.error('提交导师选择出错：', err);
+            console.error('Error submitting tutor selection: ', err);
           },
-
         });
-
       }
     },
   },
