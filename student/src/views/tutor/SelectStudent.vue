@@ -54,19 +54,19 @@ export default defineComponent({
     },
 
     processApplication(studentId, studentName, decision){
+      console.log(decision);
         // 提交逻辑，可以在这里处理提交的数据
         $.ajax({
           
           url: 'http://8.130.65.99:8002/tutor/processing_application/',
           type: 'POST',
           data: {
-
             student_id: studentId,
             processing: decision,
             user: ModuleTutor.state.user,
           },
           success: (response) => {
-            // console.log("res");
+            console.log(response);
             if (response.result === 'success') {
               console.log('成功处理学生申请', response);
               this.alertMessage = `您${decision}了${studentName}的申请`;

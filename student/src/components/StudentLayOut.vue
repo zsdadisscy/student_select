@@ -65,9 +65,6 @@
             <slot></slot>
           </div>
         </a-layout-content>
-        <a-layout-footer style="text-align: center">
-          Ant Design ©2018 Created by Ant UED
-        </a-layout-footer>
       </a-layout>
     </a-layout>
   </template>
@@ -78,10 +75,10 @@
   import { useRoute } from 'vue-router';
   import { useRouter } from 'vue-router';
   import { message } from 'ant-design-vue';
-
   import axios from 'axios';
   import $ from 'jquery'
   import ModuleStudent from '@/store/student'
+  import {useStore} from "vuex";
 
   export default defineComponent({
     name: 'StudentLayOut',
@@ -159,15 +156,17 @@
         }
       }
     });
+    const store = useStore();
     const logout = async () => {
       try {
         let data = {"user": " ModuleStudent.state.user"};
         const response = await axios.get('http://8.130.65.99:8002/student/logout/', data);
         if (response.data.result === 'success') {
+          store.dispatch('ModuleStudent/logout');
           // 登出成功
           message.success('登出成功');
           // 重定向到登录页面
-          router.push('@/views/LoginView.vue'); // 替换 '/login' 为您的登录页面路由路径
+          router.push({name: 'login'});// 替换 '/login' 为您的登录页面路由路径
         } else {
           // 登出失败
           message.error('登出失败');

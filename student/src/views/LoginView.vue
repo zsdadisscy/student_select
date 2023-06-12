@@ -65,6 +65,7 @@ export default {
           user: ModuleStudent.state.user,
         },
         success(resp) {
+          console.log(resp);
           if (resp.result === 'student') {
             store.dispatch('ModuleStudent/get_info');
             router.push({name: 'alltutor'});
@@ -85,7 +86,7 @@ export default {
           user: ModuleTutor.state.user,
         },
         success(resp) {
-          if (resp.result === 'student') {
+          if (resp.result === 'tutor') {
             store.dispatch('ModuleTutor/get_info');
             router.push({name: 'selectstudent'});
           }
@@ -138,6 +139,7 @@ export default {
         },
         success(resp) {
           if (resp.result === 'success') {
+            console.log(resp.user);
             ModuleStudent.state.user = resp.user;
             store.dispatch('ModuleStudent/get_info');
             router.push({name: 'alltutor'});

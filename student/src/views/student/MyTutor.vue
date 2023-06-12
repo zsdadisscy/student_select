@@ -18,6 +18,7 @@ export default defineComponent({
       },
       success(resp) {
         if (resp.result === 'success') {
+          console.log(resp);
           $.ajax({
             url: 'http://8.130.65.99:8002/student/get_tutor_info/',
             type: 'POST',

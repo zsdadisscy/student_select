@@ -91,7 +91,7 @@ class Student(AbstractBaseUser):
     USERNAME_FIELD = 'id'
     selected_tutor = models.ForeignKey('Tutor', verbose_name='导师', related_name='tutor_student',
                                        on_delete=models.CASCADE, null=True,
-                                       blank=True)
+                                       blank=True,)
     photo = models.ImageField('头像', upload_to='student_photo/', default='student_photo/student_photo.png')
     objects = StudentManager()
 
