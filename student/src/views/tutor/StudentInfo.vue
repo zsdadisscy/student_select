@@ -25,13 +25,13 @@ export default defineComponent({
       user: ModuleTutor.state.user
     },
     success: function(response) {
-      console.log("123");
+      // console.log("123");
       // console.log("respid:",response.data.student_id);
         if (response.result === 'success' && response && response.data) {
-            console.log("进来了");
+            // console.log("进来了");
             let studentIds =  response.data.map(student => student.student_id);
-            console.log(studentIds);
-            console.log("len", studentIds,length);
+            // console.log(studentIds);
+            // console.log("len", studentIds,length);
             // 针对每个学生ID，我们将进行第二步的操作
             for(let i=0; i<studentIds.length; i++){
                 let studentId = studentIds[i];
@@ -44,7 +44,7 @@ export default defineComponent({
                         student_id: studentId
                     },
                     success: function(res) {
-                      console.log('Response:', res);
+                      // console.log('Response:', res);
                         if (res.result === 'success') {
                             // console.log("data:",res.data);
                             if (res.date != null && typeof res.date === 'object' && res.date.hasOwnProperty.call(res.date, 'id')) {

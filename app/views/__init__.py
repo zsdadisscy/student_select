@@ -6,7 +6,12 @@
 
 from django.core.cache import cache
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
+
+
+def get_home(request):
+    return render(request, 'index.html')
 
 
 def get_cache(request):

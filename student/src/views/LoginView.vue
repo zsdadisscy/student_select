@@ -65,7 +65,7 @@ export default {
           user: ModuleStudent.state.user,
         },
         success(resp) {
-          console.log(resp);
+          // console.log(resp);
           if (resp.result === 'student') {
             store.dispatch('ModuleStudent/get_info');
             router.push({name: 'alltutor'});
@@ -139,7 +139,7 @@ export default {
         },
         success(resp) {
           if (resp.result === 'success') {
-            console.log(resp.user);
+            // console.log(resp.user);
             ModuleStudent.state.user = resp.user;
             store.dispatch('ModuleStudent/get_info');
             router.push({name: 'alltutor'});
@@ -213,14 +213,14 @@ export default {
   align-items: center;
   height: 100vh;
   padding-top: 20px; /* 调整此处的数值来改变标题与登录框之间的距离 */
-  background-image: url("../assets/background.jpg");
+  background-image: url("http://8.130.65.99:8002/media/photo/background.jpg");
   background-size: cover;
   background-position: center;
 }
 
 .login-gray {
   margin-top: 190px;
-  background-image: url("../assets/graybackground.png");
+  background-image: url("http://8.130.65.99:8002/media/photo/graybackground.png");
   background-size: cover;
   background-position: center;
   border-radius: 5%;

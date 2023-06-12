@@ -58,8 +58,9 @@ export default defineComponent({
           research: formState.research,
         },
         success(resp) {
-            console.log(formState.avatar);
-            console.log(resp);
+            // console.log(formState.avatar);
+            // console.log(resp);
+          if (resp.result === 'success')
             alert("提交成功");
         }
       })

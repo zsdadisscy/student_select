@@ -28,7 +28,7 @@ export default defineComponent({
           },
           success(resp) {
             if (resp.result === 'success') {
-              console.log("修改",resp);
+              // console.log("修改",resp);
             
               students.value = resp.data; // 直接赋值给students数组
 
@@ -55,7 +55,7 @@ export default defineComponent({
     },
 
     processApplication(studentId, studentName, decision){
-      console.log(decision);
+      // console.log(decision);
         // 提交逻辑，可以在这里处理提交的数据
         $.ajax({
           
@@ -67,9 +67,9 @@ export default defineComponent({
             user: ModuleTutor.state.user,
           },
           success: (response) => {
-            console.log(response);
+            // console.log(response);
             if (response.result === 'success') {
-              console.log('成功处理学生申请', response);
+              // console.log('成功处理学生申请', response);
               this.alertMessage = `您${decision}了${studentName}的申请`;
               // 你可以在这里添加代码，更新你的students数组
               if (this.students.value) {
@@ -101,7 +101,7 @@ export default defineComponent({
 
         >
           <div class="student-info">
-            <img src="@/assets/student_photo.png" alt="Student Avatar" class="avatar" />
+            <img src="http://8.130.65.99:8002/media/photo/student_photo.png" alt="Student Avatar" class="avatar" />
 
             <div class="student-details">
        

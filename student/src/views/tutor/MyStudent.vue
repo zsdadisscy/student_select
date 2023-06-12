@@ -23,9 +23,9 @@ export default defineComponent({
       },
       success: function(response) {
         if (response.result === 'success' && response.data) {
-          console.log("进来了");
+          // console.log("进来了");
           let studentIds = response.data.map(student => student.id);
-          console.log(studentIds);
+          // console.log(studentIds);
 
           // 针对每个学生ID，我们将进行第二步的操作
           for (let i = 0; i < studentIds.length; i++) {
@@ -43,7 +43,7 @@ export default defineComponent({
                   if (res.date != null && typeof res.date === 'object' && Object.prototype.hasOwnProperty.call(res.date, 'id')) {
                     // 将学生信息添加到students数组
                     students.value.push(res.date);
-                    console.log("res", res.date);
+                    // console.log("res", res.date);
                   } else {
                     console.log('Invalid data: ', res.data);
                   }

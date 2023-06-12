@@ -42,7 +42,7 @@ export default defineComponent({
         console.log(resp);
       }
     })
-    console.log(tutor.value);
+    // console.log(tutor.value);
    return {
       tutor
    }

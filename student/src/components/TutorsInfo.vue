@@ -38,7 +38,7 @@ export default ({
     },
     setup() {
         const open_tutor_info = id => {
-            console.log(id);
+            // console.log(id);
             router.push({
                 name: 'looktutorinfo',
                 params: {

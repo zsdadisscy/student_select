@@ -53,9 +53,10 @@ export default defineComponent({
           photo: formState.avatar,
         },
         success(resp) {
-            console.log(formState.avatar);
-            console.log(resp);
-            alert("提交成功");
+            // console.log(formState.avatar);
+            // console.log(resp);
+            if (resp.result === 'success')
+              alert("提交成功");
         }
       })
   }

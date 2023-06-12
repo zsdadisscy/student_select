@@ -34,7 +34,7 @@ export default defineComponent({
       success: (resp) => {
         if (resp.result === 'success') {
           this.persons = resp.data;
-          console.log(this.persons);
+          // console.log(this.persons);
         }
       }
     });

@@ -57,7 +57,7 @@ export default defineComponent({
         success: (resp) => {
           if (resp.result === 'success') {
             this.tutors = resp.data;
-            console.log(this.tutors);
+            // console.log(this.tutors);
           }
         },
         error: (err) => {
@@ -70,11 +70,11 @@ export default defineComponent({
       return selectedTutor ? selectedTutor.username : '';
     },
     submit() {
-      console.log('User:', ModuleStudent.state.user);
-      console.log('Selected Tutors IDs:', this.selectedTutorId); // No need for .value
+      // console.log('User:', ModuleStudent.state.user);
+      // console.log('Selected Tutors IDs:', this.selectedTutorId); // No need for .value
       if (!this.submitted ) {
         // Submit logic
-        console.log(this.selectedTutorId, this.selectedTutorId);
+        // console.log(this.selectedTutorId, this.selectedTutorId);
         $.ajax({
           url: 'http://8.130.65.99:8002/student/select_tutor/',
           type: 'POST',
@@ -83,8 +83,9 @@ export default defineComponent({
             user: ModuleStudent.state.user,
           },
           success: (response) => {
-            console.log('Successfully submitted tutor selection', response);
-            this.submitted = true;
+            // console.log('Successfully submitted tutor selection', response);
+            if (response.result === 'success')
+              this.submitted = true;
           },
           error: (err) => {
             console.error('Error submitting tutor selection: ', err);
