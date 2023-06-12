@@ -5,7 +5,7 @@
         <!-- <p>姓名：{{ name }}</p> -->
         <p>类型：{{ type }}</p>
         <p>性别：{{ gender }}</p>
-        <p>年龄：{{ age }}</p>
+        <!-- <p>年龄：{{ age }}</p> -->
         <p>出生日期：{{ birth }}</p>
         <p>学号：{{ student_id }}</p>
         <p>邮箱：{{ email }}</p>

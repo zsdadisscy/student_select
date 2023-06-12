@@ -49,7 +49,18 @@ export default defineComponent({
     return {
       tutor,
     }
-  }
+  },
+  methods: {
+    getGenderLabel(gender) {
+      if (gender === 'man') {
+        return '男';
+      } else if (gender === 'women') {
+        return '女';
+      } else {
+        return gender;
+      }
+    },
+  },
 
 });
 </script>
@@ -61,7 +72,7 @@ export default defineComponent({
       <div class="title">我的导师</div>
       <a-descriptions bordered layout="vertical">
         <a-descriptions-item label="姓名">{{ tutor.username }}</a-descriptions-item>
-        <a-descriptions-item label="性别">{{ tutor.gender }}</a-descriptions-item>
+        <a-descriptions-item label="性别">{{ getGenderLabel(tutor.gender) }}</a-descriptions-item>
         <a-descriptions-item label="工号">{{ tutor.id }}</a-descriptions-item>
         <a-descriptions-item label="出生日期">{{ tutor.date_of_birth }}</a-descriptions-item>
         <a-descriptions-item label="学院">{{ tutor.college }}</a-descriptions-item>

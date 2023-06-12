@@ -71,15 +71,15 @@ export default defineComponent({
     },
     submit() {
       console.log('User:', ModuleStudent.state.user);
-      console.log('Selected Tutors IDs:', this.selectedTutorsIds); // No need for .value
-      if (!this.submitted && this.selectedTutorsIds.length > 0) {
+      console.log('Selected Tutors IDs:', this.selectedTutorId); // No need for .value
+      if (!this.submitted ) {
         // Submit logic
-        console.log(this.selectedTutorsIds, this.selectedTutorsIds[0]);
+        console.log(this.selectedTutorId, this.selectedTutorId);
         $.ajax({
           url: 'http://8.130.65.99:8002/student/select_tutor/',
           type: 'POST',
           data: {
-            tutor_id: this.selectedTutorsIds[0], // Use the array directly
+            tutor_id: this.selectedTutorId, // Use the array directly
             user: ModuleStudent.state.user,
           },
           success: (response) => {

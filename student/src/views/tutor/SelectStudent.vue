@@ -45,6 +45,7 @@ export default defineComponent({
       alertMessage,
       selectedStudentsIds: [],
       submitted: false,
+      processedStudentsIds: [],
     }
   },
 
@@ -76,7 +77,7 @@ export default defineComponent({
                 // ...
                 if (student) student.processed = true;  // 标记为已处理
               }
-              
+              // this.processedStudentsIds.push(studentId);  
             }
           },
           error: (err) => {
@@ -97,6 +98,7 @@ export default defineComponent({
           v-for="student in students" 
           :key="student.id"
           class="student-card"
+
         >
           <div class="student-info">
             <img src="@/assets/student_photo.png" alt="Student Avatar" class="avatar" />
@@ -111,6 +113,7 @@ export default defineComponent({
             type="primary"
             class="choice"
             :disabled="student.processed"
+            :class="{disabled: processedStudentsIds.includes(student.student_id)}"
             >
              通过
             </a-button>
@@ -120,6 +123,7 @@ export default defineComponent({
               type="danger"
               class="choice"
               :disabled="student.processed" 
+              :class="{disabled: processedStudentsIds.includes(student.student_id)}"
             >
               拒绝
             </a-button>
@@ -140,6 +144,10 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   width: 100%;
+}
+.choice.disabled {
+  background-color: darkgrey !important;
+  border-color: darkgrey !important;
 }
 
 .student-grid {
