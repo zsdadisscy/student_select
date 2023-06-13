@@ -103,7 +103,7 @@ export default defineComponent({
             :email="student.email"
             :phone="student.phone"
             :introduction="student.bio"
-            :avatar="'http://8.130.65.99:8002/' + student.photo"
+            :avatar="'http://8.130.65.99:8002' + student.photo"
           />
 
         </div>

@@ -21,7 +21,7 @@ export default defineComponent({
     let alertMessage = ref('');
     // console.log(students.value.length);
     $.ajax({
-          url: 'http://8.130.65.99:8002/tutor/get_select_student',
+          url: 'http://8.130.65.99:8002/tutor/get_select_student/',
           type: 'GET',
           data: {
             user: ModuleTutor.state.user,

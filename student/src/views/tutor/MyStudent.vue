@@ -86,7 +86,7 @@ export default defineComponent({
     <TeacherLayOut>
       <a-card class="student-card" :loading="loading" v-for="student in students" :key="student.id">
         <template #title>
-          <a-avatar :src=" 'http://8.130.65.99:8002/' + student.photo" size="large"  />
+          <a-avatar :src=" 'http://8.130.65.99:8002' + student.photo" size="large"  />
           <div class="student-title">
             <h2>{{ student && student.username }}</h2>
             <!-- <p>{{ student && student.student_type }}</p> -->

@@ -1,0 +1,6 @@
+Django==4.2.1
+django-cors-headers==4.0.0
+mysqlclient==2.1.1
+Pillow==9.5.0
+PyMySQL==1.0.3
+simpleui==4.0.2

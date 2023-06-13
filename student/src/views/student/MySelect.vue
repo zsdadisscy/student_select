@@ -49,12 +49,13 @@ export default defineComponent({
   methods: {
     fetchTutors() {
       $.ajax({
-        url: 'http://8.130.65.99:8002/student/get_tutor',
+        url: 'http://8.130.65.99:8002/student/get_tutor/',
         type: 'GET',
         data: {
           user: ModuleStudent.state.user,
         },
         success: (resp) => {
+          // console.log(resp);
           if (resp.result === 'success') {
             this.tutors = resp.data;
             // console.log(this.tutors);

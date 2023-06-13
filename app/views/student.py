@@ -111,7 +111,8 @@ def get_info(request):
         })
     user = Student.objects.filter(id=cache.get(user_cache)[0])[0]
     update_cache(request)
-    if user.tutor:
+    print()
+    if user.selected_tutor:
         my_tutor = user.selected_tutor.id
     else:
         my_tutor = None
@@ -179,11 +180,11 @@ def get_tutor(request):
         })
     user = Student.objects.filter(id=cache.get(user_cache)[0])[0]
     type = user.student_type
-    college = user.college
+    college = user.get_college_display()
     if type == 'special_master':
         tutors = Tutor.objects.filter(is_recruiting_specialized=True, college=college)
     else:
-        tutors = Tutor.objects.filter(is_recruiting_learning=True, college=college)
+        tutors = Tutor.objects.filter(is_recruiting_learning=True,  college=college)
     resp = []
     for tutor in tutors:
         resp.append({

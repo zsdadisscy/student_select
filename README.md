@@ -1,7 +1,51 @@
 # 人机交互作业，学生导师双选系统
+项目地址8.130.65.99:8002
+## 环境配置
+1. 后端
+   1. 配置解释器，安装需要的包
+      终端在项目根目录下即 onlineExam下
+      执行<br>
+      `python -m pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple`
+   2. 生成数据库mysql
+      `python manage.py makemigrations`
+      `python manage.py migrate`
+   3. 创建管理员用户
+      `python manage.py createsuperuser`
+   4. 运行程序
+      `python manage.py runserver 0.0.0.0:8000`<br>
+      浏览器中输入127.0.0.1:8000<br>
+      127.0.0.1:8000/admin 为管理员界面
+2. 前端
+   在student目录下执行```npm install```
+
+## 项目说明
+后端django
+前段vue3，使用了ant-design-vue
+采用的前端路由的方式，前后端分离开发
+项目依赖请查看requirements.txt   package-lock.json
+前端所使用的api全部在服务器，如果需要更改为自己的，请将8.130.65.99:8002换为自己的地址，
+### 文件说明
+1. app 
+   1. templates html文件
+   2. urls 路由
+   3. views api实现
+   4. models 数据库模型
+2. media 图片
+3. static 静态文件 如js css
+4. student_select 项目根目录 
+5. student 前端文件
+   1. dist打包好的前段文件
+   2. src 前端代码
+      1. assets 前端所需的图片等
+      2. components 组件
+      3. router 路由
+      4. store vuex
+      5. view 页面
+      
 
 ## 数据库
-
+使用的默认sqlite3， 如需更改请更换student_select/settings.py 95行处文件
+选择模型在app/models.py中，只需查看后台中的4个表，其他不予理会
 ## 开发日志
 
 ### 5.24
@@ -343,3 +387,5 @@
 
 ### 6.13
 出现bug，学生009，请求用户信息服务器出错，无法加载可选老师
+
+现修复一些bug， 关闭了debug模式
