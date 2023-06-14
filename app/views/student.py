@@ -111,7 +111,6 @@ def get_info(request):
         })
     user = Student.objects.filter(id=cache.get(user_cache)[0])[0]
     update_cache(request)
-    print()
     if user.selected_tutor:
         my_tutor = user.selected_tutor.id
     else:

@@ -189,7 +189,7 @@ def get_student_info(request):
             'email': user.email,
             'photo': user.photo.url,
             'phone': user.phone,
-            'college': user.college,
+            'college': user.get_college_display(),
             'id': user.id,
             'gender': user.gender,
             'student_type': user.student_type,
