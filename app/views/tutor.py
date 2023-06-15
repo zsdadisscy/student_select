@@ -192,7 +192,7 @@ def get_student_info(request):
             'college': user.get_college_display(),
             'id': user.id,
             'gender': user.gender,
-            'student_type': user.student_type,
+            'student_type': user.get_student_type_display(),
         }
     })
 

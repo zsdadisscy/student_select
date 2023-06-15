@@ -179,7 +179,7 @@ def get_tutor(request):
         })
     user = Student.objects.filter(id=cache.get(user_cache)[0])[0]
     type = user.student_type
-    college = user.get_college_display()
+    college = user.college
     if type == 'special_master':
         tutors = Tutor.objects.filter(is_recruiting_specialized=True, college=college)
     else:
@@ -191,7 +191,7 @@ def get_tutor(request):
             'id': tutor.id,
             'photo': tutor.photo.url,
             'date_of_birth': tutor.date_of_birth,
-            'college': tutor.college,
+            'college': tutor.get_college_display(),
             'gender': tutor.gender,
             'research_area': tutor.research_area
         })
@@ -222,7 +222,7 @@ def get_tutor_info(request):
             'email': user.email,
             'photo': user.photo.url,
             'phone': user.phone,
-            'college': user.college,
+            'college': user.get_college_display(),
             'id': user.id,
             'gender': user.gender,
             'research_area': user.research_area,
