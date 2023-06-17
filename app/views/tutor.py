@@ -214,7 +214,8 @@ def get_select_student(request):
             resp.append({
                 'student_id': sel.student.id,
                 'student_name': sel.student.username,
-                'status': sel.relationship_status
+                'status': sel.relationship_status,
+                'photo': sel.student.photo.url
             })
         return JsonResponse({
             'result': 'success',

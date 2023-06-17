@@ -101,7 +101,7 @@ export default defineComponent({
 
         >
           <div class="student-info">
-            <img src="http://8.130.65.99:8002/media/photo/student_photo.png" alt="Student Avatar" class="avatar" />
+            <img :src="'http://8.130.65.99:8002' + student.photo" alt="头像" class="avatar" />
 
             <div class="student-details">
        
