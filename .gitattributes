@@ -1,0 +1,47 @@
+# ========================
+# 语言识别设置
+# ========================
+
+# 强制识别主要业务代码语言
+*.py linguist-language=Python
+*.vue linguist-language=Vue
+*.js linguist-language=JavaScript
+*.ts linguist-language=TypeScript
+*.html linguist-language=HTML
+*.css linguist-language=CSS
+*.sql linguist-language=SQL
+
+# ========================
+# 统计排除设置 (标记为第三方库或生成文件)
+# ========================
+
+# 1. 前端部分
+# 忽略构建生成的 dist 目录
+student/dist/** linguist-vendored
+# 忽略依赖包管理锁定文件
+student/package-lock.json linguist-generated
+student/yarn.lock linguist-generated
+
+# 2. 后端/公共部分
+# 忽略 Django 收集的静态文件 (包含 admin 后台的 jquery 等第三方库)
+static/** linguist-vendored
+# 忽略用户上传的媒体文件
+media/** linguist-vendored
+# 忽略 Python 字节码缓存 (通常在 .gitignore 中，但也防止误统计)
+__pycache__/** linguist-vendored
+*.pyc linguist-vendored
+
+# 3. 通用排除
+# 忽略所有压缩后的 JS 和 CSS 文件
+*.min.js linguist-vendored
+*.min.css linguist-vendored
+# 忽略 SVG 图片代码统计
+*.svg linguist-vendored
+# 忽略各种 IDE 配置文件
+.idea/** linguist-vendored
+.vscode/** linguist-vendored
+
+# ========================
+# 文档设置
+# ========================
+*.md linguist-documentation
